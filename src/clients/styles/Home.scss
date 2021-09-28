@@ -1,0 +1,101 @@
+@import "../../mixin";
+@import "~react-image-gallery/styles/scss/image-gallery.scss";
+
+.title{
+    font-size: 22px;
+    color: #424242;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-transform: uppercase;
+    padding-top: 20px;
+    font-weight: 600;
+   }
+
+.home{
+   &__top{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr ;
+    grid-template-rows: 1fr 0.2fr;
+    grid-gap: 25px;
+    grid-template-areas:"category banner banner banner"
+                        "category subBanner1 subBanner2 subBanner3";
+    &-item:first-child{
+        grid-area: category ;   
+    }
+    &-item:nth-child(2){
+        grid-area: banner ;
+        color: red;
+    }
+    &-item:nth-child(3){
+        grid-area: subBanner1 ;
+    }
+    &-item:nth-child(4){
+        grid-area: subBanner2 ;
+    }
+    &-item:last-child{
+        grid-area: subBanner3 ;
+    }
+    &-item{
+        @include flexbox(flex-start,center);
+        overflow: hidden;
+    }
+   }
+   
+   &__category{
+        box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+        border-radius: 12px;
+   }
+   &__banner{
+        //   height: 400px;
+        //  overflow: hidden;
+        //  border-radius: 12px;
+    &__carousel{
+        
+    }
+   }
+   &__sub-banner{
+       border-radius: 12px;
+   }
+
+}
+
+// product
+.product{
+    margin-top: 50px;
+    &__list{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr ;
+        grid-gap: 25px;
+        padding-top: 25px;
+    }
+    &__carousel{
+        padding-top: 25px;
+    }
+    &--sale{
+        margin-top: 30px !important;
+    }
+    &__header{
+        @include flexbox(center,space-between);
+    }
+}
+  //__product-hot
+.react-multi-carousel-item{
+    //  width: calc(319px - 25px) !important;
+    padding: 0 1%;
+}
+.image-gallery-image{
+    max-height: none !important;
+}
+.plex-gap-25{
+    gap: 25px;
+}
+// Stores
+.Stores{
+    margin-top: 30px;
+    &__list{
+        margin-top: 25px;
+    }
+}
+
+
+

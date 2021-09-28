@@ -1,0 +1,36 @@
+@mixin flexbox($align: flex-start, $justify: flex-start, $wrap: nowrap,$dir: row) {
+    display: flex;
+    align-items: $align;
+    justify-content: $justify;
+    flex-wrap: $wrap;
+    flex-direction: $dir;
+}
+
+@mixin  absoluteTowDirect($dir1: "top",$dir2: "left") {
+    position: absolute;
+    @if $dir1 == "top" {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    @if $dir2 == "left" {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+@mixin  absolute($dir: "left") {
+    position: absolute;
+    @if $dir == "top" {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    @if $dir == "left" {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+@mixin sizeImage($width: 100% , $height: $width) {
+    width: $width;
+    height: $height;
+}
