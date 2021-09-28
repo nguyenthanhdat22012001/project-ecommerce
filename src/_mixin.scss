@@ -34,3 +34,9 @@
     width: $width;
     height: $height;
 }
+.flexBoxColunmCenter{
+    @include flexbox(center,center,nowrap,column);
+}
+.flexBoxColunm{
+    @include flexbox(flex-start,flex-start,nowrap,column);
+}

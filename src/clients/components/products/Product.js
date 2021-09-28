@@ -39,7 +39,7 @@ class Product extends React.Component {
                         <ButtonAddCart />
                     </div>
                     <div className="product__buyRating">
-                        <span className="product__buy">Đã bán: 1200 sản phẩm</span>
+                        <span className="product__buy">Đã bán: 1200</span>
                         <span className="product__rating">
                             <Rating name="half-rating-read" defaultValue={5} precision={0.5} readOnly />
                         </span>

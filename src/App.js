@@ -17,6 +17,9 @@ class App extends React.Component {
                 <Route exact path="/" >
                   <ClientIndex />
                 </Route>
+                <Route exact path="/product" >
+                  <ClientIndex />
+                </Route>
                 <Route  path="/login" >
                   <SignInUser />
                 </Route>

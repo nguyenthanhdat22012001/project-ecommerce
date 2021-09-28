@@ -1,7 +1,62 @@
 @import "../../mixin";
 
 
+
+.paginion{
+    margin-top: 40px;
+    @include flexbox(center,center);
+}
+
 .product{
+    &__wrapper{
+        display: grid;
+        grid-template-columns: 1fr 4fr;
+        grid-column-gap: 20px;
+        padding-top: 20px;
+    }
+    &__sidebar{
+        &__inner{
+            padding: 0 20px;
+        }
+        &__category,&__brand,&__rating{
+            border-bottom: 1px solid #ccc;
+            margin: 15px 0;
+        }
+        &__title{
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+    }
+    &__main{
+            width: 100%;
+            overflow: hidden;
+        &__title{
+            font-size: 24px;
+            text-transform: capitalize;
+        }
+        &__header{
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+            align-items: center;
+        }
+        &__body{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr ;
+            grid-gap: 25px;
+            padding: 30px;
+        }
+        &__sort{
+            @include flexbox(center);
+            &-title,&-select{
+                margin-right: 25px;
+            }
+            &-select{
+                flex: 1;
+            }
+        }
+    }
     &__item{
         display: flex;
         flex-direction: column;
@@ -91,3 +146,4 @@
 	from {	transform: rotate(-20deg) scale(1); }
 	to {	transform: rotate(-20deg) scale(1.1); }
 }
+
