@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import HomePage from "../components/home/HomePage";
 import ProductPage from "../components/products/ProductPage";
+import ProductDetailPage from "../components/products/ProductDetailPage";
 
 class Routers extends React.Component {
   render() {
@@ -14,6 +15,9 @@ class Routers extends React.Component {
           </Route>
           <Route path="/product" >
             <ProductPage />
+          </Route>
+          <Route path="/:id.html" >
+            <ProductDetailPage />
           </Route>
         </Switch>
       </Router>
