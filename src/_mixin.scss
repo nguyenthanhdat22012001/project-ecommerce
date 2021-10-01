@@ -40,3 +40,36 @@
 .flexBoxColunm{
     @include flexbox(flex-start,flex-start,nowrap,column);
 }
+
+@mixin dotText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+@mixin centerInput($width,$height,$fontSize) {
+    text-align: center;
+    display: inline-block;
+    width: $width;
+    height: $height;
+    border-radius:3px; 
+    border: 2px solid #ccc;
+    font-size:$fontSize;
+}
+@mixin hideSpinInputNumber {
+    input[type=number]:focus{
+        outline:none;
+    }​
+    //hide spin button
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        /* display: none; <- Crashes Chrome on hover */
+        -webkit-appearance: none;
+        margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    }
+    input[type=number] {
+        -moz-appearance:textfield; /* Firefox */
+    }
+}

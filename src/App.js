@@ -14,6 +14,7 @@ class App extends React.Component {
       <div className="wrapper">
             <Router>
               <Switch>
+                {/* client */}
                 <Route exact path="/" >
                   <ClientIndex />
                 </Route>
@@ -23,6 +24,13 @@ class App extends React.Component {
                 <Route   path="/:id.html" >
                   <ClientIndex />
                 </Route>
+                <Route   path="/cart" >
+                  <ClientIndex />
+                </Route>
+                <Route   path="/checkout" >
+                  <ClientIndex />
+                </Route>
+                {/* client */}
                 <Route  path="/login" >
                   <SignInUser />
                 </Route>

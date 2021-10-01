@@ -1,0 +1,79 @@
+@import "../../mixin";
+
+
+.cart{
+    font-size: 14px;
+    margin-top: 25px;
+    & thead{
+        background-color: #f6f6f6;
+        border: 1px solid #eaeaea;
+        text-transform: uppercase;
+    }
+    & tbody td{
+        vertical-align: middle;
+        color: #f57224;
+    }
+    &__product{
+        &__image{
+            vertical-align: middle;
+            text-align: center;
+            height: 60px;
+            width: 60px;
+            & img{
+                border-radius: 0;
+            }
+        }
+        &__desc{
+            color: #aaaaaa;
+            width: 540px;
+            &>a{
+                color: #666666;
+                height: 45px;
+                display: block;
+                @include dotText();
+            }
+        }
+        &__price{
+            color: #958457;
+        }
+        &__quanty{
+            text-align: center;
+        }
+    }
+    &__total-price{
+        padding: 15px;
+        text-align: right;
+        &>span:last-child{
+            font-size: 24px;
+            color: #f57224;
+            margin-left: 20px;
+        }
+    }
+}
+
+
+.table-responsive {
+    min-height: .01%;
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    border-top: 1px solid #ddd;
+}
+
+
+.inputUpDown{
+    @include flexbox(center,center);
+    &__input{
+        @include centerInput(50px,30px,1rem);
+    }
+}
+
+@include hideSpinInputNumber();
