@@ -1,5 +1,9 @@
 @import "../../mixin";
+@include hideSpinInputNumber();
 
+.shopping{
+    padding: 0px 45px 30px 45px;
+}
 
 .cart{
     font-size: 14px;
@@ -69,11 +73,3 @@
 }
 
 
-.inputUpDown{
-    @include flexbox(center,center);
-    &__input{
-        @include centerInput(50px,30px,1rem);
-    }
-}
-
-@include hideSpinInputNumber();

@@ -9,11 +9,12 @@ import Rating from '@mui/material/Rating';
 import { Link } from 'react-router-dom';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import StoreIcon from '@mui/icons-material/Store';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Tooltip } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 
 import "../../styles/ProductDetail.scss";
@@ -176,7 +177,7 @@ class ProductDetailPage extends React.Component {
                                 </div>
                                 <div className="product__detail__infor__attribute">
                                     <h4>So luong</h4>
-                                    <TextField
+                                    {/* <TextField
                                         id="outlined-number"
                                         label=""
                                         size="small"
@@ -186,7 +187,16 @@ class ProductDetailPage extends React.Component {
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
-                                    />
+                                    /> */}
+                                    <div className="inputUpDown">
+                                        <IconButton aria-label="delete" size="small"  >
+                                            <RemoveIcon color="disabled" />
+                                        </IconButton>
+                                        <input className="inputUpDown__input" type="number" defaultValue="1" />
+                                        <IconButton aria-label="delete" size="small"  >
+                                            <AddIcon color="disabled" />
+                                        </IconButton>
+                                    </div>
                                 </div>
                                 <div className="group-btn-cart">
                                     <Button variant="contained" color="secondary" size="large" sx={{ marginRight: 1 }}>Mua ngay</Button>
@@ -202,7 +212,7 @@ class ProductDetailPage extends React.Component {
                                 <h4>san pham cung cua hang</h4>
                                 <div className="product__detail__relative-list">
                                     <div className="product__detail__relative-item">
-                                       <Product2/>
+                                        <Product2 />
                                     </div>
                                 </div>
                             </div>
@@ -210,7 +220,7 @@ class ProductDetailPage extends React.Component {
                                 <h4>san pham lien quan</h4>
                                 <div className="product__detail__relative-list">
                                     <div className="product__detail__relative-item">
-                                       <Product2/>
+                                        <Product2 />
                                     </div>
                                 </div>
                             </div>
@@ -219,7 +229,7 @@ class ProductDetailPage extends React.Component {
                             <div className="row">
                                 <h4>Quang cao san pham</h4>
                                 <div className="row">
-                                     <Product2/>
+                                    <Product2 />
                                 </div>
                             </div>
                         </sidebar>

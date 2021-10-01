@@ -44,5 +44,16 @@ img{
 
 body{
     font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-size: 14px;
 }
 
+textarea {
+    resize: none;
+    border: 1px solid #ccc; 
+    width: 100%;
+     border-radius: 3px;
+     padding: 16.5px 14px;
+     outline-color: #1976d2;
+     font-size: 1rem;
+     font-weight: 400;
+  }

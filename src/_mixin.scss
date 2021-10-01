@@ -34,12 +34,7 @@
     width: $width;
     height: $height;
 }
-.flexBoxColunmCenter{
-    @include flexbox(center,center,nowrap,column);
-}
-.flexBoxColunm{
-    @include flexbox(flex-start,flex-start,nowrap,column);
-}
+
 
 @mixin dotText {
     overflow: hidden;
@@ -73,3 +68,17 @@
         -moz-appearance:textfield; /* Firefox */
     }
 }
+.flexBoxColunmCenter{
+    @include flexbox(center,center,nowrap,column);
+}
+.flexBoxColunm{
+    @include flexbox(flex-start,flex-start,nowrap,column);
+}
+
+.inputUpDown{
+    @include flexbox(center,center);
+    &__input{
+        @include centerInput(50px,30px,1rem);
+    }
+}
+
