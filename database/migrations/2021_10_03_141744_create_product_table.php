@@ -14,11 +14,10 @@ class CreateProductTable extends Migration
     public function up()
     {
         Schema::create('product', function (Blueprint $table) {
-            $table->id();
-            $table->integer('store_id');
-            $table->integer('cate_id');
-            $table->integer('brand_id');
-            $table->integer('discount_id');
+            $table->integer('id')->primary()->unsigned();
+            $table->integer('store_id')->unsigned();
+            $table->integer('cate_id')->unsigned();
+            $table->integer('brand_id')->unsigned();
             $table->string('name', 200);
             $table->string('slug', 100)->nullable();
             $table->string('img');
@@ -31,6 +30,7 @@ class CreateProductTable extends Migration
             $table->integer('sort')->nullable();
             $table->timestamps();
         });
+       
     }
 
     /**
