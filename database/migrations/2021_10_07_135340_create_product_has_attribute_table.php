@@ -14,7 +14,7 @@ class CreateProductHasAttributeTable extends Migration
     public function up()
     {
         Schema::create('product_has_attribute', function (Blueprint $table) {
-            $table->integer('id')->primary()->unsigned();
+            $table->increments('id')->unsigned();
             $table->integer('product_id')->unsigned();
             $table->timestamps();
         });

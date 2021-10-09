@@ -14,7 +14,7 @@ class CreateCollectionStoreTable extends Migration
     public function up()
     {
         Schema::create('collection_store', function (Blueprint $table) {
-            $table->integer('id')->primary()->unsigned();
+            $table->increments('id')->unsigned();
             $table->integer('store_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->timestamps();

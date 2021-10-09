@@ -14,7 +14,7 @@ class CreateCommentRatingTable extends Migration
     public function up()
     {
         Schema::create('comment_rating', function (Blueprint $table) {
-            $table->integer('id')->primary()->unsigned();
+            $table->increments('id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->integer('product_id')->unsigned();
             $table->tinyinteger('point');
