@@ -14,7 +14,7 @@ class CreateProductTable extends Migration
     public function up()
     {
         Schema::create('product', function (Blueprint $table) {
-            $table->integer('id')->primary()->unsigned();
+            $table->increments('id')->unsigned();
             $table->integer('store_id')->unsigned();
             $table->integer('cate_id')->unsigned();
             $table->integer('brand_id')->unsigned();
