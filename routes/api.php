@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('register', [UserController::class,'register']);
+Route::post('login', [UserController::class,'authenticate']);
+
+Route::group(['middleware' => 'jwt.verify'], function () {
+    Route::get('logout', [UserController::class, 'logout']);
+    Route::get('profile', [UserController::class, 'get_user']);
+    Route::post('profile/change-password', [UserController::class, 'change_password']);
 });
