@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-10-10T12:51:51.547Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36" etag="_hc46WsG1qfQBt-IzCOe" version="15.4.1" type="github">
+<mxfile host="app.diagrams.net" modified="2021-10-10T12:53:52.884Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36" etag="lwg0HjU-urgNhFtJ7v32" version="15.4.1" type="github">
   <diagram id="2YDtvbEqmmr2WRJqGNYT" name="Page-1">
     <mxGraphModel dx="1077" dy="1386" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -16,7 +16,7 @@
           <mxGeometry x="38" y="235" width="50" height="80" as="geometry" />
         </mxCell>
         <mxCell id="eWI_-dGI4IAz-TgmicA4-5" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_1;align=left;pointerEvents=1;fontFamily=Times New Roman;fontSize=16;" parent="1" vertex="1">
-          <mxGeometry x="240" y="-10" width="320" height="520" as="geometry" />
+          <mxGeometry x="240" y="-10" width="320" height="570" as="geometry" />
         </mxCell>
         <mxCell id="eWI_-dGI4IAz-TgmicA4-8" value="Đăng nhập/ Đăng xuất" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" parent="1" vertex="1">
           <mxGeometry x="280" width="240" height="50" as="geometry" />
@@ -27,16 +27,16 @@
         <mxCell id="eWI_-dGI4IAz-TgmicA4-11" value="Quản lý danh mục" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" parent="1" vertex="1">
           <mxGeometry x="280" y="150" width="240" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="eWI_-dGI4IAz-TgmicA4-26" value="Thống kê sản phẩm bán chạy" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" parent="1" vertex="1">
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-26" value="Thống kê doanh thu từ cửa hàng" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" parent="1" vertex="1">
           <mxGeometry x="280" y="350" width="240" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="eWI_-dGI4IAz-TgmicA4-28" value="Thống kê doanh thu" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" parent="1" vertex="1">
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-28" value="Thống kê doanh thu từ khách hàng" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" parent="1" vertex="1">
           <mxGeometry x="283" y="300" width="240" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="eWI_-dGI4IAz-TgmicA4-29" value="Thống kê danh sách đơn hàng&lt;br&gt;theo ngày, tháng, năm" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" parent="1" vertex="1">
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-29" value="Phân hạng khách hàng" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" parent="1" vertex="1">
           <mxGeometry x="280" y="400" width="240" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="eWI_-dGI4IAz-TgmicA4-30" value="So sánh doanh thu" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" parent="1" vertex="1">
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-30" value="Phân hạng cửa hàng" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" parent="1" vertex="1">
           <mxGeometry x="280" y="450" width="240" height="50" as="geometry" />
         </mxCell>
         <mxCell id="eWI_-dGI4IAz-TgmicA4-31" value="Xem báo cáo vi phạm" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" parent="1" vertex="1">
@@ -62,6 +62,9 @@
         </mxCell>
         <mxCell id="CH3Bwqs0S2gNGxrHbtev-7" value="Xóa danh mục" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" parent="1" vertex="1">
           <mxGeometry x="650" y="190" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="o2e5PQmRFiPozlzjPbv9-1" value="Phê duyệt cửa hàng đăng ký" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="283" y="500" width="240" height="50" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
