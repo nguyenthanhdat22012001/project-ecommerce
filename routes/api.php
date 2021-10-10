@@ -17,7 +17,8 @@ use App\Http\Controllers\UserController;
 
 Route::post('register', [UserController::class,'register']);
 Route::post('login', [UserController::class,'authenticate']);
-
+Route::post('forgot-password', [UserController::class, 'forgot_password']);
+Route::post('reset-password', [UserController::class, 'reset_password']);
 Route::group(['middleware' => 'jwt.verify'], function () {
     Route::get('logout', [UserController::class, 'logout']);
     Route::get('profile', [UserController::class, 'get_user']);
