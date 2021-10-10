@@ -1,0 +1,90 @@
+<mxfile host="app.diagrams.net" modified="2021-10-10T12:09:00.217Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36" etag="Z4g3kGBlRBNmA8Oei2s5" version="15.4.1" type="github">
+  <diagram id="2YDtvbEqmmr2WRJqGNYT" name="Page-1">
+    <mxGraphModel dx="2288" dy="1572" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.3333333333333333;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="eWI_-dGI4IAz-TgmicA4-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="240" y="531" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="90" y="531" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-1" value="Người Mua Hàng" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="38" y="504" width="50" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-5" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_1;align=left;pointerEvents=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="242" y="-11" width="320" height="1124" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-8" value="Đăng nhập/Đăng ký/Đăng xuất" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-9" value="Đổi mật khẩu/Quên mật khẩu" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="50" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-10" value="Xem sản phẩm theo danh mục" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="150" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-11" value="Xem danh mục" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="100" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-12" value="Thêm sản phẩm vào giỏ hàng" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="200" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-14" value="Bình luận/ Đánh giá sản phẩm" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="250" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-15" value="Tìm kiếm sản phẩm" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="300" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-16" value="Lọc sản phẩm" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="350" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-18" value="Phân vùng sản phẩm" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="400" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-21" value="Xem giỏ hàng/ Sửa giỏ hàng" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="450" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-22" value="Xóa giỏ hàng" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="500" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-23" value="Xem đơn hàng" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="550" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-24" value="Thanh toán đơn hàng" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="600" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-25" value="Áp dụng mã khuyến mãi" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="650" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-26" value="Đăng câu hỏi" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="800" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-27" value="Trả lời câu hỏi" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="700" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-28" value="Xóa câu hỏi" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="750" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-29" value="Báo cáo vi phạm" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="850" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-30" value="Xem thông tin cá nhân" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="900" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-31" value="Xem danh sách sản phẩm yêu thích" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="950" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-32" value="Thêm sản phẩm yêu thích" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="1000" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eWI_-dGI4IAz-TgmicA4-33" value="Xem các cửa hàng theo dõi" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="280" y="1050" width="240" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
