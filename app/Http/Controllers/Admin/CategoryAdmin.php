@@ -149,8 +149,22 @@ class CategoryAdmin extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(ModelCategory $category)
     {
-        //
+        try{
+           $delete= $category->delete();
+            return response()->json([
+                'title'=>'Delete Category',
+                'message'=>'Delete thanh cong',
+                'data'=>$this->jsonResponse($category)
+            ]);
+        }catch (\Exception $e){
+
+            return response()->json([
+                'title'=>'Delete Category',
+                'message'=>'Delete that bai',
+                'errors'=>$e->getMessage()
+            ]);
+        }
     }
 }
