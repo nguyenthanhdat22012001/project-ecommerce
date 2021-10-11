@@ -45,7 +45,7 @@ class CategoryAdmin extends Controller
         try {
 
         $data=$request->all();
-        if($request->hasFile('img'));
+        if($request->hasFile('img'))
         {
             $destination_path='public/images/';
             $image=$request->file('img');
@@ -107,9 +107,40 @@ class CategoryAdmin extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, ModelCategory $category)
     {
-        //
+//        $category=ModelCategory::findOrFail($id);
+        try {
+            $data = $request->all();
+            if ($request->hasFile('img'))
+            {
+                $destination_path = 'public/images/';
+                $image = $request->file('img');
+                $image_name = $image->getClientOriginalName();
+                $path = $image->storeAs($destination_path, $image_name);
+                $data['img'] = $image_name;
+            }
+//
+            $getSlug = $request->slug;
+            if ($getSlug != '') {
+                $data['slug'] = Str::slug($getSlug);
+
+            } else $data['slug'] = Str::slug($request->name);
+
+           $category->update($data);
+
+            return response()->json([
+                'title'=>'Update Category',
+                'message'=>'Update thanh cong',
+                'data'=>$this->jsonResponse($data)
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                'title'=>'Update Category',
+                'message'=>'Update that bai',
+                'errors'=>$e->getMessage()
+            ]);
+        }
     }
 
     /**
