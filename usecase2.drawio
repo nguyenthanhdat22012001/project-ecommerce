@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-10-11T14:57:23.277Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36" etag="pRuw9owwGeG7e5fjg2S-" version="15.5.0" type="github">
+<mxfile host="app.diagrams.net" modified="2021-10-11T14:57:41.443Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36" etag="fbntnGqG1xzA_jFM4Gd6" version="15.5.0" type="github">
   <diagram id="2YDtvbEqmmr2WRJqGNYT" name="Page-1">
-    <mxGraphModel dx="2382" dy="1217" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2382" dy="1617" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -16,7 +16,7 @@
           <mxGeometry x="38" y="450" width="50" height="80" as="geometry" />
         </mxCell>
         <mxCell id="eWI_-dGI4IAz-TgmicA4-5" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_1;align=left;pointerEvents=1;fontFamily=Times New Roman;fontSize=16;" parent="1" vertex="1">
-          <mxGeometry x="203" y="30" width="320" height="970" as="geometry" />
+          <mxGeometry x="243" y="-10" width="320" height="970" as="geometry" />
         </mxCell>
         <mxCell id="eWI_-dGI4IAz-TgmicA4-8" value="Đăng nhập/ Đăng xuất" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=16;" parent="1" vertex="1">
           <mxGeometry x="280" width="240" height="50" as="geometry" />
