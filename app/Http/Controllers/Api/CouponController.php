@@ -59,7 +59,7 @@ class CouponController extends Controller
         $coupon->update($request->all());
         return response()->json([
             'message'=>  'Sửa thành công',
-            'data'=>$product
+            'data'=>$coupon
         ]);
     }
 
@@ -74,7 +74,7 @@ class CouponController extends Controller
         $coupon->delete();
         return response()->json([
             'message'=>  'Xóa thành công',
-            'data'=>$product
+            'data'=>$coupon
         ]);
     }
 }
