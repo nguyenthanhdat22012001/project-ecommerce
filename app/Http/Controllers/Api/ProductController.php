@@ -41,7 +41,6 @@ class ProductController extends Controller
             return ['result'=>'del có file'];
         }
         Product::create($data);
-       
         return response()->json([
             'message'=>  'Thêm thành công',
             'data'=>$data

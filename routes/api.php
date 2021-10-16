@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CouponController;
+use App\Http\Controllers\Api\SearchController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +30,4 @@ Route::group(['middleware' => 'jwt.verify'], function () {
 });
 Route::apiResource('products', ProductController::class);
 Route::apiResource('coupons', CouponController::class);
+Route::get('search/{string}',[SearchController::class, 'search']);
