@@ -24,6 +24,7 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     Route::get('logout', [UserController::class, 'logout']);
     Route::get('profile', [UserController::class, 'get_user']);
     Route::post('profile/change-password', [UserController::class, 'change_password']);
-    Route::apiResource('products', ProductController::class);
-    Route::apiResource('coupons', CouponController::class);
+   
 });
+Route::apiResource('products', ProductController::class);
+Route::apiResource('coupons', CouponController::class);
