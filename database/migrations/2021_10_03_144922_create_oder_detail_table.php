@@ -13,7 +13,7 @@ class CreateOderDetailTable extends Migration
      */
     public function up()
     {
-        Schema::create('oder_detail', function (Blueprint $table) {
+        Schema::create('order_detail', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->integer('order_id')->unsigned();
             $table->integer('product_id')->unsigned();
@@ -31,6 +31,6 @@ class CreateOderDetailTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('oder_detail');
+        Schema::dropIfExists('order_detail');
     }
 }
