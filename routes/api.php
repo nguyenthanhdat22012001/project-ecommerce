@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CouponController;
+use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Admin\CategoryAdmin;
 
 /*
@@ -25,8 +26,11 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     Route::get('logout', [UserController::class, 'logout']);
     Route::get('profile', [UserController::class, 'get_user']);
     Route::post('profile/change-password', [UserController::class, 'change_password']);
+    Route::apiResource('category',CategoryAdmin::class);
     Route::apiResource('products', ProductController::class);
     Route::apiResource('coupons', CouponController::class);
-
 });
-Route::apiResource('category',CategoryAdmin::class);
+
+Route::get('search/{string}',[SearchController::class, 'search']);
+
+

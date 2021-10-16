@@ -30,11 +30,22 @@ class ProductController extends Controller
     public function store(ProductStore $request)
     {
         $data = $request->all();
+        if($request->hasFile('img')) { 
+            $getImage = $request->file('img');
+            $imagePath = storage_path(). '/app/images/';
+            $imgname = time().$data['img']->getClientOriginalName();
+            $data['img'] = '/app/images/'.$imgname;
+            $getImage->move($imagePath, $imgname);
+        }
+        else{
+            return ['result'=>'del có file'];
+        }
         Product::create($data);
         return response()->json([
             'message'=>  'Thêm thành công',
             'data'=>$data
         ]);
+        
     }
 
     /**
@@ -72,6 +83,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        return $product->delete();
+        $product->delete();
+        return response()->json([
+            'message'=>  'xóa thành công',
+            'data'=>$product
+        ]);
     }
 }
