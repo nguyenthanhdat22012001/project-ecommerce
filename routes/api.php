@@ -29,4 +29,4 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     Route::apiResource('coupons', CouponController::class);
 
 });
-Route::apiResource('category',CategoryAdmin::class);
+Route::apiResource('/admin/category',CategoryAdmin::class);
