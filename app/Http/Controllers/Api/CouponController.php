@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
+use App\Http\Requests\CouponStore;
+use App\Http\Requests\CouponUpdate;
 
 class CouponController extends Controller
 {
@@ -24,7 +26,7 @@ class CouponController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CouponStore $request)
     {
         $data = $request->all();
         Coupon::create($data);
@@ -52,12 +54,12 @@ class CouponController extends Controller
      * @param  \App\Models\Coupon  $coupon
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Coupon $coupon)
+    public function update(CouponUpdate $request, Coupon $coupon)
     {
         $coupon->update($request->all());
         return response()->json([
             'message'=>  'Sửa thành công',
-            'data'=>$product
+            'data'=>$coupon
         ]);
     }
 
@@ -69,6 +71,10 @@ class CouponController extends Controller
      */
     public function destroy(Coupon $coupon)
     {
-        return $coupon->delete();
+        $coupon->delete();
+        return response()->json([
+            'message'=>  'Xóa thành công',
+            'data'=>$coupon
+        ]);
     }
 }
