@@ -25,8 +25,8 @@ class UserController extends Controller
         $validator = Validator::make($data, [
             'name' => 'required|string',
             'email' => 'required|email|unique:user',
-            'password' => 'required|string|min:6|max:50',
-            'confirm-password' => 'required|same:password'
+            'password' => 'required|string|min:6|max:50|confirmed',
+            'phone' => 'regex:/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/|size:10',
         ]);
 
         //Send failed response if request is not valid
@@ -38,7 +38,9 @@ class UserController extends Controller
         $user = User::create([
         	'name' => $request->name,
         	'email' => $request->email,
-        	'password' => bcrypt($request->password)
+        	'password' => bcrypt($request->password),
+            'phone' => $request->phone,
+            'address' => $request->address,
         ]);
 
         //User created, return success response
@@ -67,24 +69,26 @@ class UserController extends Controller
         //Request is validated
         //Crean token
         try {
-            if (! $token = JWTAuth::attempt($credentials)) {
+            $token = JWTAuth::attempt($credentials);
+            $user = User::where('email',$request->email)->first();
+            if (! $token) {
                 return response()->json([
                 	'success' => false,
                 	'message' => 'Login credentials are invalid.',
                 ], 400);
             }
+            return response()->json([
+                'success' => false,
+                'message' => 'Đăng Nhập Thành Công',
+                'token' => $token,
+                'data' => $user,
+            ], 200);
         } catch (JWTException $e) {
             return response()->json([
                 	'success' => false,
                 	'message' => 'Could not create token.',
                 ], 500);
         }
-
- 		//Token created, return with success response and jwt token
-        return response()->json([
-            'success' => true,
-            'token' => $token,
-        ]);
     }
 
     public function logout(Request $request)
@@ -131,8 +135,7 @@ class UserController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, [
             'old_password' => 'required',
-            'password' => 'required|string|min:6|max:50',
-            'confirm_password' => 'required|same:password'
+            'password' => 'required|string|min:6|max:50|confirmed',
         ]);
 
         //Send failed response if request is not valid
@@ -212,6 +215,34 @@ class UserController extends Controller
             'message'=> __($status)
         ], 500);
 
+    }
+
+    public function loginWithGoogle(Request $request)
+    {
+        $user = $request->user();
+        $existingUser = User::where('email', $user->getEmail())->first();
+
+        if ($existingUser) {
+            return response()->json([
+                'success' => true,
+                'message' => 'User login succesfully',
+                'data' => $existingUser,
+            ], 200);
+        } else {
+            $newUser                    = new User;
+            $newUser->google_id         = $user->googleId;
+            $newUser->name              = $user->name;
+            $newUser->email             = $user->email;
+            $newUser->email_verified_at = now();
+            $newUser->avatar            = $user->avatar;
+            $newUser->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'User login succesfully',
+                'data' => $newUser
+            ], 200);
+        }
     }
 
 }
