@@ -17,31 +17,41 @@ class UserController extends Controller
     {
     	//Validate data
         $data = $request->all();
-        $validator = Validator::make($data, [
-            'name' => 'required|string',
-            'email' => 'required|email|unique:user',
-            'password' => 'required|string|min:6|max:50',
-            'confirm-password' => 'required|same:password'
-        ]);
+        if($data){
+            $validator = Validator::make($data, [
+                'name' => 'required|string',
+                'email' => 'required|email|unique:user',
+                'password' => 'required|string|min:6|max:50',
+                'confirm_password' => 'required|same:password'
+            ]);
+        }
+      
 
         //Send failed response if request is not valid
         if ($validator->fails()) {
             return response()->json(['error' => $validator->messages()], 200);
         }
-
-        //Request is valid, create new user
-        $user = User::create([
-        	'name' => $request->name,
-        	'email' => $request->email,
-        	'password' => bcrypt($request->password)
+     
+        try {
+            // return $data['password'];
+            //Request is valid, create new user
+            $user = User::create([
+        	'name' => $data['name'],
+        	'email' => $data['email'],
+        	'password' => bcrypt($data['password'])
         ]);
 
-        //User created, return success response
-        return response()->json([
+           //User created, return success response
+           return response()->json([
             'success' => true,
             'message' => 'User created successfully',
             'data' => $user
         ], Response::HTTP_OK);
+
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+      
     }
  
     public function authenticate(Request $request)
@@ -62,25 +72,28 @@ class UserController extends Controller
         //Request is validated
         //Crean token
         try {
-            if (! $token = JWTAuth::attempt($credentials)) {
+            $token = JWTAuth::attempt($credentials);
+            $user = User::where('email',$credentials['email'])->first();
+            if (!$token) {
                 return response()->json([
                 	'success' => false,
                 	'message' => 'Login credentials are invalid.',
                 ], 400);
             }
-        } catch (JWTException $e) {
+        //Token created, return with success response and jwt token
+            return response()->json([
+                'success' => true,
+                'token' => $token,
+                'user' => $user,
+            ],200);
+        } 
+        catch (JWTException $e) {
     	return $credentials;
             return response()->json([
                 	'success' => false,
                 	'message' => 'Could not create token.',
                 ], 500);
         }
- 	
- 		//Token created, return with success response and jwt token
-        return response()->json([
-            'success' => true,
-            'token' => $token,
-        ]);
     }
  
     public function logout(Request $request)
