@@ -13,9 +13,23 @@ class SearchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function search($string)
+    public function search(Request $request)
     {
-        return Product::where('name','like','%'.$string.'%');
+    try {
+       $query = Product::query();
+       $s = $request->input('search');
+           $query->whereRaw("name LIKE '%". $s ."%'" )->orWhereRaw("description LIKE '%". $s ."%'" );
+       return response()->json([
+        'success' => true,
+        'message'=>  'Tìm thành công',
+        'data'=>$query->get()
+    ]);
+    }catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message'=>'Tìm kiếm thất bại'
+        ]);
+    }
     }
 
    

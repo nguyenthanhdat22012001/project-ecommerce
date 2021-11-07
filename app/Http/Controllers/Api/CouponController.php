@@ -44,7 +44,19 @@ class CouponController extends Controller
      */
     public function show(Coupon $coupon)
     {
-        return $coupon;
+        try {
+            return response()->json([
+                'title'=>'Show Category',
+                'message'=>'Lay du lieu thanh cong',
+                'data'=>$coupon
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                'title'=>'Show Category',
+                'message'=>'Lay du lieu that bai',
+                'errors'=>$e->getMessage()
+            ]);
+        }
     }
 
     /**

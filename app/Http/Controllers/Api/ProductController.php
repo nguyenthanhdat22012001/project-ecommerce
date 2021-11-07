@@ -29,6 +29,7 @@ class ProductController extends Controller
      */
     public function store(ProductStore $request)
     {
+        try {
         $data = $request->all();
         if($request->hasFile('img')) { 
             $getImage = $request->file('img');
@@ -42,9 +43,16 @@ class ProductController extends Controller
         }
         Product::create($data);
         return response()->json([
+            'success' => true,
             'message'=>  'Thêm thành công',
             'data'=>$data
         ]);
+    }catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message'=>'Them that bai'
+        ]);
+    }
         
     }
 
@@ -56,7 +64,20 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return $product;
+        try {
+            return response()->json([
+                'title'=>'Show Category',
+                'message'=>'Lay du lieu thanh cong',
+                'data'=>$product
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                'title'=>'Show Category',
+                'message'=>'Lay du lieu that bai',
+                'errors'=>$e->getMessage()
+            ]);
+        }
+    
     }
 
     /**
@@ -68,11 +89,21 @@ class ProductController extends Controller
      */
     public function update(ProductUpdate $request, Product $product)
     {
-        $product->update($request->all());
-        return response()->json([
-            'message'=>  'Sửa thành công',
-            'data'=>$product
-        ]);
+        try {
+                $product->update($request->all());
+                 return response()->json([
+                'title'=>'update product',
+                'message'=>  'update thành công',
+                'data'=>$product
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                'title'=>'update product',
+                'message'=>'update du lieu that bai',
+                'errors'=>$e->getMessage()
+            ]);
+        }
+       
     }
 
     /**
@@ -83,10 +114,20 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $product->delete();
+        try {
+                $product->delete();
+                return response()->json([
+                    'title'=>'delete product',
+                    'message'=>  'xóa thành công',
+                    'data'=>$product
+            ]);
+    }catch (\Exception $e){
         return response()->json([
-            'message'=>  'xóa thành công',
-            'data'=>$product
+            'title'=>'delete product',
+            'message'=>'xoa du lieu that bai',
+            'errors'=>$e->getMessage()
         ]);
+    }
+      
     }
 }

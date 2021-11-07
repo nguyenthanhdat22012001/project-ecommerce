@@ -5,7 +5,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CouponController;
+use App\Http\Controllers\Api\SearchController;
+use App\Http\Controllers\Api\CmtRatingController;
+use App\Http\Controllers\Api\MainProductController;
+use App\Http\Controllers\Api\TopicsController;
+use App\Http\Controllers\Api\PostsController;
+use App\Http\Controllers\Api\PostCmtController;
 use App\Http\Controllers\Admin\CategoryAdmin;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +37,10 @@ Route::group(['middleware' => 'jwt.verify'], function () {
 
 });
 Route::apiResource('/admin/category',CategoryAdmin::class);
+Route::get('search', [SearchController::class, 'search']);
+Route::apiResource('comments', CmtRatingController::class);
+Route::get('product/comments/{product_id}', [MainProductController::class, 'get_comment_by_product']);
+Route::get('oderby/product', [MainProductController::class, 'get_product_by']);
+Route::apiresource('topics',TopicsController::class);
+Route::apiresource('posts',PostsController::class);
+Route::apiresource('posts_comment',PostCmtController::class);
