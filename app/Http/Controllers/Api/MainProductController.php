@@ -33,13 +33,13 @@ class MainProductController extends Controller
             $data = $query->orderBy( $request->value, $request->by);
         }
             return response()->json([
-                'title'=>'product get',
+                'success' => true,
                 'message'=>  'lấy dữ liệu thành công',
                 'data'=>$data->get()
         ]);
         }catch (\Exception $e){
             return response()->json([
-                'title'=>'product get',
+                'success' => false,
                 'message'=>'lay du lieu that bai',
                 'errors'=>$e->getMessage()
             ]);
@@ -59,7 +59,7 @@ class MainProductController extends Controller
     ]);
         }catch (\Exception $e){
             return response()->json([
-                'title'=>'delete cmt',
+                'success' => false,
                 'message'=>'tim du lieu that bai',
                 'errors'=>$e->getMessage()
             ]);

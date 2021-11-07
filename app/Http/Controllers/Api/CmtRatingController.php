@@ -21,17 +21,17 @@ class CmtRatingController extends Controller
        try {
         $data = CmtRating::all();
         return response()->json([
-            'title'=>'get all comment',
+            'success' => true,
             'message'=>  'lấy dữ liệu thành công',
             'data'=>$data
         ]);
-    }catch (\Exception $e){
-        return response()->json([
-            'title'=>'get all comment',
-            'message'=>'Lay du lieu that bai',
-            'errors'=>$e->getMessage()
-        ]);
-    }
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>'Lay du lieu that bai',
+                'errors'=>$e->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -46,13 +46,13 @@ class CmtRatingController extends Controller
             $data = $request->all();
             CmtRating::create($data);
             return response()->json([
-                'title'=>'add comment',
+                'success' => true,
                 'message'=>  'Thêm thành công',
                 'data'=>$data
             ]);
         }catch (\Exception $e){
             return response()->json([
-                'title'=>'add comment',
+                'success' => false,
                 'message'=>'them that bai',
                 'errors'=>$e->getMessage()
             ]);
@@ -69,14 +69,25 @@ class CmtRatingController extends Controller
     public function show($cmtRating)
     {
         try {
-            return response()->json([
-                'title'=>'Show comment',
-                'message'=>'Lay du lieu thanh cong',
-                'data'=>CmtRating::find($cmtRating)
-            ]);
+            $data = CmtRating::find($cmtRating);
+            if($data != null){
+                return response()->json([
+                    'success' => true,
+                    'message'=>'Lay du lieu thanh cong',
+                    'data'=>$data
+                ]);
+            }
+            else{
+                return response()->json([
+                    'success' => true,
+                    'message'=>'Dữ liệu không tồn tại',
+                    'data'=>$data
+                ]);
+            }
+            
         }catch (\Exception $e){
             return response()->json([
-                'title'=>'Show comment',
+                'success' => false,
                 'message'=>'Lay du lieu that bai',
                 'errors'=>$e->getMessage()
             ]);
@@ -95,15 +106,25 @@ class CmtRatingController extends Controller
         
         try {
             $cmtRating = CmtRating::find($cmtRating);
-            $cmtRating->update($request->all());
-            return response()->json([
-                'title'=>'update cmt',
-                'message'=>  'update thành công',
-                'data'=>$cmtRating
-        ]);
+            if($cmtRating != null) {
+                $cmtRating->update($request->all());
+                return response()->json([
+                    'success' => true,
+                    'message'=>  'update thành công',
+                    'data'=>$cmtRating
+                ]);
+            }
+            else{
+                return response()->json([
+                    'success' => true,
+                    'message'=>  'Dữ liệu không tồn tại',
+                    'data'=>$cmtRating
+                ]);
+            }
+            
     }catch (\Exception $e){
         return response()->json([
-            'title'=>'update cmt',
+            'success' => false,
             'message'=>'update du lieu that bai',
             'errors'=>$e->getMessage()
         ]);
@@ -122,15 +143,25 @@ class CmtRatingController extends Controller
         //
         try {
             $cmtRating = CmtRating::find($cmtRating);
-            $cmtRating->delete();
-            return response()->json([
-                'title'=>'delete cmt',
-                'message'=>  'xóa thành công',
-                'data'=>$cmtRating
-        ]);
+            if($cmtRating != null){
+                $cmtRating->delete();
+                return response()->json([
+                    'success' => true,
+                    'message'=>  'xóa thành công',
+                    'data'=>$cmtRating
+                ]);
+            }
+            else{
+                return response()->json([
+                    'success' => true,
+                    'message'=>  'Dữ liệu không tồn tại',
+                    'data'=>$cmtRating
+                ]);
+            }
+           
         }catch (\Exception $e){
             return response()->json([
-                'title'=>'delete cmt',
+                'success' => false,
                 'message'=>'xoa du lieu that bai',
                 'errors'=>$e->getMessage()
             ]);

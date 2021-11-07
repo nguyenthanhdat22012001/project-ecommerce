@@ -20,13 +20,13 @@ class TopicsController extends Controller
         try {
             $data = Topics::all();
             return response()->json([
-                'title'=>'get all topics',
+                'success' => true,
                 'message'=>  'lấy dữ liệu thành công',
                 'data'=>$data
             ]);
         }catch (\Exception $e){
             return response()->json([
-                'title'=>'get all topics',
+                'success' => false,
                 'message'=>'Lay du lieu that bai',
                 'errors'=>$e->getMessage()
             ]);
@@ -45,13 +45,13 @@ class TopicsController extends Controller
             $data = $request->all();
             Topics::create($data);
             return response()->json([
-                'title'=>'add topics',
+                'success' => true,
                 'message'=>  'Thêm thành công',
                 'data'=>$data
             ]);
         }catch (\Exception $e){
             return response()->json([
-                'title'=>'add topics',
+                'success' => false,
                 'message'=>'them that bai',
                 'errors'=>$e->getMessage()
             ]);
@@ -71,14 +71,14 @@ class TopicsController extends Controller
             $topics = Topics::find($topics);
             if($topics != null){
                 return response()->json([
-                    'title'=>'Show topics',
+                    'success' => true,
                     'message'=>'Lay du lieu thanh cong',
                     'data'=>$topics
                 ]);
             }
             else{
                 return response()->json([
-                    'title'=>'delete cmt',
+                    'success' => true,
                     'message'=>  'Dữ liệu không tồn tại',
                     'data'=>$topics
                     ]);
@@ -86,7 +86,7 @@ class TopicsController extends Controller
             
         }catch (\Exception $e){
             return response()->json([
-                'title'=>'Show topics',
+                'success' => false,
                 'message'=>'Lay du lieu that bai',
                 'errors'=>$e->getMessage()
             ]);
@@ -107,14 +107,14 @@ class TopicsController extends Controller
             if($topics != null){
                 $topics->update($request->all());
                 return response()->json([
-                    'title'=>'update topics',
+                    'success' => true,
                     'message'=>  'update thành công',
                     'data'=>$topics
                  ]);
             }
             else{
                 return response()->json([
-                    'title'=>'delete cmt',
+                    'success' => true,
                     'message'=>  'Dữ liệu không tồn tại',
                     'data'=>$topics
                     ]);
@@ -122,7 +122,7 @@ class TopicsController extends Controller
            
     }catch (\Exception $e){
         return response()->json([
-            'title'=>'update topics',
+            'success' => false,
             'message'=>'update du lieu that bai',
             'errors'=>$e->getMessage()
         ]);
@@ -142,14 +142,14 @@ class TopicsController extends Controller
             if($topics != null){
                 $topics->delete();
                 return response()->json([
-                    'title'=>'delete cmt',
+                    'success' => true,
                     'message'=>  'xóa thành công',
                     'data'=>$topics
                     ]);
             }
             else{
                 return response()->json([
-                    'title'=>'delete cmt',
+                    'success' => true,
                     'message'=>  'Dữ liệu không tồn tại',
                     'data'=>$topics
                     ]);
@@ -157,7 +157,7 @@ class TopicsController extends Controller
             
         }catch (\Exception $e){
             return response()->json([
-                'title'=>'delete cmt',
+                'success' => false,
                 'message'=>'xoa du lieu that bai',
                 'errors'=>$e->getMessage()
             ]);

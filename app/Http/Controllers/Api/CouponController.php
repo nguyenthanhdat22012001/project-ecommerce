@@ -17,7 +17,20 @@ class CouponController extends Controller
      */
     public function index()
     {
-        return Coupon::all();
+        try {
+            $data = Coupon::all();
+            return response()->json([
+                'success' => true,
+                'message'=>  'lấy dữ liệu thành công',
+                'data'=>$data
+            ]);
+            }catch (\Exception $e){
+                return response()->json([
+                    'success' => false,
+                    'message'=>'Lay du lieu that bai',
+                    'errors'=>$e->getMessage()
+                ]);
+            }
     }
 
     /**
@@ -28,12 +41,21 @@ class CouponController extends Controller
      */
     public function store(CouponStore $request)
     {
-        $data = $request->all();
-        Coupon::create($data);
-        return response()->json([
-            'message'=>  'Thêm thành công',
-            'data'=>$data
-        ]);
+        try {
+            $data = $request->all();
+            Coupon::create($data);
+            return response()->json([
+                'success' => true,
+                'message'=>  'Thêm thành công',
+                'data'=>$data
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>'them that bai',
+                'errors'=>$e->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -42,17 +64,28 @@ class CouponController extends Controller
      * @param  \App\Models\Coupon  $coupon
      * @return \Illuminate\Http\Response
      */
-    public function show(Coupon $coupon)
+    public function show($coupon)
     {
         try {
-            return response()->json([
-                'title'=>'Show Category',
-                'message'=>'Lay du lieu thanh cong',
-                'data'=>$coupon
-            ]);
+            $data = Coupon::find($coupon);
+            if($data != null) {
+                return response()->json([
+                    'success' => true,
+                    'message'=>'Lay du lieu thanh cong',
+                    'data'=>$data
+                ]);
+            }
+            else{
+                return response()->json([
+                    'success' => true,
+                    'message'=>'Dữ liệu không tồn tại',
+                    'data'=>$data
+                ]);
+            }
+           
         }catch (\Exception $e){
             return response()->json([
-                'title'=>'Show Category',
+                'success' => false,
                 'message'=>'Lay du lieu that bai',
                 'errors'=>$e->getMessage()
             ]);
@@ -66,13 +99,33 @@ class CouponController extends Controller
      * @param  \App\Models\Coupon  $coupon
      * @return \Illuminate\Http\Response
      */
-    public function update(CouponUpdate $request, Coupon $coupon)
+    public function update(CouponUpdate $request,$coupon)
     {
-        $coupon->update($request->all());
+        try {
+            $data = Coupon::find($coupon);
+            if($data != null){
+                $data->update($request->all());
+                return response()->json([
+                    'success' => true,
+                    'message'=>  'Sửa thành công',
+                    'data'=>$data
+                ]);
+            }
+            else{
+                return response()->json([
+                    'success' => true,
+                    'message'=>  'Dữ liệu không tồn tại',
+                    'data'=>$data
+                ]);
+            }
+            
+    }catch (\Exception $e){
         return response()->json([
-            'message'=>  'Sửa thành công',
-            'data'=>$coupon
+            'success' => false,
+            'message'=>'update du lieu that bai',
+            'errors'=>$e->getMessage()
         ]);
+    }
     }
 
     /**
@@ -81,12 +134,32 @@ class CouponController extends Controller
      * @param  \App\Models\Coupon  $coupon
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Coupon $coupon)
+    public function destroy($coupon)
     {
-        $coupon->delete();
-        return response()->json([
-            'message'=>  'Xóa thành công',
-            'data'=>$coupon
-        ]);
+        try {
+            $data = Coupon::find($coupon);
+            if($data != null){
+                $data->delete();
+                return response()->json([
+                    'success' => true,
+                    'message'=>  'Xóa thành công',
+                    'data'=>$data
+                ]);
+            }
+            else{
+                return response()->json([
+                    'success' => true,
+                    'message'=>  'Dữ liệu không tồn tại',
+                    'data'=>$data
+                ]);
+            }
+           
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>'xoa du lieu that bai',
+                'errors'=>$e->getMessage()
+            ]);
+        }
     }
 }

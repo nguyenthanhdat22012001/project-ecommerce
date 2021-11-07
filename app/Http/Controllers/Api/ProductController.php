@@ -17,8 +17,20 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
-        return Product::all();
+        try {
+            $data = Product::all();
+            return response()->json([
+                'success' => true,
+                'message'=>  'lấy dữ liệu thành công',
+                'data'=>$data
+            ]);
+            }catch (\Exception $e){
+                return response()->json([
+                    'success' => false,
+                    'message'=>'Lay du lieu that bai',
+                    'errors'=>$e->getMessage()
+                ]);
+            }
     }
 
     /**
@@ -39,7 +51,7 @@ class ProductController extends Controller
             $getImage->move($imagePath, $imgname);
         }
         else{
-            return ['result'=>'del có file'];
+            return ['result'=>'không có file'];
         }
         Product::create($data);
         return response()->json([
@@ -62,17 +74,28 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show($product)
     {
         try {
-            return response()->json([
-                'title'=>'Show Category',
-                'message'=>'Lay du lieu thanh cong',
-                'data'=>$product
-            ]);
+            $data = Product::find($product);
+            if($data != null){
+                return response()->json([
+                    'success' => true,
+                    'message'=>'Lay du lieu thanh cong',
+                    'data'=>$data
+                ]);
+            }
+            else{
+                return response()->json([
+                    'success' => true,
+                    'message'=>'Dữ liệu không tồn tại',
+                    'data'=>$data
+                ]);
+            }
+            
         }catch (\Exception $e){
             return response()->json([
-                'title'=>'Show Category',
+                'success' => false,
                 'message'=>'Lay du lieu that bai',
                 'errors'=>$e->getMessage()
             ]);
@@ -87,18 +110,29 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductUpdate $request, Product $product)
+    public function update(ProductUpdate $request, $product)
     {
         try {
-                $product->update($request->all());
-                 return response()->json([
-                'title'=>'update product',
-                'message'=>  'update thành công',
-                'data'=>$product
-            ]);
+                $data = Product::find($product);
+                if($data != null){
+                    $data->update($request->all());
+                    return response()->json([
+                        'success' => true,
+                        'message'=>  'update thành công',
+                        'data'=>$data
+                    ]);
+                }
+                else{
+                    return response()->json([
+                        'success' => true,
+                        'message'=>  'Dữ liệu không tồn tại',
+                        'data'=>$data
+                    ]);
+                }
+                
         }catch (\Exception $e){
             return response()->json([
-                'title'=>'update product',
+                'success' => false,
                 'message'=>'update du lieu that bai',
                 'errors'=>$e->getMessage()
             ]);
@@ -115,15 +149,26 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         try {
-                $product->delete();
-                return response()->json([
-                    'title'=>'delete product',
-                    'message'=>  'xóa thành công',
-                    'data'=>$product
-            ]);
+                $data = Product::find($product);
+                if($data != null){
+                    $data->delete();
+                    return response()->json([
+                        'success' => true,
+                        'message'=>  'xóa thành công',
+                        'data'=>$data
+                    ]);
+                }
+                else{
+                    return response()->json([
+                        'success' => true,
+                        'message'=>  'Dữ liệu không tồn tại',
+                        'data'=>$data
+                    ]);
+                }
+                
     }catch (\Exception $e){
         return response()->json([
-            'title'=>'delete product',
+            'success' => false,
             'message'=>'xoa du lieu that bai',
             'errors'=>$e->getMessage()
         ]);

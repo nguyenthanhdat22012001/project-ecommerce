@@ -20,13 +20,13 @@ class PostCmtController extends Controller
         try {
             $data = PostCmt::all();
             return response()->json([
-                'title'=>'get all Posts',
+                'success' => true,
                 'message'=>  'lấy dữ liệu thành công',
                 'data'=>$data
             ]);
         }catch (\Exception $e){
             return response()->json([
-                'title'=>'get all Posts',
+                'success' => false,
                 'message'=>'Lay du lieu that bai',
                 'errors'=>$e->getMessage()
             ]);
@@ -45,13 +45,13 @@ class PostCmtController extends Controller
             $data = $request->all();
             PostCmt::create($data);
             return response()->json([
-                'title'=>'add post comment',
+                'success' => true,
                 'message'=>  'Thêm thành công',
                 'data'=>$data
             ]);
         }catch (\Exception $e){
             return response()->json([
-                'title'=>'add post comment',
+                'success' => false,
                 'message'=>'them that bai',
                 'errors'=>$e->getMessage()
             ]);
@@ -70,14 +70,14 @@ class PostCmtController extends Controller
             $postcmt = PostCmt::find($postcmt);
             if($postcmt != null){
                 return response()->json([
-                    'title'=>'Show post comment',
+                    'success' => true,
                     'message'=>'Lay du lieu thanh cong',
                     'data'=>$postcmt
                 ]);
             }
             else{
                 return response()->json([
-                    'title'=>'Show post comment',
+                    'success' => true,
                     'message'=>  'Dữ liệu không tồn tại',
                     'data'=>$postcmt
                     ]);
@@ -85,7 +85,7 @@ class PostCmtController extends Controller
             
         }catch (\Exception $e){
             return response()->json([
-                'title'=>'Show post comment',
+                'success' => false,
                 'message'=>'Lay du lieu that bai',
                 'errors'=>$e->getMessage()
             ]);
@@ -106,14 +106,14 @@ class PostCmtController extends Controller
             if($postcmt != null){
                 $postcmt->update($request->all());
                 return response()->json([
-                    'title'=>'update post',
+                    'success' => true,
                     'message'=>  'update thành công',
                     'data'=>$postcmt
                  ]);
             }
             else{
                 return response()->json([
-                    'title'=>'update post',
+                    'success' => true,
                     'message'=>  'Dữ liệu không tồn tại',
                     'data'=>$postcmt
                     ]);
@@ -121,7 +121,7 @@ class PostCmtController extends Controller
            
         }catch (\Exception $e){
             return response()->json([
-                'title'=>'update post',
+                'success' => false,
                 'message'=>'update du lieu that bai',
                 'errors'=>$e->getMessage()
             ]);
@@ -141,14 +141,14 @@ class PostCmtController extends Controller
             if($postcmt != null){
                 $postcmt->delete();
                 return response()->json([
-                    'title'=>'delete post',
+                    'success' => true,
                     'message'=>  'xóa thành công',
                     'data'=>$postcmt
                     ]);
             }
             else{
                 return response()->json([
-                    'title'=>'delete post',
+                    'success' => true,
                     'message'=>  'Dữ liệu không tồn tại',
                     'data'=>$postcmt
                     ]);
@@ -156,7 +156,7 @@ class PostCmtController extends Controller
             
         }catch (\Exception $e){
             return response()->json([
-                'title'=>'delete cmt',
+                'success' => false,
                 'message'=>'xoa du lieu that bai',
                 'errors'=>$e->getMessage()
             ]);
