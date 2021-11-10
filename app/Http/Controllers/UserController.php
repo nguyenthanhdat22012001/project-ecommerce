@@ -82,6 +82,7 @@ class UserController extends Controller
         //Request is validated
         //Crean token
         try {
+            JWTAuth::factory()->setTTL(1);
             $token = JWTAuth::attempt($credentials);
             $user = User::where('email',$request->email)->first();
             if (! $token) {
@@ -93,7 +94,7 @@ class UserController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Đăng Nhập Thành Công',
-                'token' => $token,
+                'access_token' => $token,
                 'data' => $user,
                 'expires_in' => auth()->factory()->getTTL() * 60,
             ], 200);
@@ -152,12 +153,21 @@ class UserController extends Controller
     }
 
     public function refreshToken() {
-        return response()->json([
-            'success' => true,
-            'message' => 'refesh token Thành Công',
-            'token' => auth()->refresh(),
-            'expires_in' => auth()->factory()->getTTL() * 60,
-        ], 200);
+        try {
+            JWTAuth::factory()->setTTL(1);
+            return response()->json([
+                'success' => true,
+                'message' => 'refesh token Thành Công',
+                'access_token' => auth()->refresh(),
+                'expires_in' => auth()->factory()->getTTL() * 60,
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    
     }
 
     public function change_password(Request $request){
