@@ -20,6 +20,7 @@ Route::post('login', [UserController::class,'authenticate']);
 Route::post('loginGoogle', [UserController::class,'loginWithGoogle']);
 Route::post('forgot-password', [UserController::class, 'forgot_password']);
 Route::post('reset-password', [UserController::class, 'reset_password']);
+Route::post('refresh-token', [UserController::class, 'refreshToken']);
 Route::group(['middleware' => 'jwt.verify'], function () {
     Route::get('logout', [UserController::class, 'logout']);
     Route::get('profile', [UserController::class, 'get_user']);
