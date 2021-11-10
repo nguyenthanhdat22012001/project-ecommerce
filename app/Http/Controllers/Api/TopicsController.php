@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Coupon;
+use App\Models\Topics;
 use Illuminate\Http\Request;
-use App\Http\Requests\CouponStore;
-use App\Http\Requests\CouponUpdate;
+use App\Http\Requests\TopicsStore;
+use App\Http\Requests\TopicsUpdate;
 
-class CouponController extends Controller
+class TopicsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,21 +16,21 @@ class CouponController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {      
         try {
-            $data = Coupon::all();
+            $data = Topics::all();
             return response()->json([
                 'success' => true,
                 'message'=>  'lấy dữ liệu thành công',
                 'data'=>$data
             ]);
-            }catch (\Exception $e){
-                return response()->json([
-                    'success' => false,
-                    'message'=>'Lay du lieu that bai',
-                    'errors'=>$e->getMessage()
-                ]);
-            }
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>'Lay du lieu that bai',
+                'errors'=>$e->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -39,11 +39,11 @@ class CouponController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CouponStore $request)
+    public function store(TopicsStore $request)
     {
         try {
             $data = $request->all();
-            Coupon::create($data);
+            Topics::create($data);
             return response()->json([
                 'success' => true,
                 'message'=>  'Thêm thành công',
@@ -56,33 +56,34 @@ class CouponController extends Controller
                 'errors'=>$e->getMessage()
             ]);
         }
+        
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Coupon  $coupon
+     * @param  \App\Models\Topics  $topics
      * @return \Illuminate\Http\Response
      */
-    public function show($coupon)
+    public function show($topics)
     {
         try {
-            $data = Coupon::find($coupon);
-            if($data != null) {
+            $topics = Topics::find($topics);
+            if($topics != null){
                 return response()->json([
                     'success' => true,
                     'message'=>'Lay du lieu thanh cong',
-                    'data'=>$data
+                    'data'=>$topics
                 ]);
             }
             else{
                 return response()->json([
                     'success' => true,
-                    'message'=>'Dữ liệu không tồn tại',
-                    'data'=>$data
-                ]);
+                    'message'=>  'Dữ liệu không tồn tại',
+                    'data'=>$topics
+                    ]);
             }
-           
+            
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -96,29 +97,29 @@ class CouponController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Coupon  $coupon
+     * @param  \App\Models\Topics  $topics
      * @return \Illuminate\Http\Response
      */
-    public function update(CouponUpdate $request,$coupon)
+    public function update(TopicsUpdate $request,$topics)
     {
         try {
-            $data = Coupon::find($coupon);
-            if($data != null){
-                $data->update($request->all());
+            $topics = Topics::find($topics);
+            if($topics != null){
+                $topics->update($request->all());
                 return response()->json([
                     'success' => true,
-                    'message'=>  'Sửa thành công',
-                    'data'=>$data
-                ]);
+                    'message'=>  'update thành công',
+                    'data'=>$topics
+                 ]);
             }
             else{
                 return response()->json([
                     'success' => true,
                     'message'=>  'Dữ liệu không tồn tại',
-                    'data'=>$data
-                ]);
+                    'data'=>$topics
+                    ]);
             }
-            
+           
     }catch (\Exception $e){
         return response()->json([
             'success' => false,
@@ -131,29 +132,29 @@ class CouponController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Coupon  $coupon
+     * @param  \App\Models\Topics  $topics
      * @return \Illuminate\Http\Response
      */
-    public function destroy($coupon)
+    public function destroy($topics)
     {
         try {
-            $data = Coupon::find($coupon);
-            if($data != null){
-                $data->delete();
+            $topics = Topics::find($topics);
+            if($topics != null){
+                $topics->delete();
                 return response()->json([
                     'success' => true,
-                    'message'=>  'Xóa thành công',
-                    'data'=>$data
-                ]);
+                    'message'=>  'xóa thành công',
+                    'data'=>$topics
+                    ]);
             }
             else{
                 return response()->json([
                     'success' => true,
                     'message'=>  'Dữ liệu không tồn tại',
-                    'data'=>$data
-                ]);
+                    'data'=>$topics
+                    ]);
             }
-           
+            
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Coupon;
+use App\Models\CmtRating;
 use Illuminate\Http\Request;
-use App\Http\Requests\CouponStore;
-use App\Http\Requests\CouponUpdate;
+use App\Http\Requests\CommentStore;
+use App\Http\Requests\CommentUpdate;
 
-class CouponController extends Controller
+class CmtRatingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,20 +17,21 @@ class CouponController extends Controller
      */
     public function index()
     {
-        try {
-            $data = Coupon::all();
+        
+       try {
+        $data = CmtRating::all();
+        return response()->json([
+            'success' => true,
+            'message'=>  'lấy dữ liệu thành công',
+            'data'=>$data
+        ]);
+        }catch (\Exception $e){
             return response()->json([
-                'success' => true,
-                'message'=>  'lấy dữ liệu thành công',
-                'data'=>$data
+                'success' => false,
+                'message'=>'Lay du lieu that bai',
+                'errors'=>$e->getMessage()
             ]);
-            }catch (\Exception $e){
-                return response()->json([
-                    'success' => false,
-                    'message'=>'Lay du lieu that bai',
-                    'errors'=>$e->getMessage()
-                ]);
-            }
+        }
     }
 
     /**
@@ -39,11 +40,11 @@ class CouponController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CouponStore $request)
+    public function store(CommentStore $request)
     {
         try {
             $data = $request->all();
-            Coupon::create($data);
+            CmtRating::create($data);
             return response()->json([
                 'success' => true,
                 'message'=>  'Thêm thành công',
@@ -56,19 +57,20 @@ class CouponController extends Controller
                 'errors'=>$e->getMessage()
             ]);
         }
+        
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Coupon  $coupon
+     * @param  \App\Models\CmtRating  $cmtRating
      * @return \Illuminate\Http\Response
      */
-    public function show($coupon)
+    public function show($cmtRating)
     {
         try {
-            $data = Coupon::find($coupon);
-            if($data != null) {
+            $data = CmtRating::find($cmtRating);
+            if($data != null){
                 return response()->json([
                     'success' => true,
                     'message'=>'Lay du lieu thanh cong',
@@ -82,7 +84,7 @@ class CouponController extends Controller
                     'data'=>$data
                 ]);
             }
-           
+            
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -96,26 +98,27 @@ class CouponController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Coupon  $coupon
+     * @param  \App\Models\CmtRating  $cmtRating
      * @return \Illuminate\Http\Response
      */
-    public function update(CouponUpdate $request,$coupon)
+    public function update(CommentUpdate $request, $cmtRating)
     {
+        
         try {
-            $data = Coupon::find($coupon);
-            if($data != null){
-                $data->update($request->all());
+            $cmtRating = CmtRating::find($cmtRating);
+            if($cmtRating != null) {
+                $cmtRating->update($request->all());
                 return response()->json([
                     'success' => true,
-                    'message'=>  'Sửa thành công',
-                    'data'=>$data
+                    'message'=>  'update thành công',
+                    'data'=>$cmtRating
                 ]);
             }
             else{
                 return response()->json([
                     'success' => true,
                     'message'=>  'Dữ liệu không tồn tại',
-                    'data'=>$data
+                    'data'=>$cmtRating
                 ]);
             }
             
@@ -126,31 +129,33 @@ class CouponController extends Controller
             'errors'=>$e->getMessage()
         ]);
     }
+       
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Coupon  $coupon
+     * @param  \App\Models\CmtRating  $cmtRating
      * @return \Illuminate\Http\Response
      */
-    public function destroy($coupon)
+    public function destroy($cmtRating)
     {
+        //
         try {
-            $data = Coupon::find($coupon);
-            if($data != null){
-                $data->delete();
+            $cmtRating = CmtRating::find($cmtRating);
+            if($cmtRating != null){
+                $cmtRating->delete();
                 return response()->json([
                     'success' => true,
-                    'message'=>  'Xóa thành công',
-                    'data'=>$data
+                    'message'=>  'xóa thành công',
+                    'data'=>$cmtRating
                 ]);
             }
             else{
                 return response()->json([
                     'success' => true,
                     'message'=>  'Dữ liệu không tồn tại',
-                    'data'=>$data
+                    'data'=>$cmtRating
                 ]);
             }
            
@@ -162,4 +167,5 @@ class CouponController extends Controller
             ]);
         }
     }
+    
 }
