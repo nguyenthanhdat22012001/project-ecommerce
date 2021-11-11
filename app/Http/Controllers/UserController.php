@@ -115,8 +115,8 @@ class UserController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'User has been logged out',
-            ]);
+                'message' => 'Đăng xuất thành công',
+            ],200);
         } catch (JWTException $exception) {
             return response()->json([
                 'success' => false,
@@ -300,6 +300,58 @@ class UserController extends Controller
                 'message' => 'User login succesfully',
                 'data' => $newUser
             ], 200);
+        }
+    }
+
+    /**
+     * login admin
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function loginAdmin(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        //valid credential
+        $validator = Validator::make($credentials, [
+                'email' => 'required|email',
+                'password' => 'required|string|min:6|max:50'
+            ],
+        );
+
+        //Send failed response if request is not valid
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->messages(),
+            ], 400);
+        }
+
+        //Request is validated
+        //Crean token
+        try {
+            JWTAuth::factory()->setTTL(1);
+            $token = JWTAuth::attempt(['email' => $credentials['email'], 'password' => $credentials['password'], 'role' => 1]);
+            $user = User::where('email',$request->email)->first();
+            if (! $token) {
+                return response()->json([
+                	'success' => false,
+                	'message' => 'email hoặc mật khẩu không đúng',
+                ], 200);
+            }
+            return response()->json([
+                'success' => true,
+                'message' => 'Đăng Nhập Thành Công',
+                'access_token' => $token,
+                'data' => $user,
+                'expires_in' => auth()->factory()->getTTL() * 60,
+            ], 200);
+        } catch (Throwable $e) {
+            return response()->json([
+                	'success' => false,
+                	'message' => $e->getMessage(),
+                ], 500);
         }
     }
 

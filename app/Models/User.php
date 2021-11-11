@@ -66,4 +66,16 @@ class User extends Authenticatable implements JWTSubject
 
         $this->notify(new ResetPasswordNotification($url));
     }
+
+    public function isAdmin()
+    {
+        if($this->role === 1)
+        { 
+            return true; 
+        } 
+        else 
+        { 
+            return false; 
+        }
+    }
 }

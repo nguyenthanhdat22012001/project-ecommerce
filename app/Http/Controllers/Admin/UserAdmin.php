@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Models\User;
 
 class UserAdmin extends Controller
 {
@@ -16,7 +20,6 @@ class UserAdmin extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
