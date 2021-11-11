@@ -35,7 +35,6 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     Route::get('logout', [UserController::class, 'logout']);
     Route::get('profile', [UserController::class, 'get_user']);
     Route::post('profile/change-password', [UserController::class, 'change_password']);
-<<<<<<< HEAD
     
 
 });
@@ -49,6 +48,3 @@ Route::apiresource('posts',PostsController::class);
 Route::apiresource('posts_comment',PostCmtController::class);
 Route::apiResource('products', ProductController::class);
     Route::apiResource('coupons', CouponController::class);
-=======
-});
->>>>>>> e5195e2f6d1fe6a690f3880505b930652efa683a

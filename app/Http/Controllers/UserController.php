@@ -23,7 +23,6 @@ class UserController extends Controller
     {
     	//Validate data
         $data = $request->all();
-<<<<<<< HEAD
         if($data){
             $validator = Validator::make($data, [
                 'name' => 'required|string',
@@ -33,20 +32,11 @@ class UserController extends Controller
             ]);
         }
       
-=======
-        $validator = Validator::make($data, [
-            'name' => 'required|string',
-            'email' => 'required|email|unique:user',
-            'password' => 'required|string|min:6|max:50|confirmed',
-            'phone' => 'regex:/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/|size:10',
-        ]);
->>>>>>> e5195e2f6d1fe6a690f3880505b930652efa683a
 
         //Send failed response if request is not valid
         if ($validator->fails()) {
             return response()->json(['error' => $validator->messages()], 200);
         }
-<<<<<<< HEAD
      
         try {
             // return $data['password'];
@@ -68,32 +58,6 @@ class UserController extends Controller
             return $e->getMessage();
         }
       
-=======
-
-        try {
-            //Request is valid, create new user
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request->password),
-                'phone' => $request->phone,
-                'address' => $request->address,
-            ]);
-
-            //User created, return success response
-            return response()->json([
-                'success' => true,
-                'message' => 'User created successfully',
-                'data' => $user
-            ], 200);
-
-        } catch (\Throwable $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-            ], 500);
-        }
->>>>>>> e5195e2f6d1fe6a690f3880505b930652efa683a
     }
 
     public function authenticate(Request $request)
@@ -118,32 +82,15 @@ class UserController extends Controller
         //Request is validated
         //Crean token
         try {
-<<<<<<< HEAD
-            $token = JWTAuth::attempt($credentials);
-            $user = User::where('email',$credentials['email'])->first();
-            if (!$token) {
-=======
             JWTAuth::factory()->setTTL(1);
             $token = JWTAuth::attempt($credentials);
             $user = User::where('email',$request->email)->first();
             if (! $token) {
->>>>>>> e5195e2f6d1fe6a690f3880505b930652efa683a
                 return response()->json([
                 	'success' => false,
                 	'message' => 'email hoặc mật khẩu không đúng',
                 ], 200);
             }
-<<<<<<< HEAD
-        //Token created, return with success response and jwt token
-            return response()->json([
-                'success' => true,
-                'token' => $token,
-                'user' => $user,
-            ],200);
-        } 
-        catch (JWTException $e) {
-    	return $credentials;
-=======
             return response()->json([
                 'success' => true,
                 'message' => 'Đăng Nhập Thành Công',
@@ -152,7 +99,6 @@ class UserController extends Controller
                 'expires_in' => auth()->factory()->getTTL() * 60,
             ], 200);
         } catch (Throwable $e) {
->>>>>>> e5195e2f6d1fe6a690f3880505b930652efa683a
             return response()->json([
                 	'success' => false,
                 	'message' => $e->getMessage(),
