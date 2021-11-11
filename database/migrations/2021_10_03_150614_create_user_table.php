@@ -17,9 +17,15 @@ class CreateUserTable extends Migration
             $table->increments('id')->unsigned();
             $table->string('email',100);
             $table->string('name',200);
+<<<<<<< HEAD
             $table->string('password');
             $table->integer('phone')->nullable();
             $table->string('address',200)->nullable();
+=======
+            $table->string('password',50)->nullable();
+            $table->integer('phone');
+            $table->string('address',200);
+>>>>>>> e5195e2f6d1fe6a690f3880505b930652efa683a
             $table->string('avatar')->nullable();
             $table->tinyinteger('role')->default(0);
             $table->string('remember_token',100)->nullable();
