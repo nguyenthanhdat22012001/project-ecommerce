@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Coupon;
+use App\Models\PostCmt;
 use Illuminate\Http\Request;
-use App\Http\Requests\CouponStore;
-use App\Http\Requests\CouponUpdate;
+use App\Http\Requests\PostCmtStore;
+use App\Http\Requests\PostCmtUpdate;
 
-class CouponController extends Controller
+class PostCmtController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,19 +18,19 @@ class CouponController extends Controller
     public function index()
     {
         try {
-            $data = Coupon::all();
+            $data = PostCmt::all();
             return response()->json([
                 'success' => true,
                 'message'=>  'lấy dữ liệu thành công',
                 'data'=>$data
             ]);
-            }catch (\Exception $e){
-                return response()->json([
-                    'success' => false,
-                    'message'=>'Lay du lieu that bai',
-                    'errors'=>$e->getMessage()
-                ]);
-            }
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>'Lay du lieu that bai',
+                'errors'=>$e->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -39,11 +39,11 @@ class CouponController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CouponStore $request)
+    public function store(PostCmtStore $request)
     {
         try {
             $data = $request->all();
-            Coupon::create($data);
+            PostCmt::create($data);
             return response()->json([
                 'success' => true,
                 'message'=>  'Thêm thành công',
@@ -61,28 +61,28 @@ class CouponController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Coupon  $coupon
+     * @param  \App\Models\Postcmt  $postcmt
      * @return \Illuminate\Http\Response
      */
-    public function show($coupon)
+    public function show($postcmt)
     {
         try {
-            $data = Coupon::find($coupon);
-            if($data != null) {
+            $postcmt = PostCmt::find($postcmt);
+            if($postcmt != null){
                 return response()->json([
                     'success' => true,
                     'message'=>'Lay du lieu thanh cong',
-                    'data'=>$data
+                    'data'=>$postcmt
                 ]);
             }
             else{
                 return response()->json([
                     'success' => true,
-                    'message'=>'Dữ liệu không tồn tại',
-                    'data'=>$data
-                ]);
+                    'message'=>  'Dữ liệu không tồn tại',
+                    'data'=>$postcmt
+                    ]);
             }
-           
+            
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -96,64 +96,64 @@ class CouponController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Coupon  $coupon
+     * @param  \App\Models\Postcmt  $postcmt
      * @return \Illuminate\Http\Response
      */
-    public function update(CouponUpdate $request,$coupon)
+    public function update(PostCmtUpdate $request, $postcmt)
     {
         try {
-            $data = Coupon::find($coupon);
-            if($data != null){
-                $data->update($request->all());
+            $postcmt = PostCmt::find($postcmt);
+            if($postcmt != null){
+                $postcmt->update($request->all());
                 return response()->json([
                     'success' => true,
-                    'message'=>  'Sửa thành công',
-                    'data'=>$data
-                ]);
+                    'message'=>  'update thành công',
+                    'data'=>$postcmt
+                 ]);
             }
             else{
                 return response()->json([
                     'success' => true,
                     'message'=>  'Dữ liệu không tồn tại',
-                    'data'=>$data
-                ]);
+                    'data'=>$postcmt
+                    ]);
             }
-            
-    }catch (\Exception $e){
-        return response()->json([
-            'success' => false,
-            'message'=>'update du lieu that bai',
-            'errors'=>$e->getMessage()
-        ]);
-    }
+           
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>'update du lieu that bai',
+                'errors'=>$e->getMessage()
+            ]);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Coupon  $coupon
+     * @param  \App\Models\Postcmt  $postcmt
      * @return \Illuminate\Http\Response
      */
-    public function destroy($coupon)
+    public function destroy($postcmt)
     {
         try {
-            $data = Coupon::find($coupon);
-            if($data != null){
-                $data->delete();
+            $postcmt = PostCmt::find($postcmt);
+            if($postcmt != null){
+                $postcmt->delete();
                 return response()->json([
                     'success' => true,
-                    'message'=>  'Xóa thành công',
-                    'data'=>$data
-                ]);
+                    'message'=>  'xóa thành công',
+                    'data'=>$postcmt
+                    ]);
             }
             else{
                 return response()->json([
                     'success' => true,
                     'message'=>  'Dữ liệu không tồn tại',
-                    'data'=>$data
-                ]);
+                    'data'=>$postcmt
+                    ]);
             }
-           
+            
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
