@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
 class BrandUpdate extends FormRequest
 {
@@ -13,7 +15,7 @@ class BrandUpdate extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +26,21 @@ class BrandUpdate extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' =>'required|max:255'
         ];
+    }
+    public function messages()
+    {
+        return [
+            'name.required' => 'Tên nhãn hiệu không được để trống',
+        ];
+    }
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success'   => false,
+            'message'   => 'Lỗi!',
+            'data'      => $validator->errors()
+        ]));
     }
 }

@@ -43,7 +43,7 @@ class ProductController extends Controller
     {
         try {
         $data = $request->all();
-        if($request->hasFile('img')) { 
+        if($request->hasFile('img')) {
             $getImage = $request->file('img');
             $imagePath = storage_path(). '/app/images/';
             $imgname = time().$data['img']->getClientOriginalName();
@@ -65,7 +65,7 @@ class ProductController extends Controller
             'message'=>'Them that bai'
         ]);
     }
-        
+
     }
 
     /**
@@ -92,7 +92,7 @@ class ProductController extends Controller
                     'data'=>$data
                 ]);
             }
-            
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -100,7 +100,7 @@ class ProductController extends Controller
                 'errors'=>$e->getMessage()
             ]);
         }
-    
+
     }
 
     /**
@@ -115,6 +115,16 @@ class ProductController extends Controller
         try {
                 $data = Product::find($product);
                 if($data != null){
+                    if($request->hasFile('img')) {
+                        if(file_exists(storage_path().$data['img'])){
+                            unlink(storage_path().$data['img']);
+                        }
+                        $getImage = $request->file('img');
+                        $imagePath = storage_path(). '/app/images/';
+                        $imgname = time().$data['img']->getClientOriginalName();
+                        $data['img'] = '/app/images/'.$imgname;
+                        $getImage->move($imagePath, $imgname);
+                    }
                     $data->update($request->all());
                     return response()->json([
                         'success' => true,
@@ -129,7 +139,7 @@ class ProductController extends Controller
                         'data'=>$data
                     ]);
                 }
-                
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -137,7 +147,7 @@ class ProductController extends Controller
                 'errors'=>$e->getMessage()
             ]);
         }
-       
+
     }
 
     /**
@@ -151,6 +161,9 @@ class ProductController extends Controller
         try {
                 $data = Product::find($product);
                 if($data != null){
+                    if(file_exists(storage_path().$data['img'])){
+                        unlink(storage_path().$data['img']);
+                    }
                     $data->delete();
                     return response()->json([
                         'success' => true,
@@ -165,7 +178,7 @@ class ProductController extends Controller
                         'data'=>$data
                     ]);
                 }
-                
+
     }catch (\Exception $e){
         return response()->json([
             'success' => false,
@@ -173,6 +186,6 @@ class ProductController extends Controller
             'errors'=>$e->getMessage()
         ]);
     }
-      
+
     }
 }

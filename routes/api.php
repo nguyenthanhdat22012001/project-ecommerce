@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\MainProductController;
 use App\Http\Controllers\Api\TopicsController;
 use App\Http\Controllers\Api\PostsController;
 use App\Http\Controllers\Api\PostCmtController;
+use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Admin\CategoryAdmin;
 
 
@@ -32,7 +33,7 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     Route::get('logout', [UserController::class, 'logout']);
     Route::get('profile', [UserController::class, 'get_user']);
     Route::post('profile/change-password', [UserController::class, 'change_password']);
-    
+
 
 });
 Route::apiResource('/admin/category',CategoryAdmin::class);
@@ -44,4 +45,5 @@ Route::apiresource('topics',TopicsController::class);
 Route::apiresource('posts',PostsController::class);
 Route::apiresource('posts_comment',PostCmtController::class);
 Route::apiResource('products', ProductController::class);
-    Route::apiResource('coupons', CouponController::class);
+Route::apiResource('coupons', CouponController::class);
+Route::apiResource('brands', BrandController::class);
