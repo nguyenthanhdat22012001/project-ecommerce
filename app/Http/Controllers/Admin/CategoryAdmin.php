@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Category;
 use App\Http\Resources\Admin\Category as AdminCategory;
 use App\Models\Category as ModelCategory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 //use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
-
-
+use Illuminate\Support\MessageBag;
+use App\Http\Requests\Category as ValidateCategory;
 
 class CategoryAdmin extends Controller
 {
@@ -31,7 +32,7 @@ class CategoryAdmin extends Controller
 //                'data'=>new AdminCategory($cate),
 //                ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
 //            ]);
-        return $this->jsonResponse($data);
+        return $data;
     }
 
     /**
@@ -40,10 +41,9 @@ class CategoryAdmin extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return JsonResponse|\Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ValidateCategory $request)
     {
         try {
-
         $data=$request->all();
         if($request->hasFile('img'))
         {
@@ -63,7 +63,7 @@ class CategoryAdmin extends Controller
         return response()->json([
             'title'=>'Add Category',
             'message'=>'Them thanh cong',
-            'data'=>$this->jsonResponse($data)
+            'data'=>$data
         ]);
         }catch (\Exception $e) {
             return response()->json([
@@ -82,14 +82,13 @@ class CategoryAdmin extends Controller
      * @param  \App\Models\Category  $category
      * @return JsonResponse|\Illuminate\Http\Response
      */
-    public function show(Category $category,$id)
+    public function show(ModelCategory $category)
     {
         try {
-            $data=ModelCategory::find($id);
             return response()->json([
                 'title'=>'Show Category',
                 'message'=>'Lay du lieu thanh cong',
-                'data'=>$this->jsonResponse($data)
+                'data'=>$category
             ]);
         }catch (\Exception $e){
             return response()->json([
@@ -105,13 +104,14 @@ class CategoryAdmin extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse|\Illuminate\Http\Response
      */
     public function update(Request $request, ModelCategory $category)
     {
 //        $category=ModelCategory::findOrFail($id);
         try {
             $data = $request->all();
+            //Xu ly file img ->public/storage/images
             if ($request->hasFile('img'))
             {
                 $destination_path = 'public/images/';
@@ -120,7 +120,7 @@ class CategoryAdmin extends Controller
                 $path = $image->storeAs($destination_path, $image_name);
                 $data['img'] = $image_name;
             }
-//
+                    //Xu ly slug
             $getSlug = $request->slug;
             if ($getSlug != '') {
                 $data['slug'] = Str::slug($getSlug);
@@ -132,7 +132,7 @@ class CategoryAdmin extends Controller
             return response()->json([
                 'title'=>'Update Category',
                 'message'=>'Update thanh cong',
-                'data'=>$this->jsonResponse($data)
+                'data'=>$data
             ]);
         }catch (\Exception $e){
             return response()->json([
@@ -147,7 +147,7 @@ class CategoryAdmin extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function destroy(ModelCategory $category)
     {
@@ -156,7 +156,7 @@ class CategoryAdmin extends Controller
             return response()->json([
                 'title'=>'Delete Category',
                 'message'=>'Delete thanh cong',
-                'data'=>$this->jsonResponse($category)
+                'data'=>$category
             ]);
         }catch (\Exception $e){
 
