@@ -13,25 +13,26 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 use Illuminate\Support\MessageBag;
 use App\Http\Requests\Category as ValidateCategory;
+use Illuminate\Http\Response;
 
 class CategoryAdmin extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index()
     {
         $cate=ModelCategory::all();
         $data= new AdminCategory($cate);
 //        dd($cate);
-//        return response()->json([
-//                'title'=>'Category',
-//                'message'=>'Thanh cong',
-//                'data'=>new AdminCategory($cate),
-//                ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
-//            ]);
+       return response()->json([
+               'title'=>'Category',
+               'message'=>'Thanh cong',
+               'data'=>new AdminCategory($cate),
+
+           ],Response::HTTP_OK);
         return $data;
     }
 
