@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use JWTAuth;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
-use Hash;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
+
 class UserController extends Controller
 {
 
@@ -17,31 +23,41 @@ class UserController extends Controller
     {
     	//Validate data
         $data = $request->all();
-        $validator = Validator::make($data, [
-            'name' => 'required|string',
-            'email' => 'required|email|unique:user',
-            'password' => 'required|string|min:6|max:50',
-            'confirm-password' => 'required|same:password'
-        ]);
+        if($data){
+            $validator = Validator::make($data, [
+                'name' => 'required|string',
+                'email' => 'required|email|unique:user',
+                'password' => 'required|string|min:6|max:50',
+                'confirm_password' => 'required|same:password'
+            ]);
+        }
+      
 
         //Send failed response if request is not valid
         if ($validator->fails()) {
             return response()->json(['error' => $validator->messages()], 200);
         }
-
-        //Request is valid, create new user
-        $user = User::create([
-        	'name' => $request->name,
-        	'email' => $request->email,
-        	'password' => bcrypt($request->password)
+     
+        try {
+            // return $data['password'];
+            //Request is valid, create new user
+            $user = User::create([
+        	'name' => $data['name'],
+        	'email' => $data['email'],
+        	'password' => bcrypt($data['password'])
         ]);
 
-        //User created, return success response
-        return response()->json([
+           //User created, return success response
+           return response()->json([
             'success' => true,
             'message' => 'User created successfully',
             'data' => $user
         ], Response::HTTP_OK);
+
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+      
     }
 
     public function authenticate(Request $request)
@@ -50,107 +66,320 @@ class UserController extends Controller
 
         //valid credential
         $validator = Validator::make($credentials, [
-            'email' => 'required|email',
-            'password' => 'required|string|min:6|max:50'
-        ]);
+                'email' => 'required|email',
+                'password' => 'required|string|min:6|max:50'
+            ],
+        );
 
         //Send failed response if request is not valid
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 200);
+            return response()->json([
+                'success' => false,
+                'message' => $validator->messages(),
+            ], 400);
         }
 
         //Request is validated
         //Crean token
         try {
-            if (! $token = JWTAuth::attempt($credentials)) {
+            JWTAuth::factory()->setTTL(1);
+            $token = JWTAuth::attempt($credentials);
+            $user = User::where('email',$request->email)->first();
+            if (! $token) {
                 return response()->json([
                 	'success' => false,
-                	'message' => 'Login credentials are invalid.',
-                ], 400);
+                	'message' => 'email hoặc mật khẩu không đúng',
+                ], 200);
             }
-        } catch (JWTException $e) {
-    	return $credentials;
+            return response()->json([
+                'success' => true,
+                'message' => 'Đăng Nhập Thành Công',
+                'access_token' => $token,
+                'data' => $user,
+                'expires_in' => auth()->factory()->getTTL() * 60,
+            ], 200);
+        } catch (Throwable $e) {
             return response()->json([
                 	'success' => false,
-                	'message' => 'Could not create token.',
+                	'message' => $e->getMessage(),
                 ], 500);
         }
+<<<<<<< HEAD
 
  		//Token created, return with success response and jwt token
         return response()->json([
             'success' => true,
             'token' => $token,
         ]);
+=======
+>>>>>>> 693f77e6a63217060e85b59903183c0ee083908c
     }
 
     public function logout(Request $request)
     {
-        //valid credential
-        $validator = Validator::make($request->only('token'), [
-            'token' => 'required'
-        ]);
-
-        //Send failed response if request is not valid
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 200);
-        }
 
 		//Request is validated, do logout
         try {
+<<<<<<< HEAD
             JWTAuth::invalidate($request->token);
+=======
+            auth()->logout();
+>>>>>>> 693f77e6a63217060e85b59903183c0ee083908c
 
             return response()->json([
                 'success' => true,
-                'message' => 'User has been logged out'
-            ]);
+                'message' => 'Đăng xuất thành công',
+            ],200);
         } catch (JWTException $exception) {
             return response()->json([
                 'success' => false,
-                'message' => 'Sorry, user cannot be logged out'
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+                'message' => $exception->getMessage(),
+            ], 500);
         }
     }
 
     public function get_user(Request $request)
     {
+<<<<<<< HEAD
         $this->validate($request, [
             'token' => 'required'
         ]);
 
         $user = JWTAuth::authenticate($request->token);
+=======
+        // $this->validate($request, [
+        //     'token' => 'required'
+        // ]);
+
+        // $user = JWTAuth::authenticate($request->token);
+
+        try {
+            // $user = Auth::user();
+            $user = auth()->user();
+            return response()->json([
+                'success' => true,
+                'message' => '',
+                'data' => $user,
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+      
+>>>>>>> 693f77e6a63217060e85b59903183c0ee083908c
 
         return response()->json(['user' => $user]);
     }
 
+<<<<<<< HEAD
+=======
+    public function refreshToken() {
+        try {
+            JWTAuth::factory()->setTTL(1);
+            return response()->json([
+                'success' => true,
+                'message' => 'refesh token Thành Công',
+                'access_token' => auth()->refresh(),
+                'expires_in' => auth()->factory()->getTTL() * 60,
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    
+    }
+
+>>>>>>> 693f77e6a63217060e85b59903183c0ee083908c
     public function change_password(Request $request){
         //Validate data
         $data = $request->all();
         $validator = Validator::make($data, [
-            'old_password' => 'required',
-            'password' => 'required|string|min:6|max:50',
-            'confirm_password' => 'required|same:password'
+            'password' => 'required|string|min:6|max:50|confirmed',
+            'password_confirmation' => 'required',
+        ],
+        [
+            'password.required' => 'Nhập Mật khẩu',
+            'password.min' => 'Mật Khẩu ít nhất 8 kí tự',
+            'password.confirmed' => 'Mật khẩu xác nhận không khớp',
+         ],
+    );
+     //Send failed response if request is not valid
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->messages(),
+            ], 400);
+        }
+      
+        try {
+            $idUser = Auth::id();
+            $user = User::findOrFail($idUser);
+
+            if (Hash::check($request->old_password, $user->password)) {
+                $user->update([
+                    'password'=> Hash::make($request->password)
+                ]);
+                
+                return response()->json([
+                    'success' => true,
+                    'message' => 'mật khẩu đã được cập nhật',
+                ], 200);
+            }
+            else{
+                return response()->json([
+                    'success' => false,
+                    'message' => 'mật khẩu cũ không đúng',
+                ], 200);
+            }
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function forgot_password(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
         ]);
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        if ($status == Password::RESET_LINK_SENT) {
+            return [
+                'status' => __($status)
+            ];
+        }
+
+        throw ValidationException::withMessages([
+            'email' => [trans($status)],
+        ]);
+    }
+
+
+    public function reset_password(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|confirmed',
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user) use ($request) {
+                $user->forceFill([
+                    'password' => Hash::make($request->password),
+                    'remember_token' => Str::random(60),
+                ])->save();
+
+                $user->tokens()->delete();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        if ($status == Password::PASSWORD_RESET) {
+            return response([
+                'message'=> 'Password reset successfully'
+            ]);
+        }
+
+        return response([
+            'message'=> __($status)
+        ], 500);
+
+    }
+
+    public function loginWithGoogle(Request $request)
+    {
+        $user = $request->user();
+        $existingUser = User::where('email', $user->getEmail())->first();
+
+        if ($existingUser) {
+            return response()->json([
+                'success' => true,
+                'message' => 'User login succesfully',
+                'data' => $existingUser,
+            ], 200);
+        } else {
+            $newUser                    = new User;
+            $newUser->google_id         = $user->googleId;
+            $newUser->name              = $user->name;
+            $newUser->email             = $user->email;
+            $newUser->email_verified_at = now();
+            $newUser->avatar            = $user->avatar;
+            $newUser->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'User login succesfully',
+                'data' => $newUser
+            ], 200);
+        }
+    }
+
+    /**
+     * login admin
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function loginAdmin(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        //valid credential
+        $validator = Validator::make($credentials, [
+                'email' => 'required|email',
+                'password' => 'required|string|min:6|max:50'
+            ],
+        );
 
         //Send failed response if request is not valid
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 200);
-        }
-
-        $user = $request->user();
-        if (Hash::check($request->old_password, $user->password)) {
-            $user->update([
-                'password'=> Hash::make($request->password)
-            ]);
-            return response()->json([
-                'success' => true,
-                'message' => 'Password successfully updated',
-            ], 200);
-        }
-        else{
             return response()->json([
                 'success' => false,
-                'message' => 'Old passord does not matched',
+                'message' => $validator->messages(),
             ], 400);
         }
+
+        //Request is validated
+        //Crean token
+        try {
+            JWTAuth::factory()->setTTL(1);
+            $token = JWTAuth::attempt(['email' => $credentials['email'], 'password' => $credentials['password'], 'role' => 1]);
+            $user = User::where('email',$request->email)->first();
+            if (! $token) {
+                return response()->json([
+                	'success' => false,
+                	'message' => 'email hoặc mật khẩu không đúng',
+                ], 200);
+            }
+            return response()->json([
+                'success' => true,
+                'message' => 'Đăng Nhập Thành Công',
+                'access_token' => $token,
+                'data' => $user,
+                'expires_in' => auth()->factory()->getTTL() * 60,
+            ], 200);
+        } catch (Throwable $e) {
+            return response()->json([
+                	'success' => false,
+                	'message' => $e->getMessage(),
+                ], 500);
+        }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 693f77e6a63217060e85b59903183c0ee083908c
 }
