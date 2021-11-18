@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Hash;
 class UserController extends Controller
 {
-     
+
     public function register(Request $request)
     {
     	//Validate data
@@ -43,7 +43,7 @@ class UserController extends Controller
             'data' => $user
         ], Response::HTTP_OK);
     }
- 
+
     public function authenticate(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -75,14 +75,14 @@ class UserController extends Controller
                 	'message' => 'Could not create token.',
                 ], 500);
         }
- 	
+
  		//Token created, return with success response and jwt token
         return response()->json([
             'success' => true,
             'token' => $token,
         ]);
     }
- 
+
     public function logout(Request $request)
     {
         //valid credential
@@ -95,10 +95,10 @@ class UserController extends Controller
             return response()->json(['error' => $validator->messages()], 200);
         }
 
-		//Request is validated, do logout        
+		//Request is validated, do logout
         try {
             JWTAuth::invalidate($request->token);
- 
+
             return response()->json([
                 'success' => true,
                 'message' => 'User has been logged out'
@@ -110,18 +110,18 @@ class UserController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
- 
+
     public function get_user(Request $request)
     {
         $this->validate($request, [
             'token' => 'required'
         ]);
- 
+
         $user = JWTAuth::authenticate($request->token);
- 
+
         return response()->json(['user' => $user]);
     }
-    
+
     public function change_password(Request $request){
         //Validate data
         $data = $request->all();

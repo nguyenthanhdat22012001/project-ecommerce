@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 //use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\MessageBag;
 use App\Http\Requests\Category as ValidateCategory;
@@ -26,10 +28,11 @@ class CategoryAdmin extends Controller
         $cate=ModelCategory::all();
         $data= new AdminCategory($cate);
         return response()->json([
+            'success'=>true,
             'title'=>'Add Category',
             'message'=>'Them thanh cong',
             'data'=>$data
-        ]);
+        ],Response::HTTP_OK);
     }
 
     /**
@@ -44,33 +47,36 @@ class CategoryAdmin extends Controller
         $data=$request->all();
         if($request->hasFile('img'))
         {
-            $destination_path='public/images/';
             $image=$request->file('img');
-            $image_name=$image->getClientOriginalName();
-            $path=$image->storeAs($destination_path,$image_name);
-            $data['img']=$image_name;
+            $data['img']=ImageProcess($image); //ham helper xu ly file anh
         }
         $getSlug=$request->slug;
         if($getSlug!=''){
-            $data['slug']=Str::slug($getSlug);
-
+            $slug=Str::slug($getSlug);
+//            $data['slug']=Str::slug($getSlug);
         }
-        else $data['slug']=Str::slug($request->name);
+        else $slug=Str::slug($request->name);
+        $data['slug']=$slug;
+        //Kiem tra slug ton tai hay chua
+//        $checkSlug=ModelCategory::where('slug','like',$slug)->first();
+//        if($checkSlug!=''){
+//
+//        }
         ModelCategory::create($data);
         return response()->json([
+            'success'=>true,
             'title'=>'Add Category',
             'message'=>'Them thanh cong',
             'data'=>$data
-        ]);
+        ],Response::HTTP_OK);
         }catch (\Exception $e) {
             return response()->json([
+                'success'=>false,
                 'title'=>'Add Category',
                 'message'=>'Them that bai',
                 'errors'=>$e->getMessage()
-            ]);
+            ],500);
         }
-
-
     }
 
     /**
@@ -83,16 +89,18 @@ class CategoryAdmin extends Controller
     {
         try {
             return response()->json([
+                'success'=>true,
                 'title'=>'Show Category',
                 'message'=>'Lay du lieu thanh cong',
                 'data'=>$category
-            ]);
+            ],Response::HTTP_OK);
         }catch (\Exception $e){
             return response()->json([
+                'success'=>false,
                 'title'=>'Show Category',
                 'message'=>'Lay du lieu that bai',
                 'errors'=>$e->getMessage()
-            ]);
+            ],500);
         }
     }
 
@@ -111,11 +119,8 @@ class CategoryAdmin extends Controller
             //Xu ly file img ->public/storage/images
             if ($request->hasFile('img'))
             {
-                $destination_path = 'public/images/';
                 $image = $request->file('img');
-                $image_name = $image->getClientOriginalName();
-                $path = $image->storeAs($destination_path, $image_name);
-                $data['img'] = $image_name;
+                $data['img'] = ImageProcess($image); //ham helper xu ly file anh
             }
                     //Xu ly slug
             $getSlug = $request->slug;
@@ -123,20 +128,22 @@ class CategoryAdmin extends Controller
                 $data['slug'] = Str::slug($getSlug);
 
             } else $data['slug'] = Str::slug($request->name);
-
+            //Update
            $category->update($data);
 
             return response()->json([
+                'success'=>true,
                 'title'=>'Update Category',
                 'message'=>'Update thanh cong',
                 'data'=>$data
-            ]);
+            ],Response::HTTP_OK);
         }catch (\Exception $e){
             return response()->json([
+                'success'=>false,
                 'title'=>'Update Category',
                 'message'=>'Update that bai',
                 'errors'=>$e->getMessage()
-            ]);
+            ],500);
         }
     }
 
@@ -149,19 +156,21 @@ class CategoryAdmin extends Controller
     public function destroy(ModelCategory $category)
     {
         try{
-           $delete= $category->delete();
+           $category->delete();
             return response()->json([
+                'success'=>true,
                 'title'=>'Delete Category',
                 'message'=>'Delete thanh cong',
                 'data'=>$category
-            ]);
+            ],Response::HTTP_OK);
         }catch (\Exception $e){
 
             return response()->json([
+                'success'=>false,
                 'title'=>'Delete Category',
                 'message'=>'Delete that bai',
                 'errors'=>$e->getMessage()
-            ]);
+            ],500);
         }
     }
 }
