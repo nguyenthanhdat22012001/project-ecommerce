@@ -26,7 +26,7 @@ class VerifyJWTToken extends BaseMiddleware
                 return response()->json([
                     'success' => false,
                     'message' => 'Token is Invalid',
-                ], 401);
+                ], 403);
             }else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){
                 return response()->json([
                     'success' => false,
@@ -36,7 +36,7 @@ class VerifyJWTToken extends BaseMiddleware
                 return response()->json([
                     'success' => false,
                     'message' => 'Authorization Token not found',
-                ], 400);
+                ], 403);
             }
         }
         return $next($request);

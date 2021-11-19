@@ -35,7 +35,10 @@ class UserController extends Controller
 
         //Send failed response if request is not valid
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 200);
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first(),
+            ], 200);
         }
      
         try {
@@ -55,7 +58,10 @@ class UserController extends Controller
         ], Response::HTTP_OK);
 
         } catch (Exception $e) {
-            return $e->getMessage();
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
         }
       
     }
@@ -75,14 +81,14 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => $validator->messages(),
-            ], 400);
+                'message' => $validator->errors()->first(),
+            ], 200);
         }
 
         //Request is validated
         //Crean token
         try {
-            JWTAuth::factory()->setTTL(1);
+            JWTAuth::factory()->setTTL(5);
             $token = JWTAuth::attempt($credentials);
             $user = User::where('email',$request->email)->first();
             if (! $token) {
@@ -104,15 +110,6 @@ class UserController extends Controller
                 	'message' => $e->getMessage(),
                 ], 500);
         }
-<<<<<<< HEAD
-
- 		//Token created, return with success response and jwt token
-        return response()->json([
-            'success' => true,
-            'token' => $token,
-        ]);
-=======
->>>>>>> 693f77e6a63217060e85b59903183c0ee083908c
     }
 
     public function logout(Request $request)
@@ -120,11 +117,7 @@ class UserController extends Controller
 
 		//Request is validated, do logout
         try {
-<<<<<<< HEAD
-            JWTAuth::invalidate($request->token);
-=======
             auth()->logout();
->>>>>>> 693f77e6a63217060e85b59903183c0ee083908c
 
             return response()->json([
                 'success' => true,
@@ -140,13 +133,6 @@ class UserController extends Controller
 
     public function get_user(Request $request)
     {
-<<<<<<< HEAD
-        $this->validate($request, [
-            'token' => 'required'
-        ]);
-
-        $user = JWTAuth::authenticate($request->token);
-=======
         // $this->validate($request, [
         //     'token' => 'required'
         // ]);
@@ -168,16 +154,13 @@ class UserController extends Controller
             ], 500);
         }
       
->>>>>>> 693f77e6a63217060e85b59903183c0ee083908c
 
         return response()->json(['user' => $user]);
     }
 
-<<<<<<< HEAD
-=======
     public function refreshToken() {
         try {
-            JWTAuth::factory()->setTTL(1);
+            JWTAuth::factory()->setTTL(5);
             return response()->json([
                 'success' => true,
                 'message' => 'refesh token Thành Công',
@@ -193,7 +176,6 @@ class UserController extends Controller
     
     }
 
->>>>>>> 693f77e6a63217060e85b59903183c0ee083908c
     public function change_password(Request $request){
         //Validate data
         $data = $request->all();
@@ -211,8 +193,8 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => $validator->messages(),
-            ], 400);
+                'message' => $validator->errors()->first(),
+            ], 200);
         }
       
         try {
@@ -290,6 +272,7 @@ class UserController extends Controller
         if ($status == Password::PASSWORD_RESET) {
             return response([
                 'message'=> 'Password reset successfully'
+                
             ]);
         }
 
@@ -348,14 +331,14 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => $validator->messages(),
-            ], 400);
+                'message' => $validator->errors()->first(),
+            ], 200);
         }
 
         //Request is validated
         //Crean token
         try {
-            JWTAuth::factory()->setTTL(1);
+            JWTAuth::factory()->setTTL(5);
             $token = JWTAuth::attempt(['email' => $credentials['email'], 'password' => $credentials['password'], 'role' => 1]);
             $user = User::where('email',$request->email)->first();
             if (! $token) {
@@ -378,8 +361,4 @@ class UserController extends Controller
                 ], 500);
         }
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> 693f77e6a63217060e85b59903183c0ee083908c
 }
