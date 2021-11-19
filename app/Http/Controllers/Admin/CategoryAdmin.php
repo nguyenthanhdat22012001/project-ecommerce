@@ -8,14 +8,13 @@ use App\Http\Resources\Admin\Category as AdminCategory;
 use App\Models\Category as ModelCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-//use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\MessageBag;
 use App\Http\Requests\Category as ValidateCategory;
-use Illuminate\Http\Response;
+
 
 class CategoryAdmin extends Controller
 {
@@ -26,26 +25,17 @@ class CategoryAdmin extends Controller
      */
     public function index()
     {
-        $cate=ModelCategory::all();
-        $data= new AdminCategory($cate);
-<<<<<<< HEAD
-        return response()->json([
-            'success'=>true,
-            'title'=>'Add Category',
-            'message'=>'Them thanh cong',
-            'data'=>$data
-        ],Response::HTTP_OK);
-=======
-//        dd($cate);
-       return response()->json([
-               'title'=>'Category',
-               'message'=>'Thanh cong',
-               'data'=>new AdminCategory($cate),
+        $cate = ModelCategory::all();
+        $data = new AdminCategory($cate);
 
-           ],Response::HTTP_OK);
-        return $data;
->>>>>>> 693f77e6a63217060e85b59903183c0ee083908c
+        return response()->json([
+            'success' => true,
+            'title' => 'Add Category',
+            'message' => 'Them thanh cong',
+            'data' => $data
+        ], Response::HTTP_OK);
     }
+
 
     /**
      * Store a newly created resource in storage.
