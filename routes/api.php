@@ -11,8 +11,9 @@ use App\Http\Controllers\Api\MainProductController;
 use App\Http\Controllers\Api\TopicsController;
 use App\Http\Controllers\Api\PostsController;
 use App\Http\Controllers\Api\PostCmtController;
+use App\Http\Controllers\Api\BrandController;
+use App\Http\Controllers\Api\StoreController;
 use App\Http\Controllers\Admin\CategoryAdmin;
-use App\Http\Controllers\Admin\UserAdmin;
 
 
 /*
@@ -54,6 +55,9 @@ Route::get('oderby/product', [MainProductController::class, 'get_product_by']);
 Route::apiresource('topics',TopicsController::class);
 Route::apiresource('posts',PostsController::class);
 Route::apiresource('posts_comment',PostCmtController::class);
+Route::apiResource('coupons', CouponController::class);
+Route::apiResource('brands', BrandController::class);
+Route::apiResource('stores', StoreController::class);
 
 
 //route admin
