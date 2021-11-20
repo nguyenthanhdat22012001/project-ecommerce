@@ -41,6 +41,6 @@ class BrandUpdate extends FormRequest
             'success'   => false,
             'message'   => 'Lỗi!',
             'data'      => $validator->errors()
-        ]));
+        ],200));
     }
 }

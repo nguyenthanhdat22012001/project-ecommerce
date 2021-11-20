@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Store;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreStore;
+use App\Http\Requests\StoreUpdate;
 
 class StoreController extends Controller
 {
@@ -37,7 +39,7 @@ class StoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreStore $request)
     {
         try {
             $data = $request->all();
@@ -106,7 +108,7 @@ class StoreController extends Controller
      * @param  \App\Models\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $store)
+    public function update(StoreUpdate $request, $store)
     {
         try {
             $data = Store::find($store);

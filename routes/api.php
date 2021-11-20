@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\TopicsController;
 use App\Http\Controllers\Api\PostsController;
 use App\Http\Controllers\Api\PostCmtController;
 use App\Http\Controllers\Api\BrandController;
+use App\Http\Controllers\Api\StoreController;
 use App\Http\Controllers\Admin\CategoryAdmin;
 
 
@@ -47,3 +48,4 @@ Route::apiresource('posts_comment',PostCmtController::class);
 Route::apiResource('products', ProductController::class);
 Route::apiResource('coupons', CouponController::class);
 Route::apiResource('brands', BrandController::class);
+Route::apiResource('stores', StoreController::class);

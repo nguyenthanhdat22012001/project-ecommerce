@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreUpdate extends FormRequest
 {
@@ -13,7 +15,7 @@ class StoreUpdate extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +26,21 @@ class StoreUpdate extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' =>'required|max:255'
         ];
+    }
+    public function messages()
+    {
+        return [
+            'name.required' => 'Tên cửa hàng không được để trống',
+        ];
+    }
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success'   => false,
+            'message'   => 'Lỗi!',
+            'data'      => $validator->errors()
+        ]));
     }
 }

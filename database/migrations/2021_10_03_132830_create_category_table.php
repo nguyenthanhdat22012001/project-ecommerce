@@ -17,7 +17,7 @@ class CreateCategoryTable extends Migration
             $table->increments('id')->unsigned();
             $table->string('name',200);
             $table->string('slug',100)->nullable();
-            $table->string('img');
+            $table->string('img')->nullable();
             $table->longtext('description')->nullable();
             $table->boolean('hide')->nullable();
             $table->timestamps();
