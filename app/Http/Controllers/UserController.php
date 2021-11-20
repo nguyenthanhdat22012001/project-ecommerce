@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MailNe;
 class UserController extends Controller
 {
 
@@ -31,7 +32,7 @@ class UserController extends Controller
                 'confirm_password' => 'required|same:password'
             ]);
         }
-      
+
 
         //Send failed response if request is not valid
         if ($validator->fails()) {
@@ -40,7 +41,7 @@ class UserController extends Controller
                 'message' => $validator->errors()->first(),
             ], 200);
         }
-     
+
         try {
             // return $data['password'];
             //Request is valid, create new user
@@ -63,7 +64,7 @@ class UserController extends Controller
                 'message' => $e->getMessage(),
             ], 500);
         }
-      
+
     }
 
     public function authenticate(Request $request)
@@ -153,7 +154,7 @@ class UserController extends Controller
                 'message' => $e->getMessage(),
             ], 500);
         }
-      
+
 
         return response()->json(['user' => $user]);
     }
@@ -173,7 +174,7 @@ class UserController extends Controller
                 'message' => $e->getMessage(),
             ], 500);
         }
-    
+
     }
 
     public function change_password(Request $request){
@@ -196,7 +197,7 @@ class UserController extends Controller
                 'message' => $validator->errors()->first(),
             ], 200);
         }
-      
+
         try {
             $idUser = Auth::id();
             $user = User::findOrFail($idUser);
@@ -205,7 +206,7 @@ class UserController extends Controller
                 $user->update([
                     'password'=> Hash::make($request->password)
                 ]);
-                
+
                 return response()->json([
                     'success' => true,
                     'message' => 'mật khẩu đã được cập nhật',
@@ -227,58 +228,63 @@ class UserController extends Controller
 
     public function forgot_password(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-        ]);
+        try {
+            $user = User::where('email',$request->email)->first();
+            if ($user) {
+                $otp = rand(1000,9999);
+                User::where('email',$request->email)->update(['otp' => $otp]);
+                $mail_details = [
+                    'subject' => 'Lấy Lại Mật Khẩu',
+                    'body' => 'Mã OTP Của Bạn: : '. $otp
+                ];
 
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
-
-        if ($status == Password::RESET_LINK_SENT) {
-            return [
-                'status' => __($status)
-            ];
+                Mail::to($request->email)->send(new MailNe($mail_details));
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Gửi mail thành công, vui lòng kiểm tra email',
+                ], 200);
+            }
+            else{
+                return response()->json([
+                    'success' => false,
+                    'message' => 'không đúng',
+                ], 200);
+            }
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
         }
-
-        throw ValidationException::withMessages([
-            'email' => [trans($status)],
-        ]);
     }
 
 
     public function reset_password(Request $request)
     {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|confirmed',
-        ]);
-
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user) use ($request) {
-                $user->forceFill([
-                    'password' => Hash::make($request->password),
-                    'remember_token' => Str::random(60),
-                ])->save();
-
-                $user->tokens()->delete();
-
-                event(new PasswordReset($user));
+        try{
+            $user  = User::where([['email','=',$request->email],['otp','=',$request->otp]])->first();
+            if ($user) {
+                $user->update([
+                    'password'=> Hash::make($request->password)
+                ]);
+                User::where('email','=',$request->email)->update(['otp' => null]);
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Mật khẩu đã được cập nhật',
+                ], 200);
             }
-        );
-
-        if ($status == Password::PASSWORD_RESET) {
-            return response([
-                'message'=> 'Password reset successfully'
-                
-            ]);
+            else{
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User không tồn tại',
+                ], 200);
+            }
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
         }
-
-        return response([
-            'message'=> __($status)
-        ], 500);
 
     }
 
