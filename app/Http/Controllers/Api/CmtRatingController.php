@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\CmtRating;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\CommentStore;
 use App\Http\Requests\CommentUpdate;
 
@@ -17,7 +18,7 @@ class CmtRatingController extends Controller
      */
     public function index()
     {
-        
+
        try {
         $data = CmtRating::all();
         return response()->json([
@@ -44,12 +45,42 @@ class CmtRatingController extends Controller
     {
         try {
             $data = $request->all();
-            CmtRating::create($data);
-            return response()->json([
-                'success' => true,
-                'message'=>  'Thêm thành công',
-                'data'=>$data
-            ]);
+            if($data['parent_id']== null){
+                if($data['point']!= null){
+                    CmtRating::create($data);
+                    return response()->json([
+                        'success' => true,
+                        'message'=>  'Comment thành công',
+                        'data'=>$data
+                    ]);
+                }
+                else{
+                    return response()->json([
+                        'success' => false,
+                        'message'=>'Chưa chấm điểm',
+                        'data'=>$data
+                    ]);
+                }
+            }
+            else{
+                if($data['point'] == null){
+                    CmtRating::create($data);
+                    return response()->json([
+                        'success' => true,
+                        'message'=>  'Reply thành công',
+                        'data'=>$data
+                    ]);
+                }
+                else{
+                    return response()->json([
+                        'success' => false,
+                        'message'=>  'Bình luận con không chấm điểm',
+                        'data'=>$data
+                    ]);
+                }
+
+            }
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -57,7 +88,7 @@ class CmtRatingController extends Controller
                 'errors'=>$e->getMessage()
             ]);
         }
-        
+
     }
 
     /**
@@ -84,7 +115,7 @@ class CmtRatingController extends Controller
                     'data'=>$data
                 ]);
             }
-            
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -103,7 +134,7 @@ class CmtRatingController extends Controller
      */
     public function update(CommentUpdate $request, $cmtRating)
     {
-        
+
         try {
             $cmtRating = CmtRating::find($cmtRating);
             if($cmtRating != null) {
@@ -121,7 +152,7 @@ class CmtRatingController extends Controller
                     'data'=>$cmtRating
                 ]);
             }
-            
+
     }catch (\Exception $e){
         return response()->json([
             'success' => false,
@@ -129,7 +160,7 @@ class CmtRatingController extends Controller
             'errors'=>$e->getMessage()
         ]);
     }
-       
+
     }
 
     /**
@@ -158,7 +189,7 @@ class CmtRatingController extends Controller
                     'data'=>$cmtRating
                 ]);
             }
-           
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -167,5 +198,5 @@ class CmtRatingController extends Controller
             ]);
         }
     }
-    
+
 }

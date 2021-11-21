@@ -11,6 +11,6 @@ class CmtRating extends Model
     protected $table='comment_rating';
     protected $primaryKey='id';
     protected $fillable=[
-        'user_id','product_id','point','comment','hide',
+        'user_id','product_id','point','comment','parent_id','hide',
     ];
 }

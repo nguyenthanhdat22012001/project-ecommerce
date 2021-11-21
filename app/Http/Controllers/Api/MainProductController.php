@@ -51,7 +51,7 @@ class MainProductController extends Controller
         //
         try {
             $query = CmtRating::query();
-            $query->whereRaw("product_id = ". $product_id );
+            $query->whereRaw("product_id = ". $product_id )->whereNull('parent_id');
        return response()->json([
         'success' => true,
         'message'=>  'Tìm thành công',
@@ -65,6 +65,24 @@ class MainProductController extends Controller
             ]);
         }
     }
+    public function get_comment_reply($comment_id)
+    {
+        try {
+            $query = CmtRating::query();
+            $query->whereRaw("parent_id = ". $comment_id );
+            return response()->json([
+                'success' => true,
+                'message'=>  'Tìm thành công',
+                'data'=>$query->get()
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>'tim du lieu that bai',
+                'errors'=>$e->getMessage()
+            ]);
+        }
+    }
 
-   
+
 }
