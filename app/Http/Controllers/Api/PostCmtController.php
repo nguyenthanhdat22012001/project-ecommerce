@@ -43,12 +43,23 @@ class PostCmtController extends Controller
     {
         try {
             $data = $request->all();
-            PostCmt::create($data);
-            return response()->json([
-                'success' => true,
-                'message'=>  'Thêm thành công',
-                'data'=>$data
-            ]);
+            if($data['parent_id']== null){
+                PostCmt::create($data);
+                return response()->json([
+                    'success' => true,
+                    'message'=>  'comment thành công',
+                    'data'=>$data
+                ]);
+            }
+            else{
+                PostCmt::create($data);
+                return response()->json([
+                    'success' => true,
+                    'message'=>  'reply thành công',
+                    'data'=>$data
+                ]);
+            }
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -77,12 +88,11 @@ class PostCmtController extends Controller
             }
             else{
                 return response()->json([
-                    'success' => true,
+                    'success' => false,
                     'message'=>  'Dữ liệu không tồn tại',
-                    'data'=>$postcmt
                     ]);
             }
-            
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -113,12 +123,11 @@ class PostCmtController extends Controller
             }
             else{
                 return response()->json([
-                    'success' => true,
+                    'success' => false,
                     'message'=>  'Dữ liệu không tồn tại',
-                    'data'=>$postcmt
                     ]);
             }
-           
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -134,11 +143,16 @@ class PostCmtController extends Controller
      * @param  \App\Models\Postcmt  $postcmt
      * @return \Illuminate\Http\Response
      */
-    public function destroy($postcmt)
+    public function destroy($postcmt_id)
     {
         try {
-            $postcmt = PostCmt::find($postcmt);
+            $postcmt = PostCmt::find($postcmt_id);
             if($postcmt != null){
+                $query = PostCmt::query();
+                $postReply = $query->whereRaw("parent_id = ". $postcmt_id )->get('id');
+                foreach ($postReply as $rep){
+                    PostCmt::find($rep['id'])->delete();
+                }
                 $postcmt->delete();
                 return response()->json([
                     'success' => true,
@@ -148,12 +162,11 @@ class PostCmtController extends Controller
             }
             else{
                 return response()->json([
-                    'success' => true,
+                    'success' => false,
                     'message'=>  'Dữ liệu không tồn tại',
-                    'data'=>$postcmt
                     ]);
             }
-            
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,

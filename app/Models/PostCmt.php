@@ -11,6 +11,6 @@ class PostCmt extends Model
     protected $table='comment_post';
     protected $primaryKey='id';
     protected $fillable=[
-        'post_id','user_id','comment','hide',
+        'post_id','user_id','comment','parent_id','hide',
     ];
 }

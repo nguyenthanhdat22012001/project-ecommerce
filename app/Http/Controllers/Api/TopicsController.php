@@ -16,7 +16,7 @@ class TopicsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {      
+    {
         try {
             $data = Topics::all();
             return response()->json([
@@ -56,7 +56,7 @@ class TopicsController extends Controller
                 'errors'=>$e->getMessage()
             ]);
         }
-        
+
     }
 
     /**
@@ -78,12 +78,11 @@ class TopicsController extends Controller
             }
             else{
                 return response()->json([
-                    'success' => true,
-                    'message'=>  'Dữ liệu không tồn tại',
-                    'data'=>$topics
-                    ]);
+                    'success' => false,
+                    'message'=>'Dữ liệu không tồn tại'
+                ]);
             }
-            
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -114,12 +113,11 @@ class TopicsController extends Controller
             }
             else{
                 return response()->json([
-                    'success' => true,
-                    'message'=>  'Dữ liệu không tồn tại',
-                    'data'=>$topics
-                    ]);
+                    'success' => false,
+                    'message'=>'Dữ liệu không tồn tại'
+                ]);
             }
-           
+
     }catch (\Exception $e){
         return response()->json([
             'success' => false,
@@ -149,12 +147,11 @@ class TopicsController extends Controller
             }
             else{
                 return response()->json([
-                    'success' => true,
-                    'message'=>  'Dữ liệu không tồn tại',
-                    'data'=>$topics
-                    ]);
+                    'success' => false,
+                    'message'=>'Dữ liệu không tồn tại'
+                ]);
             }
-            
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,

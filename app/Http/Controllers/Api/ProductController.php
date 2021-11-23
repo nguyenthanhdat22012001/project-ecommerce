@@ -43,7 +43,7 @@ class ProductController extends Controller
     {
         try {
         $data = $request->all();
-        if($request->hasFile('img')) { 
+        if($request->hasFile('img')) {
             $getImage = $request->file('img');
             $imagePath = storage_path(). '/app/images/';
             $imgname = time().$data['img']->getClientOriginalName();
@@ -65,7 +65,7 @@ class ProductController extends Controller
             'message'=>'Them that bai'
         ]);
     }
-        
+
     }
 
     /**
@@ -92,7 +92,7 @@ class ProductController extends Controller
                     'data'=>$data
                 ]);
             }
-            
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -100,7 +100,7 @@ class ProductController extends Controller
                 'errors'=>$e->getMessage()
             ]);
         }
-    
+
     }
 
     /**
@@ -124,12 +124,11 @@ class ProductController extends Controller
                 }
                 else{
                     return response()->json([
-                        'success' => true,
-                        'message'=>  'Dữ liệu không tồn tại',
-                        'data'=>$data
+                        'success' => false,
+                        'message'=>'Dữ liệu không tồn tại'
                     ]);
                 }
-                
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -137,7 +136,7 @@ class ProductController extends Controller
                 'errors'=>$e->getMessage()
             ]);
         }
-       
+
     }
 
     /**
@@ -160,12 +159,11 @@ class ProductController extends Controller
                 }
                 else{
                     return response()->json([
-                        'success' => true,
-                        'message'=>  'Dữ liệu không tồn tại',
-                        'data'=>$data
+                        'success' => false,
+                        'message'=>'Dữ liệu không tồn tại'
                     ]);
                 }
-                
+
     }catch (\Exception $e){
         return response()->json([
             'success' => false,
@@ -173,6 +171,6 @@ class ProductController extends Controller
             'errors'=>$e->getMessage()
         ]);
     }
-      
+
     }
 }
