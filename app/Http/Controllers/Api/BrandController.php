@@ -52,7 +52,10 @@ class BrandController extends Controller
                 $getImage->move($imagePath, $imgname);
             }
             else{
-                return ['result'=>'không có file'];
+                return response()->json([
+                    'success' => false,
+                    'message'=>  'Không có file ảnh'
+                ]);
             }
             Brand::create($data);
             return response()->json([
