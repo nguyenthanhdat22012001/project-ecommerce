@@ -51,7 +51,10 @@ class ProductController extends Controller
             $getImage->move($imagePath, $imgname);
         }
         else{
-            return ['result'=>'không có file'];
+            return response()->json([
+                'success' => false,
+                'message'=>  'Không có file ảnh'
+            ]);
         }
         Product::create($data);
         return response()->json([
