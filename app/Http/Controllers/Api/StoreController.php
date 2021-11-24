@@ -51,7 +51,10 @@ class StoreController extends Controller
                 $getImage->move($imagePath, $imgname);
             }
             else{
-                return ['result'=>'không có file'];
+                return response()->json([
+                    'success' => false,
+                    'message'=>  'Không có file ảnh'
+                ]);
             }
             Store::create($data);
             return response()->json([
@@ -86,9 +89,8 @@ class StoreController extends Controller
             }
             else{
                 return response()->json([
-                    'success' => true,
-                    'message'=>'Dữ liệu không tồn tại',
-                    'data'=>$data
+                    'success' => false,
+                    'message'=>'Dữ liệu không tồn tại'
                 ]);
             }
 
@@ -132,9 +134,8 @@ class StoreController extends Controller
             }
             else{
                 return response()->json([
-                    'success' => true,
-                    'message'=>  'Dữ liệu không tồn tại',
-                    'data'=>$data
+                    'success' => false,
+                    'message'=>'Dữ liệu không tồn tại'
                 ]);
             }
 
@@ -170,9 +171,8 @@ class StoreController extends Controller
             }
             else{
                 return response()->json([
-                    'success' => true,
-                    'message'=>  'Dữ liệu không tồn tại',
-                    'data'=>$data
+                    'success' => false,
+                    'message'=>'Dữ liệu không tồn tại'
                 ]);
             }
 

@@ -77,12 +77,11 @@ class PostsController extends Controller
             }
             else{
                 return response()->json([
-                    'success' => true,
-                    'message'=>  'Dữ liệu không tồn tại',
-                    'data'=>$post
-                    ]);
+                    'success' => false,
+                    'message'=>'Dữ liệu không tồn tại'
+                ]);
             }
-            
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -113,12 +112,11 @@ class PostsController extends Controller
             }
             else{
                 return response()->json([
-                    'success' => true,
-                    'message'=>  'Dữ liệu không tồn tại',
-                    'data'=>$post
-                    ]);
+                    'success' => false,
+                    'message'=>'Dữ liệu không tồn tại'
+                ]);
             }
-           
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -148,12 +146,11 @@ class PostsController extends Controller
             }
             else{
                 return response()->json([
-                    'success' => true,
-                    'message'=>  'Dữ liệu không tồn tại',
-                    'data'=>$post
-                    ]);
+                    'success' => false,
+                    'message'=>'Dữ liệu không tồn tại'
+                ]);
             }
-            
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,

@@ -110,9 +110,8 @@ class CmtRatingController extends Controller
             }
             else{
                 return response()->json([
-                    'success' => true,
+                    'success' => false,
                     'message'=>'Dữ liệu không tồn tại',
-                    'data'=>$data
                 ]);
             }
 
@@ -147,9 +146,8 @@ class CmtRatingController extends Controller
             }
             else{
                 return response()->json([
-                    'success' => true,
+                    'success' => false,
                     'message'=>  'Dữ liệu không tồn tại',
-                    'data'=>$cmtRating
                 ]);
             }
 
@@ -169,12 +167,17 @@ class CmtRatingController extends Controller
      * @param  \App\Models\CmtRating  $cmtRating
      * @return \Illuminate\Http\Response
      */
-    public function destroy($cmtRating)
+    public function destroy($cmtRating_id)
     {
         //
         try {
-            $cmtRating = CmtRating::find($cmtRating);
+            $cmtRating = CmtRating::find($cmtRating_id);
             if($cmtRating != null){
+                $query = CmtRating::query();
+                $cmtReply = $query->whereRaw("parent_id = ". $cmtRating_id )->get('id');
+                foreach ($cmtReply as $rep){
+                    CmtRating::find($rep['id'])->delete();
+                }
                 $cmtRating->delete();
                 return response()->json([
                     'success' => true,
@@ -184,9 +187,8 @@ class CmtRatingController extends Controller
             }
             else{
                 return response()->json([
-                    'success' => true,
+                    'success' => false,
                     'message'=>  'Dữ liệu không tồn tại',
-                    'data'=>$cmtRating
                 ]);
             }
 
