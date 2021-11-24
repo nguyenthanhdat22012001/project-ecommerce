@@ -276,7 +276,7 @@ class UserController extends Controller
             else{
                 return response()->json([
                     'success' => false,
-                    'message' => 'User không tồn tại',
+                    'message' => 'Mã OTP không đúng hoặc user đã bị xóa',
                 ], 200);
             }
         } catch (\Throwable $e) {

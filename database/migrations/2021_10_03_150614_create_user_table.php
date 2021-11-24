@@ -22,6 +22,7 @@ class CreateUserTable extends Migration
             $table->string('address',200)->nullable();
             $table->string('avatar')->nullable();
             $table->tinyinteger('role')->default(0);
+            $table->string('otp')->nullable();
             $table->string('remember_token',100)->nullable();
             $table->timestamps();
         });

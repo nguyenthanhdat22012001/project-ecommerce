@@ -2,8 +2,8 @@ POST http://127.0.0.1:8000/api/register
 Content-Type: application/json
 
 {
-    "name": "nguyen dat",
-    "email": "nguyendat@gmail.com",
+    "name": "nguyen thanh dat",
+    "email": "nguyenthanhdat22012001@gmail.com",
     "password": "123456789",
     "confirm_password": "123456789"
 }
@@ -14,6 +14,13 @@ Content-Type: application/json
 {
     "email": "namlan@gmail.com",
     "password": "123456789"
+}
+###
+POST http://127.0.0.1:8000/api/forgot-password
+Content-Type: application/json
+
+{
+    "email": "nguyenthanhdat22012001@gmail.com"
 }
 ###
 POST http://127.0.0.1:8000/api/admin/login
