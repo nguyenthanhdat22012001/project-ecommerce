@@ -41,31 +41,30 @@ class StoreController extends Controller
      */
     public function store(StoreStore $request)
     {
+        
         try {
-            $data = $request->all();
-            if($request->hasFile('img')) {
-                $getImage = $request->file('img');
-                $imagePath = storage_path(). '/app/images/';
-                $imgname = time().$data['img']->getClientOriginalName();
-                $data['img'] = '/app/images/'.$imgname;
-                $getImage->move($imagePath, $imgname);
+            $data = $request->all()['data'];
+            if($data['img']) {
+                $image = $data['img'];
+                $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+                \Image::make($image)->save(public_path('images/').$name);
+                $data['img'] = '/app/images/'.$name;
             }
             else{
                 return response()->json([
                     'success' => false,
-                    'message'=>  'Không có file ảnh'
+                    'message'=>  'Không có file ảnh',
                 ]);
             }
             Store::create($data);
             return response()->json([
                 'success' => true,
                 'message'=>  'Thêm thành công',
-                'data'=>$data
             ]);
         }catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message'=>'Them that bai'
+                'message'=>$e->getMessage()
             ]);
         }
     }

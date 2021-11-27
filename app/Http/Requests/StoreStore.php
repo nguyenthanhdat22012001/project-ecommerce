@@ -38,10 +38,9 @@ class StoreStore extends FormRequest
     }
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Lỗi!',
-            'data'      => $validator->errors()
-        ]));
+        return response()->json([
+            'success' => false,
+            'message'=>  $validator->errors()->first(),
+        ]);
     }
 }
