@@ -91,9 +91,8 @@ class BrandController extends Controller
             }
             else{
                 return response()->json([
-                    'success' => true,
+                    'success' => false,
                     'message'=>'Dữ liệu không tồn tại',
-                    'data'=>$data
                 ]);
             }
 
