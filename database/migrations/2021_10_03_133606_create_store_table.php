@@ -16,7 +16,6 @@ class CreateStoreTable extends Migration
         Schema::create('store', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->integer('cate_id')->unsigned();
             $table->string('name');
             $table->string('slug')->nullable();
             $table->string('address');
