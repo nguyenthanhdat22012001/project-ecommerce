@@ -15,7 +15,6 @@ class AddRelationship extends Migration
     {
         Schema::table('store', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('user');
-            $table->foreign('cate_id')->references('id')->on('category');
         });
         Schema::table('product', function (Blueprint $table) {
             $table->foreign('store_id')->references('id')->on('store');
