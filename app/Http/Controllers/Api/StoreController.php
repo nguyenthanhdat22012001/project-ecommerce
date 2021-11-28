@@ -43,7 +43,7 @@ class StoreController extends Controller
     {
         
         try {
-            $data = $request->all()['data'];
+            $data = $request->all();
             if($data['img']) {
                 $image = $data['img'];
                 $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];

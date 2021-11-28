@@ -31,6 +31,17 @@ Content-Type: application/json
     "password": "tieuviem123"
 }
 ###
+POST http://127.0.0.1:8000/api/stores
+Content-Type: application/json
+
+{
+    "img": "",
+    "user_id": 1,
+    "name": "nam ha",
+    "address": "ádasdasd",
+    "phone": 3453456456
+}
+###
 GET http://127.0.0.1:8000/api/admin/logout
 Content-Type: application/json
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hZG1pblwvbG9naW4iLCJpYXQiOjE2MzY2MTY5MzEsImV4cCI6MTYzNjYxNjk5MSwibmJmIjoxNjM2NjE2OTMxLCJqdGkiOiJUZjVLTlJtT0RHR25VOEdOIiwic3ViIjoyLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.ePKRkoBI4mWSkf5ceA3F1Z86UiIneLEXLCC-RIYhYKk
