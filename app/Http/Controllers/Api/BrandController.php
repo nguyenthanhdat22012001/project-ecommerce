@@ -44,12 +44,11 @@ class BrandController extends Controller
     {
         try {
             $data = $request->all();
-            if($request->hasFile('img')) {
-                $getImage = $request->file('img');
-                $imagePath = storage_path(). '/app/images/';
-                $imgname = time().$data['img']->getClientOriginalName();
-                $data['img'] = '/app/images/'.$imgname;
-                $getImage->move($imagePath, $imgname);
+            if($data['img']) {
+                $image = $data['img'];
+                $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+                \Image::make($image)->save(public_path('images/').$name);
+                $data['img'] = '/images/'.$name;
             }
             else{
                 return response()->json([
@@ -117,15 +116,14 @@ class BrandController extends Controller
         try {
             $data = Brand::find($brand);
             if($data != null){
-                if($request->hasFile('img')) {
-                    if(file_exists(storage_path().$data['img'])){
-                        unlink(storage_path().$data['img']);
+                if($data['img']) {
+                    if(file_exists(public_path().$data['img'])){
+                        unlink(public_path().$data['img']);
                     }
-                    $getImage = $request->file('img');
-                    $imagePath = storage_path(). '/app/images/';
-                    $imgname = time().$data['img']->getClientOriginalName();
-                    $data['img'] = '/app/images/'.$imgname;
-                    $getImage->move($imagePath, $imgname);
+                    $image = $data['img'];
+                    $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+                    \Image::make($image)->save(public_path('images/').$name);
+                    $data['img'] = '/images/'.$name;
                 }
             $data->update($request->all());
             return response()->json([
@@ -161,8 +159,8 @@ class BrandController extends Controller
         try {
             $data = Brand::find($brand);
             if($data != null){
-                if(file_exists(storage_path().$data['img'])){
-                    unlink(storage_path().$data['img']);
+                if(file_exists(public_path().$data['img'])){
+                    unlink(public_path().$data['img']);
                 }
                 $data->delete();
                 return response()->json([

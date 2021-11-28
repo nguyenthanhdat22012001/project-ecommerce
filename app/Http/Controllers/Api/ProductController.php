@@ -43,12 +43,11 @@ class ProductController extends Controller
     {
         try {
         $data = $request->all();
-        if($request->hasFile('img')) {
-            $getImage = $request->file('img');
-            $imagePath = storage_path(). '/app/images/';
-            $imgname = time().$data['img']->getClientOriginalName();
-            $data['img'] = '/app/images/'.$imgname;
-            $getImage->move($imagePath, $imgname);
+        if($data['img']) {
+            $image = $data['img'];
+            $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+            \Image::make($image)->save(public_path('images/').$name);
+            $data['img'] = '/images/'.$name;
         }
         else{
             return response()->json([
