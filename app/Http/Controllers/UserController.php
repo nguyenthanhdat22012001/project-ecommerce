@@ -153,6 +153,12 @@ class UserController extends Controller
         try {
             // $user = Auth::user();
             $user = auth()->user();
+            $store = Store::where('user_id',$user->id)->first();
+            if($store == null){
+                $user['store_id'] = null;
+            }else{
+                $user['store_id'] = $store['id'];
+            }
             return response()->json([
                 'success' => true,
                 'message' => '',
