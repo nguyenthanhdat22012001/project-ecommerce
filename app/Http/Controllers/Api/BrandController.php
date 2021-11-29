@@ -7,6 +7,7 @@ use App\Models\Brand;
 use Illuminate\Http\Request;
 use App\Http\Requests\BrandStore;
 use App\Http\Requests\BrandUpdate;
+use Illuminate\Support\Str;
 
 class BrandController extends Controller
 {
@@ -44,18 +45,7 @@ class BrandController extends Controller
     {
         try {
             $data = $request->all();
-            if($data['img']) {
-                $image = $data['img'];
-                $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-                \Image::make($image)->save(public_path('images/').$name);
-                $data['img'] = '/images/'.$name;
-            }
-            else{
-                return response()->json([
-                    'success' => false,
-                    'message'=>  'Không có file ảnh'
-                ]);
-            }
+            $data['slug'] = Str::slug($data['name'],'-');
             Brand::create($data);
             return response()->json([
                 'success' => true,
@@ -116,16 +106,9 @@ class BrandController extends Controller
         try {
             $data = Brand::find($brand);
             if($data != null){
-                if($data['img']) {
-                    if(file_exists(public_path().$data['img'])){
-                        unlink(public_path().$data['img']);
-                    }
-                    $image = $data['img'];
-                    $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-                    \Image::make($image)->save(public_path('images/').$name);
-                    $data['img'] = '/images/'.$name;
-                }
-            $data->update($request->all());
+            $update =  $request->all();
+            $update['slug'] = Str::slug($update['name'],'-');
+            $data->update( $update);
             return response()->json([
                 'success' => true,
                 'message'=>  'Sửa thành công',
@@ -159,9 +142,6 @@ class BrandController extends Controller
         try {
             $data = Brand::find($brand);
             if($data != null){
-                if(file_exists(public_path().$data['img'])){
-                    unlink(public_path().$data['img']);
-                }
                 $data->delete();
                 return response()->json([
                     'success' => true,

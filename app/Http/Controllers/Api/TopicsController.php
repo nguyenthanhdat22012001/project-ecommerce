@@ -7,6 +7,7 @@ use App\Models\Topics;
 use Illuminate\Http\Request;
 use App\Http\Requests\TopicsStore;
 use App\Http\Requests\TopicsUpdate;
+use Illuminate\Support\Str;
 
 class TopicsController extends Controller
 {
@@ -43,6 +44,7 @@ class TopicsController extends Controller
     {
         try {
             $data = $request->all();
+            $data['slug'] = Str::slug($data['name'],'-');
             Topics::create($data);
             return response()->json([
                 'success' => true,
@@ -104,7 +106,9 @@ class TopicsController extends Controller
         try {
             $topics = Topics::find($topics);
             if($topics != null){
-                $topics->update($request->all());
+                $update =  $request->all();
+                $update['slug'] = Str::slug($update['name'],'-');
+                $topics->update($update);
                 return response()->json([
                     'success' => true,
                     'message'=>  'update thành công',
