@@ -65,8 +65,9 @@ Route::apiResource('stores', StoreController::class);
 Route::post('/admin/login', [UserController::class,'loginAdmin']);
 
 Route::group(['middleware' => ['jwt.verify','admin']], function () {
-    Route::apiResource('/admin/category',CategoryAdmin::class);
+//    Route::apiResource('/admin/category',CategoryAdmin::class);
     //logout
     Route::get('/admin/logout', [UserController::class, 'logout']);
 
 });
+Route::apiResource('/admin/category',CategoryAdmin::class);
