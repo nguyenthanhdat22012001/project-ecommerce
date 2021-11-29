@@ -20,7 +20,7 @@ class CreateOrderTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('name',200);
             $table->string('address');
-            $table->integer('phone');
+            $table->string('phone',10);
             $table->text('note');
             $table->tinyinteger('status');
             $table->float('shippingprice',15,3)->nullable();
