@@ -33,7 +33,7 @@ class AddRelationship extends Migration
             $table->foreign('payment_id')->references('id')->on('payment');
             $table->foreign('user_id')->references('id')->on('user');
         });
-        Schema::table('oder_detail', function (Blueprint $table) {
+        Schema::table('order_detail', function (Blueprint $table) {
             $table->foreign('order_id')->references('id')->on('order');
             $table->foreign('product_id')->references('id')->on('product');
         });
