@@ -13,5 +13,8 @@ class Product extends Model
     protected $fillable =[
         'store_id','cate_id','brand_id','name','slug','img','listimg','description','shortdescription','quantity','price','hide','sort',
     ];
-    
+    public function attribute()
+    {
+        return $this->hasMany(Attribute::class,'product_id', 'id');
+    }
 }
