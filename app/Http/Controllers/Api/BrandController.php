@@ -44,18 +44,6 @@ class BrandController extends Controller
     {
         try {
             $data = $request->all();
-            if($data['img']) {
-                $image = $data['img'];
-                $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-                \Image::make($image)->save(public_path('images/').$name);
-                $data['img'] = '/images/'.$name;
-            }
-            else{
-                return response()->json([
-                    'success' => false,
-                    'message'=>  'Không có file ảnh'
-                ]);
-            }
             Brand::create($data);
             return response()->json([
                 'success' => true,
@@ -65,7 +53,7 @@ class BrandController extends Controller
         }catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message'=>'Them that bai'
+                'message'=>$e->getMessage()
             ]);
         }
 
@@ -116,15 +104,6 @@ class BrandController extends Controller
         try {
             $data = Brand::find($brand);
             if($data != null){
-                if($data['img']) {
-                    if(file_exists(public_path().$data['img'])){
-                        unlink(public_path().$data['img']);
-                    }
-                    $image = $data['img'];
-                    $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-                    \Image::make($image)->save(public_path('images/').$name);
-                    $data['img'] = '/images/'.$name;
-                }
             $data->update($request->all());
             return response()->json([
                 'success' => true,
@@ -159,9 +138,6 @@ class BrandController extends Controller
         try {
             $data = Brand::find($brand);
             if($data != null){
-                if(file_exists(public_path().$data['img'])){
-                    unlink(public_path().$data['img']);
-                }
                 $data->delete();
                 return response()->json([
                     'success' => true,
