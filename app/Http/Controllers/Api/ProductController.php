@@ -82,8 +82,6 @@ class ProductController extends Controller
             'name'  => $data['name'],
             'description'=>$data['description'],
             'shortdescription'=>$data['shortdescription'],
-            'quantity'=>$data['quantity'],
-            'price'=>$data['price'],
             'hide'=>$data['hide'],
             'img'=>$data['img'],
             'listimg'=>$data['listimg'],
@@ -95,7 +93,10 @@ class ProductController extends Controller
                 Attribute::create([
                     'product_id'=>$product['id'],
                     'name' => $data['name_att'][$key],
-                    'style'=>$data['style'][$key]
+                    'style'=>$data['style'][$key],
+                    'quantity'=>$data['quantity'][$key],
+                    'price'=>$data['price'][$key],
+                    'discount'=>$data['discount'][$key]
                 ]);
             }
 
@@ -131,6 +132,7 @@ class ProductController extends Controller
     {
         try {
             $data = Product::find($product);
+            $data['listimg'] = explode(",", $data['listimg']);
             $data->attribute;
             if($data != null){
                 return response()->json([

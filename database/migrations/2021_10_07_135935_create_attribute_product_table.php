@@ -18,6 +18,9 @@ class CreateAttributeProductTable extends Migration
             $table->integer('product_id')->unsigned();
             $table->string('name', 200);
             $table->string('style',200)->nullable();
+            $table->integer('quantity');
+            $table->float('price',15,3);
+            $table->float('discount',15,3);
             $table->timestamps();
         });
     }

@@ -21,16 +21,14 @@ class CreateProductTable extends Migration
             $table->string('name', 200);
             $table->string('slug', 100)->nullable();
             $table->string('img');
-            $table->text('listimg')->nullable();    
+            $table->text('listimg')->nullable();
             $table->longtext('description')->nullable();
             $table->longtext('shortdescription')->nullable();
-            $table->integer('quantity');
-            $table->float('price',15,3);
             $table->boolean('hide')->nullable();
             $table->integer('sort')->nullable();
             $table->timestamps();
         });
-       
+
     }
 
     /**

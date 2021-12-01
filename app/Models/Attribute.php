@@ -11,7 +11,7 @@ class Attribute extends Model
     protected $table = 'attribute_product';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'product_id', 'name','style','hide'
+        'product_id', 'name','style','hide','quantity','price','discount'
     ];
     public function product()
     {

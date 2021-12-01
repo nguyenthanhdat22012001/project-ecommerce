@@ -41,12 +41,12 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     Route::post('profile/change-password', [UserController::class, 'change_password']);
     Route::apiResource('comments', CmtRatingController::class);
     //seller
-    Route::apiResource('products', ProductController::class);
     Route::apiResource('coupons', CouponController::class);
     //log out
     Route::get('logout', [UserController::class, 'logout']);
 
 });
+Route::apiResource('products', ProductController::class);
 
 Route::get('search', [SearchController::class, 'search']);
 
