@@ -15,7 +15,7 @@ class CreateCouponTable extends Migration
     {
         Schema::create('coupon', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->integer('store_id')->nullable();
+            $table->integer('store_id')->unsigned()->nullable();
             $table->string('sku');
             $table->string('name');
             $table->float('price',15,3);

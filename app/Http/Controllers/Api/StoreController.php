@@ -7,6 +7,7 @@ use App\Models\Store;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreStore;
 use App\Http\Requests\StoreUpdate;
+use Illuminate\Support\Str;
 
 class StoreController extends Controller
 {
@@ -44,6 +45,7 @@ class StoreController extends Controller
 
         try {
             $data = $request->all();
+            $data['slug'] = Str::slug($data['name'],'-');
             if($data['img']) {
                 $image = $data['img'];
                 $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
@@ -114,16 +116,18 @@ class StoreController extends Controller
         try {
             $data = Store::find($store);
             if($data != null){
-                if($data['img']) {
+                $update =  $request->all();
+                if($update['img']) {
                     if(file_exists(public_path().$data['img'])){
                         unlink(public_path().$data['img']);
                     }
-                    $image = $data['img'];
+                    $image = $request['img'];
                     $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
                     \Image::make($image)->save(public_path('images/').$name);
-                    $data['img'] = '/images/'.$name;
+                    $update['img'] = '/images/'.$name;
                 }
-                $data->update($request->all());
+                $update['slug'] = Str::slug($update['name'],'-');
+                $data->update($update);
                 return response()->json([
                     'success' => true,
                     'message'=>  'Sửa thành công',

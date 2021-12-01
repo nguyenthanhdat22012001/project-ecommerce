@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Requests\ProductStore;
 use App\Http\Requests\ProductUpdate;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -43,6 +44,7 @@ class ProductController extends Controller
     {
         try {
         $data = $request->all();
+        $data['slug'] = Str::slug($data['name'],'-');
         if($data['img']) {
             $image = $data['img'];
             $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
@@ -117,7 +119,18 @@ class ProductController extends Controller
         try {
                 $data = Product::find($product);
                 if($data != null){
-                    $data->update($request->all());
+                    $update =  $request->all();
+                    if($update['img']) {
+                        if(file_exists(public_path().$data['img'])){
+                            unlink(public_path().$data['img']);
+                        }
+                        $image = $request['img'];
+                        $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+                        \Image::make($image)->save(public_path('images/').$name);
+                        $update['img'] = '/images/'.$name;
+                    }
+                    $update['slug'] = Str::slug($update['name'],'-');
+                    $data->update($update);
                     return response()->json([
                         'success' => true,
                         'message'=>  'update thành công',
@@ -152,6 +165,9 @@ class ProductController extends Controller
         try {
                 $data = Product::find($product);
                 if($data != null){
+                    if(file_exists(public_path().$data['img'])){
+                        unlink(public_path().$data['img']);
+                    }
                     $data->delete();
                     return response()->json([
                         'success' => true,

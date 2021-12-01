@@ -7,6 +7,7 @@ use App\Models\Brand;
 use Illuminate\Http\Request;
 use App\Http\Requests\BrandStore;
 use App\Http\Requests\BrandUpdate;
+use Illuminate\Support\Str;
 
 class BrandController extends Controller
 {
@@ -44,6 +45,7 @@ class BrandController extends Controller
     {
         try {
             $data = $request->all();
+            $data['slug'] = Str::slug($data['name'],'-');
             Brand::create($data);
             return response()->json([
                 'success' => true,
@@ -104,7 +106,9 @@ class BrandController extends Controller
         try {
             $data = Brand::find($brand);
             if($data != null){
-            $data->update($request->all());
+            $update =  $request->all();
+            $update['slug'] = Str::slug($update['name'],'-');
+            $data->update( $update);
             return response()->json([
                 'success' => true,
                 'message'=>  'Sửa thành công',
