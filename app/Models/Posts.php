@@ -11,11 +11,11 @@ class Posts extends Model
     protected $table='posts';
     protected $primaryKey='id';
     protected $fillable=[
-      'user_id','name','slug','description','hide',
+      'user_id','name','slug','description','hide','thumbs_up'
     ];
 
     public function comments()
     {
-        return $this->hasMany(PostCmt::class,'post_id ');
+        return $this->hasMany(PostCmt::class,'post_id','id');
     }
 }

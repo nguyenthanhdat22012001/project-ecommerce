@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\CmtRating;
 use App\Models\Posts;
 use App\Models\PostCmt;
 use App\Models\ThumbsUpPost;
@@ -22,6 +23,10 @@ class PostsController extends Controller
     {
         try {
             $data = Posts::all();
+            foreach ($data as $key => $post){
+                $data[$key]['totalThumb'] = $this->getThumbByPostId($post['id']);
+                $data[$key]['totalComment'] = $this->getCommentByPostId($post['id']);
+            }
             return response()->json([
                 'success' => true,
                 'message'=>  'lấy dữ liệu thành công',
@@ -34,7 +39,14 @@ class PostsController extends Controller
             ]);
         }
     }
-
+    public function getThumbByPostId($post_id)
+    {
+      return count(ThumbsUpPost::where('post_id',$post_id)->get());
+    }
+    public function getCommentByPostId($post_id)
+    {
+        return count(PostCmt::where('post_id',$post_id)->get());
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -106,7 +118,8 @@ class PostsController extends Controller
             if($post != null){
                 $totalComment = PostCmt::where('post_id',$post->id)->get();
                 $post['totalComment'] =  count($totalComment);
-
+                $totalThumb = ThumbsUpPost::where('post_id',$post->id)->get();
+                $post['totalThumb'] =  count($totalThumb);
                 return response()->json([
                     'success' => true,
                     'message'=>'Lay du lieu thanh cong',
@@ -127,7 +140,31 @@ class PostsController extends Controller
             ]);
         }
     }
+    public function getTop10PostComment()
+    {
+        try {
+            $query = Posts::withCount('comments')->orderBy('comments_count', 'desc')->limit(10)->get();
+            $data = $query;
+            foreach ($data as $key => $post){
+                $totalThumb = ThumbsUpPost::where('post_id',$post->id)->get();
+                $totalComment = PostCmt::where('post_id',$post->id)->get();
+                $data[$key]['totalThumb'] = count($totalThumb);
+                $data[$key]['totalComment'] = count($totalComment);
+            }
 
+
+            return response()->json([
+                'success' => true,
+                'message'=>'Lay du lieu thanh cong',
+                'data'=>$data
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>$e->getMessage()
+            ]);
+        }
+    }
     /**
      * Update the specified resource in storage.
      *

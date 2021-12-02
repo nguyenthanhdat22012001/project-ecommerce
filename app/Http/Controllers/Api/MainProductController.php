@@ -50,12 +50,17 @@ class MainProductController extends Controller
     {
         //
         try {
-            $query = CmtRating::query();
-            $query->whereRaw("product_id = ". $product_id )->whereNull('parent_id');
+            $data = CmtRating::with('user:id,name')
+                ->where('product_id',$product_id)
+                ->where('parent_id','=',null)
+                ->get();
+            foreach ($data as $key => $cmt){
+                $data[$key]['sub_comments'] = $this->getSubCommentByCommentId($cmt['id']);
+            }
        return response()->json([
         'success' => true,
         'message'=>  'Tìm thành công',
-        'data'=>$query->get()
+        'data'=>$data
     ]);
         }catch (\Exception $e){
             return response()->json([
@@ -65,24 +70,20 @@ class MainProductController extends Controller
             ]);
         }
     }
-    public function get_comment_reply($comment_id)
+    public function getSubCommentByCommentId($comment_id)
     {
         try {
-            $query = CmtRating::query();
-            $query->whereRaw("parent_id = ". $comment_id );
-            return response()->json([
-                'success' => true,
-                'message'=>  'Tìm thành công',
-                'data'=>$query->get()
-            ]);
+            $data = CmtRating::with('user:id,name')
+                ->where('parent_id',$comment_id)->get();
+            return $data;
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
-                'message'=>'tim du lieu that bai',
-                'errors'=>$e->getMessage()
+                'message'=>$e->getMessage()
             ]);
         }
     }
+   
 
 
 }
