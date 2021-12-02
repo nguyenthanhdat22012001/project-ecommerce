@@ -40,11 +40,13 @@ class PostCmtController extends Controller
     public function getCommentByPostId($post_id)
     {
         try {
-            $data = PostCmt::with('sub_comments','user:id,name')
+            $data = PostCmt::with('user:id,name')
             ->where('post_id',$post_id)
             ->where('parent_id','=',null)
             ->get();
-        
+            foreach ($data as $key => $cmt){
+               $data[$key]['sub_comments'] = $this->getSubCommentByCommentId($cmt['id']);
+            }
             return response()->json([
                 'success' => true,
                 'message'=>  'lấy dữ liệu thành công',
@@ -57,7 +59,19 @@ class PostCmtController extends Controller
             ]);
         }
     }
-
+    public function getSubCommentByCommentId($comment_id)
+    {
+        try {
+            $data = PostCmt::with('user:id,name')
+                ->where('parent_id',$comment_id)->get();
+            return $data;
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>$e->getMessage()
+            ]);
+        }
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -78,7 +92,7 @@ class PostCmtController extends Controller
                     'message'=>  'Bình luận thành công',
                     'data'=>$newComment
                 ]);
-            
+
 
         }catch (\Exception $e){
             return response()->json([
@@ -138,7 +152,7 @@ class PostCmtController extends Controller
                     'message'=>  'update thành công',
                     'data'=>$postcmt
                  ]);
-            
+
 
         }catch (\Exception $e){
             return response()->json([
@@ -173,7 +187,7 @@ class PostCmtController extends Controller
                         'message'=>  'Dữ liệu không tồn tại',
                     ]);
                 }
-       
+
 
         }catch (\Exception $e){
             return response()->json([

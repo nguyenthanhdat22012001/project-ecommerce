@@ -17,9 +17,10 @@ class PostCmt extends Model
 
     public function sub_comments()
     {
-        return $this->hasMany(PostCmt::class,'parent_id');
+        return $this->hasMany(PostCmt::class,'parent_id','id');
     }
     public function user(){
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class,'user_id', 'id');
     }
+
 }
