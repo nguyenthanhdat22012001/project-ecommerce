@@ -27,8 +27,33 @@ class PostCmtController extends Controller
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
-                'message'=>'Lay du lieu that bai',
-                'errors'=>$e->getMessage()
+                'message'=>$e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getCommentByPostId($post_id)
+    {
+        try {
+            $data = PostCmt::with('sub_comments','user:id,name')
+            ->where('post_id',$post_id)
+            ->where('parent_id','=',null)
+            ->get();
+        
+            return response()->json([
+                'success' => true,
+                'message'=>  'lấy dữ liệu thành công',
+                'data'=>$data
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>$e->getMessage()
             ]);
         }
     }
@@ -43,28 +68,22 @@ class PostCmtController extends Controller
     {
         try {
             $data = $request->all();
-            if($data['parent_id']== null){
-                PostCmt::create($data);
+
+               $newData = PostCmt::create($data);
+               $newComment  = PostCmt::with('sub_comments','user')
+                                ->where('id',$newData->id)
+                                ->first();
                 return response()->json([
                     'success' => true,
-                    'message'=>  'comment thành công',
-                    'data'=>$data
+                    'message'=>  'Bình luận thành công',
+                    'data'=>$newComment
                 ]);
-            }
-            else{
-                PostCmt::create($data);
-                return response()->json([
-                    'success' => true,
-                    'message'=>  'reply thành công',
-                    'data'=>$data
-                ]);
-            }
+            
 
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
-                'message'=>'them that bai',
-                'errors'=>$e->getMessage()
+                'message'=>$e->getMessage()
             ]);
         }
     }
@@ -96,8 +115,7 @@ class PostCmtController extends Controller
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
-                'message'=>'Lay du lieu that bai',
-                'errors'=>$e->getMessage()
+                'message'=>$e->getMessage()
             ]);
         }
     }
@@ -113,26 +131,19 @@ class PostCmtController extends Controller
     {
         try {
             $postcmt = PostCmt::find($postcmt);
-            if($postcmt != null){
+
                 $postcmt->update($request->all());
                 return response()->json([
                     'success' => true,
                     'message'=>  'update thành công',
                     'data'=>$postcmt
                  ]);
-            }
-            else{
-                return response()->json([
-                    'success' => false,
-                    'message'=>  'Dữ liệu không tồn tại',
-                    ]);
-            }
+            
 
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
-                'message'=>'update du lieu that bai',
-                'errors'=>$e->getMessage()
+                'message'=>$e->getMessage()
             ]);
         }
     }
@@ -146,32 +157,28 @@ class PostCmtController extends Controller
     public function destroy($postcmt_id)
     {
         try {
-            $postcmt = PostCmt::find($postcmt_id);
-            if($postcmt != null){
-                $query = PostCmt::query();
-                $postReply = $query->whereRaw("parent_id = ". $postcmt_id )->get('id');
-                foreach ($postReply as $rep){
-                    PostCmt::find($rep['id'])->delete();
+            $data = PostCmt::find($postcmt_id);
+
+                if($data != null){
+                    $data->delete();
+                    return response()->json([
+                        'success' => true,
+                        'message'=>  'xóa thành công',
+                        'data'=>$data
+                    ]);
                 }
-                $postcmt->delete();
-                return response()->json([
-                    'success' => true,
-                    'message'=>  'xóa thành công',
-                    'data'=>$postcmt
+                else{
+                    return response()->json([
+                        'success' => false,
+                        'message'=>  'Dữ liệu không tồn tại',
                     ]);
-            }
-            else{
-                return response()->json([
-                    'success' => false,
-                    'message'=>  'Dữ liệu không tồn tại',
-                    ]);
-            }
+                }
+       
 
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
-                'message'=>'xoa du lieu that bai',
-                'errors'=>$e->getMessage()
+                'message'=>$e->getMessage()
             ]);
         }
     }
