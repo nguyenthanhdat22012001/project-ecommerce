@@ -182,6 +182,9 @@ class ProductController extends Controller
                         $update['img'] = '/images/'.$name;
                     }
                     $update['slug'] = Str::slug($update['name'],'-');
+                    foreach ($update['listimg'] as $key => $list){
+
+                    }
                     $data->update($update);
                     return response()->json([
                         'success' => true,
