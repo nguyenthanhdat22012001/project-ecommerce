@@ -15,6 +15,8 @@ class CreateThumbsUpPostsTable extends Migration
     {
         Schema::create('thumbs_up_posts', function (Blueprint $table) {
             $table->id();
+            $table->increments('post_id');
+            $table->integer('user_id')->unsigned();
             $table->timestamps();
         });
     }
