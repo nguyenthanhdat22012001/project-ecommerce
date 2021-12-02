@@ -18,7 +18,6 @@ class CreatePostsTable extends Migration
             $table->string('slug');
             $table->string('name',200)->unique();
             $table->integer('user_id')->unsigned();
-            $table->integer('thumbs_up');
             $table->longtext('description')->nullable();
             $table->boolean('hide')->nullable();
             $table->timestamps();

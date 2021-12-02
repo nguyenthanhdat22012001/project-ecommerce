@@ -52,12 +52,12 @@ Route::group(['middleware' => 'jwt.verify'], function () {
 Route::get('search', [SearchController::class, 'search']);
 
 Route::get('product/comments/{product_id}', [MainProductController::class, 'get_comment_by_product']);
-Route::get('comment/replys/{comment_id}', [MainProductController::class, 'get_comment_reply']);
 Route::get('oderby/product', [MainProductController::class, 'get_product_by']);
 Route::apiresource('topics',TopicsController::class);
 /**************route post**************/
 // Route::apiresource('posts',PostsController::class);
 Route::get('posts', [PostsController::class,'index']);
+Route::get('topposts', [PostsController::class,'getTop10PostComment']);
 Route::get('posts/{slug}', [PostsController::class,'getPostBySlug']);
 Route::post('posts', [PostsController::class,'store']);
 Route::post('like-post', [ThumbsUpPostController::class,'thumbsUpPost']);
