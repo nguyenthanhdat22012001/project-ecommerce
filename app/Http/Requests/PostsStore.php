@@ -27,23 +27,20 @@ class PostsStore extends FormRequest
     {
         return [
             'name' =>'required|max:255|unique:posts',
-            'description' =>'required|max:255'
         ];
     }
     public function messages()
     {
         return [
-            'name.required' => 'Tên post không được để trống',
-            'name.unique' => 'Tên post đã tồn tại',
-            'description.required' => 'Mô tả post không được để trống',
+            'name.required' => 'Tên bài viết không được để trống',
+            'name.unique' => 'Tên bài viết đã tồn tại',
         ];
     }
     public function failedValidation(Validator $validator)
     {
        throw new HttpResponseException(response()->json([
          'success'   => false,
-         'message'   => 'Lỗi!',
-         'data'      => $validator->errors()
+         'message'   => $validator->errors()->first()
        ]));
     }
 }

@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\PostsController;
 use App\Http\Controllers\Api\PostCmtController;
 use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\StoreController;
+use App\Http\Controllers\Api\ThumbsUpPostController;
 use App\Http\Controllers\Admin\CategoryAdmin;
 
 
@@ -54,8 +55,20 @@ Route::get('product/comments/{product_id}', [MainProductController::class, 'get_
 Route::get('comment/replys/{comment_id}', [MainProductController::class, 'get_comment_reply']);
 Route::get('oderby/product', [MainProductController::class, 'get_product_by']);
 Route::apiresource('topics',TopicsController::class);
-Route::apiresource('posts',PostsController::class);
-Route::apiresource('posts_comment',PostCmtController::class);
+/**************route post**************/
+// Route::apiresource('posts',PostsController::class);
+Route::get('posts', [PostsController::class,'index']);
+Route::get('posts/{slug}', [PostsController::class,'getPostBySlug']);
+Route::post('posts', [PostsController::class,'store']);
+Route::post('like-post', [ThumbsUpPostController::class,'thumbsUpPost']);
+Route::post('remove-like-post', [ThumbsUpPostController::class,'removeThumbsUpPost']);
+Route::get('check-user-like-post', [ThumbsUpPostController::class,'getUserThumsUp']);
+/**************route post**************/
+// Route::apiresource('posts_comment',PostCmtController::class);
+Route::get('posts_comment', [PostCmtController::class,'index']);
+Route::get('posts_comment/{id}', [PostCmtController::class,'getCommentByPostId']);
+Route::post('posts_comment', [PostCmtController::class,'store']);
+
 Route::apiResource('coupons', CouponController::class);
 Route::apiResource('brands', BrandController::class);
 Route::apiResource('stores', StoreController::class);

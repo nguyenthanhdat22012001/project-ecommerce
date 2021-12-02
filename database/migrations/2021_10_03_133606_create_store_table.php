@@ -21,7 +21,7 @@ class CreateStoreTable extends Migration
             $table->string('address');
             $table->string('img');
             $table->string('phone',10);
-            $table->longtext('description');
+            $table->longtext('description')->nullable();
             $table->boolean('hide')->nullable();
             $table->timestamps();
         });

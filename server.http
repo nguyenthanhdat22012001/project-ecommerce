@@ -41,6 +41,61 @@ Content-Type: application/json
     "address": "ádasdasd",
     "phone": 3453456456
 }
+
+# post
+###
+GET http://127.0.0.1:8000/api/posts
+Content-Type: application/json
+###
+POST http://127.0.0.1:8000/api/posts
+Content-Type: application/json
+
+{
+    "user_id": 1,
+    "name": "nam Ha",
+    "description": ""
+}
+###
+GET  http://127.0.0.1:8000/api/posts/toi-day
+Content-Type: application/json
+
+###
+POST http://127.0.0.1:8000/api/like-post
+Content-Type: application/json
+
+{
+    "user_id": 1,
+    "post_id": 2
+}
+###
+POST http://127.0.0.1:8000/api/posts/disk-like-post
+Content-Type: application/json
+
+{
+    "user_id": 1,
+    "post_id": 2
+}
+###
+GET http://127.0.0.1:8000/api/check-user-like-post?user_id=1&post_id=2
+Content-Type: application/json
+
+
+# comment post
+###
+POST http://127.0.0.1:8000/api/posts_comment
+Content-Type: application/json
+
+{
+    "user_id": 1,
+    "post_id": 2,
+    "comment": "ma la ka ma la kana mama",
+    "parent_id": 2
+}
+###
+GET http://127.0.0.1:8000/api/posts_comment/2
+Content-Type: application/json
+
+
 ###
 GET http://127.0.0.1:8000/api/admin/logout
 Content-Type: application/json

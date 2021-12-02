@@ -44,7 +44,12 @@ class AddRelationship extends Migration
             $table->foreign('user_id')->references('id')->on('user');
             $table->foreign('product_id')->references('id')->on('product');
         });
+        Schema::table('thumbs_up_posts', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('user');
+            $table->foreign('post_id')->references('id')->on('posts');
+        });
         Schema::table('comment_post', function (Blueprint $table) {
+            $table->foreign('parent_id')->references('id')->on('comment_post');
             $table->foreign('user_id')->references('id')->on('user');
             $table->foreign('post_id')->references('id')->on('posts');
         });

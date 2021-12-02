@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Posts;
+use App\Models\PostCmt;
+use App\Models\ThumbsUpPost;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostsStore;
 use App\Http\Requests\PostsUpdate;
+use Illuminate\Support\Str;
 
 class PostsController extends Controller
 {
@@ -27,8 +30,7 @@ class PostsController extends Controller
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
-                'message'=>'Lay du lieu that bai',
-                'errors'=>$e->getMessage()
+                'message'=>$e->getMessage()
             ]);
         }
     }
@@ -43,6 +45,7 @@ class PostsController extends Controller
     {
         try {
             $data = $request->all();
+            $data['slug'] = Str::slug($data['name'],'-');
             Posts::create($data);
             return response()->json([
                 'success' => true,
@@ -52,8 +55,7 @@ class PostsController extends Controller
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
-                'message'=>'them that bai',
-                'errors'=>$e->getMessage()
+                'message'=>$e->getMessage(),
             ]);
         }
     }
@@ -64,10 +66,11 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($post)
+    public function show($id)
     {
         try {
-            $post = Posts::find($post);
+            $post = Posts::find($id);
+
             if($post != null){
                 return response()->json([
                     'success' => true,
@@ -85,8 +88,42 @@ class PostsController extends Controller
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
-                'message'=>'Lay du lieu that bai',
-                'errors'=>$e->getMessage()
+                'message'=>$e->getMessage()
+            ]);
+        }
+    }
+
+        /**
+     * Display post specific
+     *
+     * @param  int  $slug
+     * @return \Illuminate\Http\Response
+     */
+    public function getPostBySlug($slug)
+    {
+        try {
+            $post = Posts::where('slug','=',$slug)->first();
+            if($post != null){
+                $totalComment = PostCmt::where('post_id',$post->id)->get();
+                $post['totalComment'] =  count($totalComment);
+
+                return response()->json([
+                    'success' => true,
+                    'message'=>'Lay du lieu thanh cong',
+                    'data'=>$post
+                ]);
+            }
+            else{
+                return response()->json([
+                    'success' => false,
+                    'message'=>'Dữ liệu không tồn tại'
+                ]);
+            }
+
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>$e->getMessage()
             ]);
         }
     }
@@ -120,8 +157,7 @@ class PostsController extends Controller
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
-                'message'=>'update du lieu that bai',
-                'errors'=>$e->getMessage()
+                'message'=>$e->getMessage()
             ]);
         }
     }
@@ -154,9 +190,9 @@ class PostsController extends Controller
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
-                'message'=>'xoa du lieu that bai',
-                'errors'=>$e->getMessage()
+                'message'=>$e->getMessage()
             ]);
         }
     }
+
 }
