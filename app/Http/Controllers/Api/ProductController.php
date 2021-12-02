@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Attribute;
 use App\Http\Requests\ProductStore;
 use App\Http\Requests\ProductUpdate;
 use Illuminate\Support\Str;
@@ -45,6 +46,7 @@ class ProductController extends Controller
         try {
         $data = $request->all();
         $data['slug'] = Str::slug($data['name'],'-');
+        $listimages=array();
         if($data['img']) {
             $image = $data['img'];
             $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
@@ -57,7 +59,55 @@ class ProductController extends Controller
                 'message'=>  'Không có file ảnh'
             ]);
         }
-        Product::create($data);
+            if($data['listimg']) {
+                foreach ($data['listimg'] as $list){
+                    $image = $list;
+                    $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+                    \Image::make($image)->save(public_path('images/').$name);
+                    $listimages[] = '/images/'.$name;
+                }
+            }
+            else{
+                return response()->json([
+                    'success' => false,
+                    'message'=>  'Không có list ảnh'
+                ]);
+            }
+        $listimages =  implode(",",$listimages);
+        $data['listimg'] = $listimages;
+        $product = Product::create([
+            'store_id'=>$data['store_id'],
+            'cate_id'=>$data['cate_id'],
+            'brand_id'=>$data['brand_id'],
+            'name'  => $data['name'],
+            'description'=>$data['description'],
+            'shortdescription'=>$data['shortdescription'],
+            'hide'=>$data['hide'],
+            'img'=>$data['img'],
+            'listimg'=>$data['listimg'],
+            'slug'=>$data['slug'],
+            'sort'=>$data['sort'],
+        ]);
+        if(count($data['name_att'])>= 1){
+            foreach ($data['name_att'] as $key => $att){
+                Attribute::create([
+                    'product_id'=>$product['id'],
+                    'name' => $data['name_att'][$key],
+                    'style'=>$data['style'][$key],
+                    'quantity'=>$data['quantity'][$key],
+                    'price'=>$data['price'][$key],
+                    'discount'=>$data['discount'][$key]
+                ]);
+            }
+
+        }
+        else{
+            return response()->json([
+                'success' => false,
+                'message'=>  'Nhập tối thiểu 1 thuộc tính'
+            ]);
+        }
+
         return response()->json([
             'success' => true,
             'message'=>  'Thêm thành công',
@@ -82,6 +132,8 @@ class ProductController extends Controller
     {
         try {
             $data = Product::find($product);
+            $data['listimg'] = explode(",", $data['listimg']);
+            $data->attribute;
             if($data != null){
                 return response()->json([
                     'success' => true,
