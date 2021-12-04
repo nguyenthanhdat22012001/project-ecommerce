@@ -45,11 +45,11 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     Route::apiResource('coupons', CouponController::class);
     //log out
     Route::get('logout', [UserController::class, 'logout']);
+    Route::apiResource('products', ProductController::class);
 
 });
 
 Route::get('search', [SearchController::class, 'search']);
-Route::apiResource('products', ProductController::class);
 Route::post('products/update/{product_id}', [ProductController::class,'update_product']);
 Route::get('product/comments/{product_id}', [MainProductController::class, 'get_comment_by_product']);
 Route::get('oderby/product', [MainProductController::class, 'get_product_by']);
