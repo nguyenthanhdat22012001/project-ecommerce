@@ -173,11 +173,12 @@ class CmtRatingController extends Controller
         try {
             $cmtRating = CmtRating::find($cmtRating_id);
             if($cmtRating != null){
-                $query = CmtRating::query();
-                $cmtReply = $query->whereRaw("parent_id = ". $cmtRating_id )->get('id');
-                foreach ($cmtReply as $rep){
-                    CmtRating::find($rep['id'])->delete();
-                }
+//                $query = CmtRating::query();
+//                $cmtReply = $query->whereRaw("parent_id = ". $cmtRating_id )->get('id');
+//                foreach ($cmtReply as $rep){
+//                    CmtRating::find($rep['id'])->delete();
+//                }
+                CmtRating::where('parent_id',$cmtRating['id'])->delete();
                 $cmtRating->delete();
                 return response()->json([
                     'success' => true,

@@ -42,7 +42,6 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     Route::post('profile/change-password', [UserController::class, 'change_password']);
     Route::apiResource('comments', CmtRatingController::class);
     //seller
-    Route::apiResource('products', ProductController::class);
     Route::apiResource('coupons', CouponController::class);
     //log out
     Route::get('logout', [UserController::class, 'logout']);
@@ -50,12 +49,13 @@ Route::group(['middleware' => 'jwt.verify'], function () {
 });
 
 Route::get('search', [SearchController::class, 'search']);
-
+Route::apiResource('products', ProductController::class);
+Route::post('products/update/{product_id}', [ProductController::class,'update_product']);
 Route::get('product/comments/{product_id}', [MainProductController::class, 'get_comment_by_product']);
 Route::get('oderby/product', [MainProductController::class, 'get_product_by']);
 Route::apiresource('topics',TopicsController::class);
 /**************route post**************/
-// Route::apiresource('posts',PostsController::class);
+ Route::apiresource('posts',PostsController::class);
 Route::get('posts', [PostsController::class,'index']);
 Route::get('topposts', [PostsController::class,'getTop10PostComment']);
 Route::get('posts/{slug}', [PostsController::class,'getPostBySlug']);

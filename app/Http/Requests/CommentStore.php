@@ -40,8 +40,8 @@ class CommentStore extends FormRequest
     {
        throw new HttpResponseException(response()->json([
          'success'   => false,
-         'message'   => 'Lỗi!',
-         'data'      => $validator->errors()
+           'message'   => $validator->errors()->first(),
+
        ]));
     }
 }
