@@ -152,8 +152,7 @@ class ProductController extends Controller
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
-                'message'=>'Lay du lieu that bai',
-                'errors'=>$e->getMessage()
+                'message'=>$e->getMessage()
             ]);
         }
 
@@ -202,8 +201,7 @@ class ProductController extends Controller
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
-                'message'=>'update du lieu that bai',
-                'errors'=>$e->getMessage()
+                'message'=>$e->getMessage()
             ]);
         }
 
@@ -240,8 +238,7 @@ class ProductController extends Controller
     }catch (\Exception $e){
         return response()->json([
             'success' => false,
-            'message'=>'xoa du lieu that bai',
-            'errors'=>$e->getMessage()
+            'message'=>$e->getMessage()
         ]);
     }
 
