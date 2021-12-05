@@ -121,8 +121,8 @@ class StoreController extends Controller
             if($data != null){
                 $update =  $request->all();
                 if($update['img']) {
-                    if(file_exists(public_path().$data['img'])){
-                        unlink(public_path().$data['img']);
+                    if(file_exists(public_path().str_replace( 'http://'.$_SERVER['HTTP_HOST'], '', $data['img'] ))){
+                        unlink(public_path().str_replace( 'http://'.$_SERVER['HTTP_HOST'], '', $data['img'] ));
                     }
                     $image = $request['img'];
                     $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
@@ -164,8 +164,8 @@ class StoreController extends Controller
         try {
             $data = Store::find($store);
             if($data != null){
-                if(file_exists(public_path().$data['img'])){
-                    unlink(public_path().$data['img']);
+                if(file_exists(public_path().str_replace( 'http://'.$_SERVER['HTTP_HOST'], '', $data['img'] ))){
+                    unlink(public_path().str_replace( 'http://'.$_SERVER['HTTP_HOST'], '', $data['img'] ));
                 }
                 $data->delete();
                 return response()->json([
