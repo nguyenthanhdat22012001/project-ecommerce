@@ -92,22 +92,21 @@ class ProductController extends Controller
             'discount'=>$data['discount'],
             'slug'=>$data['slug']
         ]);
-//        if(count($data['attributes'])>= 1){
-//            foreach ($data['attributes'] as $item){
-//                Attribute::create([
-//                    'product_id'=>$product['id'],
-//                    'name' => $item['name'],
-//                    'quantity'=>$item['quantity']
-//                ]);
-//            }
-//
-//        }
-//        else{
-//            return response()->json([
-//                'success' => false,
-//                'message'=>  'Nhập tối thiểu 1 thuộc tính'
-//            ]);
-//        }
+        if((count($data['attributes'])) >= 1){
+            foreach ($data['attributes'] as $item){
+                Attribute::create([
+                    'product_id'=>$product['id'],
+                    'name' => $item['name'],
+                    'quantity'=>$item['quantity']
+                ]);
+            }
+        }
+        else{
+            return response()->json([
+                'success' => false,
+                'message'=>  'Nhập tối thiểu 1 thuộc tính'
+            ]);
+        }
 
         return response()->json([
             'success' => true,
@@ -134,7 +133,7 @@ class ProductController extends Controller
         try {
             $data = Product::find($product);
             $data['listimg'] = explode(",", $data['listimg']);
-            $data->attribute;
+            $data->attributes;
             $data->brand;
             $data->cate;
             if($data != null){
@@ -180,12 +179,14 @@ class ProductController extends Controller
                             unlink(public_path().str_replace( 'http://'.$_SERVER['HTTP_HOST'], '', $data['img'] ));
                         }
                         $image = $request['img'];
-//                        $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-//                        \Image::make($image)->save(public_path('images/').$name);
-                        $name = $image->getClientOriginalName();
+                        $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+                        \Image::make($image)->save(public_path('images/').$name);
+//                        $name = $image->getClientOriginalName();
                         $update['img'] ='http://'. $_SERVER['HTTP_HOST']. '/images/'.$name;
                     }
-                    $update['slug'] = Str::slug($update['name'],'-');
+                    if($update['name']){
+                        $update['slug'] = Str::slug($update['name'],'-');
+                    }
                     $data['listimg'] = explode(",", $data['listimg']);
 //                        if(count($update['listimg'])>count($data['listimg'])){
 //                            for($i=count($data['listimg']);$i<count($update['listimg']); $i++){
@@ -195,12 +196,12 @@ class ProductController extends Controller
 //                                $data['listimg'][$i] = $_SERVER['HTTP_HOST'].'/images/'.$name;
 //                            }
                             foreach ($update['listimg'] as $key => $list){
-                                if($key > count($data['listimg'])){
-                                $image = $update['listimg'][$key];
-//                                $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-//                                \Image::make($image)->save(public_path('images/').$name);
-                                $name = $image->getClientOriginalName();
-                                $data['listimg'][$key] ='http://'. $_SERVER['HTTP_HOST']. '/images/'.$name;
+                                if($key-1 > count($data['listimg'])){
+                                    $image = $update['listimg'][$key];
+                                    $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+                                    \Image::make($image)->save(public_path('images/').$name);
+    //                                $name = $image->getClientOriginalName();
+                                    $data['listimg'][$key] ='http://'. $_SERVER['HTTP_HOST']. '/images/'.$name;
                                 }
                                 else{
                                     if($list == $data['listimg'][$key]){
@@ -210,11 +211,33 @@ class ProductController extends Controller
                                         if(file_exists(public_path().str_replace( 'http://'.$_SERVER['HTTP_HOST'], '', $list ))){
                                             unlink(public_path().str_replace( 'http://'.$_SERVER['HTTP_HOST'], '', $list ));
                                         }
+                                        $image = $request['img'];
+                                        $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+                                        \Image::make($image)->save(public_path('images/').$name);
+//                                        $name = $image->getClientOriginalName();
+                                        $update['listimg'][$key] ='http://'. $_SERVER['HTTP_HOST']. '/images/'.$name;
                                     }
                                 }
-                        }
+                            }
+                    $update['listimg']= implode(",", $update['listimg']);
                     $data->update($update);
-                    return response()->json([
+                    Attribute::where('product_id',$data['id'])->delete();
+                    if((count($update['attributes'])) >= 1){
+                        foreach ($update['attributes'] as $item){
+                            Attribute::create([
+                                'product_id'=>$data['id'],
+                                'name' => $item['name'],
+                                'quantity'=>$item['quantity']
+                            ]);
+                        }
+                    }
+                    else{
+                        return response()->json([
+                            'success' => false,
+                            'message'=>  'Nhập tối thiểu 1 thuộc tính'
+                        ]);
+                    }
+                 return response()->json([
                         'success' => true,
                         'message'=>  'update thành công',
                         'data'=>$data
