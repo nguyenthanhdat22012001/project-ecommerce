@@ -50,7 +50,9 @@ class StoreController extends Controller
                 $image = $data['img'];
                 $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
                 \Image::make($image)->save(public_path('images/').$name);
-                $data['img'] = $_SERVER['HTTP_HOST']. 'public/images/'.$name;
+//                $name = $image->getClientOriginalName();
+
+                $data['img'] = $_SERVER['HTTP_HOST']. '/images/'.$name;
             }
             else{
                 return response()->json([
@@ -62,6 +64,7 @@ class StoreController extends Controller
             return response()->json([
                 'success' => true,
                 'message'=>  'Thêm thành công',
+                'data' =>  $data
             ]);
         }catch (\Exception $e) {
             return response()->json([
@@ -124,7 +127,7 @@ class StoreController extends Controller
                     $image = $request['img'];
                     $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
                     \Image::make($image)->save(public_path('images/').$name);
-                    $update['img'] = $_SERVER['HTTP_HOST']. 'public/images/'.$name;
+                    $update['img'] = $_SERVER['HTTP_HOST']. '/images/'.$name;
                 }
                 $update['slug'] = Str::slug($update['name'],'-');
                 $data->update($update);
