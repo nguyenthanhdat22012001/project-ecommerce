@@ -52,7 +52,7 @@ class ProductController extends Controller
             $image = $data['img'];
             $name = rand(10,100).time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
             \Image::make($image)->save(public_path('images/').$name);
-            $data['img'] = '/images/'.$name;
+            $data['img'] =$_SERVER['HTTP_HOST']. '/images/'.$name;
         }
         else{
             return response()->json([
@@ -65,7 +65,7 @@ class ProductController extends Controller
 //                    $image = $list;
 //                    $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
 ////                    \Image::make($image)->save(public_path('images/').$name);
-//                    $listimages[] = '/images/'.$name;
+//                    $listimages[] = $_SERVER['HTTP_HOST']. '/images/'.$name;
                 }
             }
             else{
@@ -179,7 +179,7 @@ class ProductController extends Controller
 //                        $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
 //                        \Image::make($image)->save(public_path('images/').$name);
                         $name = $image->getClientOriginalName();
-                        $update['img'] = '/images/'.$name;
+                        $update['img'] = $_SERVER['HTTP_HOST']. '/images/'.$name;
                     }
                     $update['slug'] = Str::slug($update['name'],'-');
                     $data['listimg'] = explode(",", $data['listimg']);
@@ -188,7 +188,7 @@ class ProductController extends Controller
 //                                $image = $update['listimg'][$i];
 //                                $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
 //                                \Image::make($image)->save(public_path('images/').$name);
-//                                $data['listimg'][$i] = '/images/'.$name;
+//                                $data['listimg'][$i] = $_SERVER['HTTP_HOST'].'/images/'.$name;
 //                            }
                             foreach ($update['listimg'] as $key => $list){
                                 if($key > count($data['listimg'])){
@@ -196,7 +196,7 @@ class ProductController extends Controller
 //                                $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
 //                                \Image::make($image)->save(public_path('images/').$name);
                                 $name = $image->getClientOriginalName();
-                                $data['listimg'][$key] = '/images/'.$name;
+                                $data['listimg'][$key] = $_SERVER['HTTP_HOST']. '/images/'.$name;
                                 }
                                 else{
 

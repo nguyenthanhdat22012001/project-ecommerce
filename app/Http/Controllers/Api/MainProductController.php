@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Coupon;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\CmtRating;
@@ -14,23 +15,20 @@ class MainProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_product_by(Request $request)
+    public function get_product_by( $key,$id)
     {
         try {
             $query = Product::query();
         //     $s = $request->input('search');
         //    $query->whereRaw("name LIKE '%". $s ."%'" )->orWhereRaw("description LIKE '%". $s ."%'" );
-        if($request->key == 'cate'){
-            $data = $query->whereRaw("cate_id = ". $request->value );
+        if($key == 'cate'){
+            $data = $query->whereRaw("cate_id = ". $id );
         }
-        if($request->key == 'brand'){
-            $data = $query->whereRaw("brand_id = ". $request->value );
+        if($key == 'brand'){
+            $data = $query->whereRaw("brand_id = ". $id );
         }
-        if($request->key == 'store'){
-            $data = $query->whereRaw("store_id = ". $request->value );
-        }
-        if($request->key == 'sort'){
-            $data = $query->orderBy( $request->value, $request->by);
+        if($key == 'store'){
+            $data = $query->whereRaw("store_id = ". $id );
         }
             return response()->json([
                 'success' => true,
@@ -40,8 +38,7 @@ class MainProductController extends Controller
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
-                'message'=>'lay du lieu that bai',
-                'errors'=>$e->getMessage()
+                'message'=>$e->getMessage()
             ]);
         }
     }
@@ -83,7 +80,18 @@ class MainProductController extends Controller
             ]);
         }
     }
-   
+    public function getCouponByStoreId($store_id)
+    {
+        try {
+            $data = Coupon::where('store_id',$store_id)->orWhere('store_id',null)->get();
+            return $data;
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>$e->getMessage()
+            ]);
+        }
+    }
 
 
 }
