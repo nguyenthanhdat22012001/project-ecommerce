@@ -172,8 +172,8 @@ class PostCmtController extends Controller
     {
         try {
             $data = PostCmt::find($postcmt_id);
-
                 if($data != null){
+                    PostCmt::where('parent_id',$data['id'])->delete();
                     $data->delete();
                     return response()->json([
                         'success' => true,

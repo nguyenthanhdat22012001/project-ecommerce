@@ -210,6 +210,8 @@ class PostsController extends Controller
         try {
             $post = Posts::find($post);
             if($post != null){
+                PostCmt::where('post_id',$post['id'])->delete();
+                ThumbsUpPost::where('post_id',$post['id'])->delete();
                 $post->delete();
                 return response()->json([
                     'success' => true,

@@ -46,8 +46,8 @@ class Category extends FormRequest
     {
         throw new HttpResponseException(response()->json([
             'success'   => false,
-            'message'   => 'Lỗi!',
-            'errors'      => $validator->errors()
+            'message'   => $validator->errors()->first(),
+
         ]));
     }
 }

@@ -24,6 +24,8 @@ class CreateProductTable extends Migration
             $table->text('listimg')->nullable();
             $table->longtext('description')->nullable();
             $table->longtext('shortdescription')->nullable();
+            $table->float('price',15,3);
+            $table->float('discount',15,3);
             $table->boolean('hide')->nullable();
             $table->integer('sort')->nullable();
             $table->timestamps();
