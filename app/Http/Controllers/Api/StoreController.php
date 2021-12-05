@@ -50,7 +50,7 @@ class StoreController extends Controller
                 $image = $data['img'];
                 $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
                 \Image::make($image)->save(public_path('images/').$name);
-                $data['img'] = '/images/'.$name;
+                $data['img'] = $_SERVER['HTTP_HOST']. 'public/images/'.$name;
             }
             else{
                 return response()->json([
@@ -124,7 +124,7 @@ class StoreController extends Controller
                     $image = $request['img'];
                     $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
                     \Image::make($image)->save(public_path('images/').$name);
-                    $update['img'] = '/images/'.$name;
+                    $update['img'] = $_SERVER['HTTP_HOST']. 'public/images/'.$name;
                 }
                 $update['slug'] = Str::slug($update['name'],'-');
                 $data->update($update);
