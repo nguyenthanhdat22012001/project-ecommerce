@@ -80,26 +80,22 @@ class ProductController extends Controller
             'cate_id'=>$data['cate_id'],
             'brand_id'=>$data['brand_id'],
             'name'  => $data['name'],
+            'price'  => $data['price'],
             'description'=>$data['description'],
             'shortdescription'=>$data['shortdescription'],
             'hide'=>$data['hide'],
             'img'=>$data['img'],
             'listimg'=>$data['listimg'],
             'slug'=>$data['slug'],
-            'sort'=>$data['sort'],
         ]);
-        if(count($data['name_att'])>= 1){
-            foreach ($data['name_att'] as $key => $att){
+        if(count($data['atributes'])>= 1){
+            foreach ($data['atributes'] as $item){
                 Attribute::create([
                     'product_id'=>$product['id'],
-                    'name' => $data['name_att'][$key],
-                    'style'=>$data['style'][$key],
-                    'quantity'=>$data['quantity'][$key],
-                    'price'=>$data['price'][$key],
-                    'discount'=>$data['discount'][$key]
+                    'name' => $item['name'],
+                    'quantity'=>$item['quantity'],
                 ]);
             }
-
         }
         else{
             return response()->json([
@@ -116,7 +112,7 @@ class ProductController extends Controller
     }catch (\Exception $e) {
         return response()->json([
             'success' => false,
-            'message'=>'Them that bai'
+            'message'=>$e->getMessage()
         ]);
     }
 
