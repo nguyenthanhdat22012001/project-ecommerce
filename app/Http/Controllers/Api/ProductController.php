@@ -50,9 +50,10 @@ class ProductController extends Controller
         $listimages=array();
         if($data['img']) {
             $image = $data['img'];
-            $name = rand(10,100).time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-            \Image::make($image)->save(public_path('images/').$name);
-            $data['img'] =$_SERVER['HTTP_HOST']. '/images/'.$name;
+//            $name = rand(10,100).time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+//            \Image::make($image)->save(public_path('images/').$name);
+            $name = $image->getClientOriginalName();
+            $data['img'] ='http://'.$_SERVER['HTTP_HOST']. '/images/'.$name;
         }
         else{
             return response()->json([
@@ -62,10 +63,11 @@ class ProductController extends Controller
         }
             if($data['listimg']) {
                 foreach ($data['listimg'] as $list){
-//                    $image = $list;
+                    $image = $list;
 //                    $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-////                    \Image::make($image)->save(public_path('images/').$name);
-//                    $listimages[] = $_SERVER['HTTP_HOST']. '/images/'.$name;
+//                    \Image::make($image)->save(public_path('images/').$name);
+                    $name = $image->getClientOriginalName();
+                    $listimages[] = 'http://'.$_SERVER['HTTP_HOST']. '/images/'.$name;
                 }
             }
             else{
@@ -90,22 +92,22 @@ class ProductController extends Controller
             'discount'=>$data['discount'],
             'slug'=>$data['slug']
         ]);
-        if(count($data['attributes'])>= 1){
-            foreach ($data['attributes'] as $item){
-                Attribute::create([
-                    'product_id'=>$product['id'],
-                    'name' => $item['name'],
-                    'style'=>$item['quantity']
-                ]);
-            }
-
-        }
-        else{
-            return response()->json([
-                'success' => false,
-                'message'=>  'Nhập tối thiểu 1 thuộc tính'
-            ]);
-        }
+//        if(count($data['attributes'])>= 1){
+//            foreach ($data['attributes'] as $item){
+//                Attribute::create([
+//                    'product_id'=>$product['id'],
+//                    'name' => $item['name'],
+//                    'quantity'=>$item['quantity']
+//                ]);
+//            }
+//
+//        }
+//        else{
+//            return response()->json([
+//                'success' => false,
+//                'message'=>  'Nhập tối thiểu 1 thuộc tính'
+//            ]);
+//        }
 
         return response()->json([
             'success' => true,
@@ -133,6 +135,8 @@ class ProductController extends Controller
             $data = Product::find($product);
             $data['listimg'] = explode(",", $data['listimg']);
             $data->attribute;
+            $data->brand;
+            $data->cate;
             if($data != null){
                 return response()->json([
                     'success' => true,
@@ -172,14 +176,14 @@ class ProductController extends Controller
                 if($data != null){
                     $update =  $request->all();
                     if($update['img']) {
-                        if(file_exists(public_path().$data['img'])){
-                            unlink(public_path().$data['img']);
+                        if(file_exists(public_path().str_replace( 'http://'.$_SERVER['HTTP_HOST'], '', $data['img'] ))){
+                            unlink(public_path().str_replace( 'http://'.$_SERVER['HTTP_HOST'], '', $data['img'] ));
                         }
                         $image = $request['img'];
 //                        $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
 //                        \Image::make($image)->save(public_path('images/').$name);
                         $name = $image->getClientOriginalName();
-                        $update['img'] = $_SERVER['HTTP_HOST']. '/images/'.$name;
+                        $update['img'] ='http://'. $_SERVER['HTTP_HOST']. '/images/'.$name;
                     }
                     $update['slug'] = Str::slug($update['name'],'-');
                     $data['listimg'] = explode(",", $data['listimg']);
@@ -196,10 +200,17 @@ class ProductController extends Controller
 //                                $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
 //                                \Image::make($image)->save(public_path('images/').$name);
                                 $name = $image->getClientOriginalName();
-                                $data['listimg'][$key] = $_SERVER['HTTP_HOST']. '/images/'.$name;
+                                $data['listimg'][$key] ='http://'. $_SERVER['HTTP_HOST']. '/images/'.$name;
                                 }
                                 else{
-
+                                    if($list == $data['listimg'][$key]){
+                                        $update['listimg'][$key] = $data['listimg'][$key];
+                                    }
+                                    else{
+                                        if(file_exists(public_path().str_replace( 'http://'.$_SERVER['HTTP_HOST'], '', $list ))){
+                                            unlink(public_path().str_replace( 'http://'.$_SERVER['HTTP_HOST'], '', $list ));
+                                        }
+                                    }
                                 }
                         }
                     $data->update($update);
@@ -297,13 +308,13 @@ class ProductController extends Controller
         try {
                 $data = Product::find($product);
                 if($data != null){
-                    if(file_exists(public_path().$data['img'])){
-                        unlink(public_path().$data['img']);
+                    if(file_exists(public_path().str_replace( 'http://'.$_SERVER['HTTP_HOST'], '', $data['img'] ))){
+                        unlink(public_path().str_replace( 'http://'.$_SERVER['HTTP_HOST'], '', $data['img'] ));
                     }
                     $data['listimg'] = explode(",", $data['listimg']);
                     foreach ($data['listimg'] as $list){
-                        if(file_exists(public_path().$list)){
-                            unlink(public_path().$list);
+                        if(file_exists(public_path().str_replace( 'http://'.$_SERVER['HTTP_HOST'], '', $list ))){
+                            unlink(public_path().str_replace( 'http://'.$_SERVER['HTTP_HOST'], '', $list ));
                         }
                     }
                     Attribute::where('product_id',$data['id'])->delete();
@@ -312,7 +323,7 @@ class ProductController extends Controller
                     return response()->json([
                         'success' => true,
                         'message'=>  'xóa thành công',
-                        'data'=>$data['listimg']
+                        'data'=>$data
                     ]);
                 }
                 else{

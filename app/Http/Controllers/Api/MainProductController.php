@@ -22,7 +22,7 @@ class MainProductController extends Controller
         //     $s = $request->input('search');
         //    $query->whereRaw("name LIKE '%". $s ."%'" )->orWhereRaw("description LIKE '%". $s ."%'" );
         if($key == 'cate'){
-            $data = $query->whereRaw("cate_id = ". $id );
+            $data = $query->whereRaw("cate_id = ". $id )->with('cate:id,name','brand:id,name');
         }
         if($key == 'brand'){
             $data = $query->whereRaw("brand_id = ". $id );
