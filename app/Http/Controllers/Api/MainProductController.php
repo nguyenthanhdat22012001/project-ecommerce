@@ -83,7 +83,7 @@ class MainProductController extends Controller
     public function getCouponByStoreId($store_id)
     {
         try {
-            $data = Coupon::where('store_id',$store_id)->orWhere('store_id',null)->get();
+            $data = Coupon::where('store_id',$store_id)->get();
             return $data;
         }catch (\Exception $e){
             return response()->json([
@@ -92,6 +92,17 @@ class MainProductController extends Controller
             ]);
         }
     }
-
+    public function getCouponForAll()
+    {
+        try {
+            $data = Coupon::where('store_id',null)->get();
+            return $data;
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>$e->getMessage()
+            ]);
+        }
+    }
 
 }
