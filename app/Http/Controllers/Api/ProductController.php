@@ -96,7 +96,7 @@ class ProductController extends Controller
                 Attribute::create([
                     'product_id'=>$product['id'],
                     'name' => $item['name'],
-                    'style'=>$item['quantity']
+                    'quantity'=>$item['quantity']
                 ]);
             }
         }
