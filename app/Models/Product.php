@@ -13,8 +13,16 @@ class Product extends Model
     protected $fillable =[
         'store_id','cate_id','brand_id','name','slug','img','listimg','description','shortdescription','hide','sort','price','discount'
     ];
-    public function attribute()
+    public function attributes()
     {
         return $this->hasMany(Attribute::class,'product_id', 'id');
+    }
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class,'brand_id', 'id');
+    }
+    public function cate()
+    {
+        return $this->belongsTo(Category::class,'brand_id', 'id');
     }
 }
