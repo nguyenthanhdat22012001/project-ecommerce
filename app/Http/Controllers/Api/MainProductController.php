@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;
+use App\Models\Order_detail;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\CmtRating;
@@ -80,23 +81,42 @@ class MainProductController extends Controller
             ]);
         }
     }
-    public function getCouponByStoreId($store_id)
+    public function getCoupon($store_id)
     {
         try {
-            $data = Coupon::where('store_id',$store_id)->get();
-            return $data;
-        }catch (\Exception $e){
-            return response()->json([
-                'success' => false,
-                'message'=>$e->getMessage()
-            ]);
-        }
-    }
-    public function getCouponForAll()
-    {
-        try {
-            $data = Coupon::where('store_id',null)->get();
-            return $data;
+            if($store_id == 0){
+                $data = Coupon::where('store_id',null)->get();
+                if(count($data)>0){
+                    return response()->json([
+                        'success' => true,
+                        'message'=>  'Tìm thành công',
+                        'data'=>$data
+                    ]);
+                }
+                else{
+                    return response()->json([
+                        'success' => false,
+                        'message'=>  'Trống',
+                    ]);
+                }
+            }
+            else{
+                $data = Coupon::where('store_id',$store_id)->get();
+                if(count($data)>0){
+                    return response()->json([
+                        'success' => true,
+                        'message'=>  'Tìm thành công',
+                        'data'=>$data
+                    ]);
+                }
+                else{
+                    return response()->json([
+                        'success' => false,
+                        'message'=>  'Trống',
+                    ]);
+                }
+
+            }
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -105,4 +125,36 @@ class MainProductController extends Controller
         }
     }
 
+    public function getTopSalesProduct()
+    {
+        try {
+            $data = Product::with('brand:name,id,slug','cate:name,id,slug')->orderBy('discount','desc')->limit(9)->get();
+            return response()->json([
+                'success' => true,
+                'message'=>  'Tìm thành công',
+                'data'=>$data
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>$e->getMessage()
+            ]);
+        }
+    }
+    public function getTopBuyProduct()
+    {
+        try {
+            $data = Product::withCount('order')->orderBy('order_count', 'desc')->limit(9)->get();
+            return response()->json([
+                'success' => true,
+                'message'=>  'Tìm thành công',
+                'data'=>$data
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>$e->getMessage()
+            ]);
+        }
+    }
 }
