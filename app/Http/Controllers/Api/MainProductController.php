@@ -157,4 +157,34 @@ class MainProductController extends Controller
             ]);
         }
     }
+    public function getTopProductRating()
+    {
+        try {
+            $data = Product::with('rating')->get();
+            foreach($data as $key => $value){
+                $point = 0;
+              foreach ($value['rating'] as $item){
+                  $point += $item['point'];
+              }
+              if($point > 0){
+                  $point = $point/count($value['rating']);
+              }
+              else{
+                  $point = 0;
+              }
+            $data[$key]['point']=$point;
+            }
+            $data = $data->sortByDesc('point');
+            return response()->json([
+                'success' => true,
+                'message'=>  'Tìm thành công',
+                'data'=>$data
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>$e->getMessage()
+            ]);
+        }
+    }
 }
