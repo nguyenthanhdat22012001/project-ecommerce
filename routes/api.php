@@ -58,6 +58,7 @@ Route::get('product/comments/{product_id}', [MainProductController::class, 'get_
 Route::get('product/topsale', [MainProductController::class, 'getTopSalesProduct']);
 Route::get('coupon/{store_id}', [MainProductController::class, 'getCoupon']);
 Route::get('product/topbuy', [MainProductController::class, 'getTopBuyProduct']);
+Route::get('product/toprating', [MainProductController::class, 'getTopProductRating']);
 Route::get('oderby/product/{key}/{id}', [MainProductController::class, 'get_product_by']);
 Route::apiresource('topics',TopicsController::class);
 /**************route post**************/
