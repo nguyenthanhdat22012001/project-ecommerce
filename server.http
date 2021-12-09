@@ -107,7 +107,25 @@ Content-Type: application/json
 ###
 GET http://127.0.0.1:8000/api/product/comments/9
 Content-Type: application/json
+###
+GET http://127.0.0.1:8000/api/coupons
+Content-Type: application/json
+#collection coupon
+###
+POST http://127.0.0.1:8000/api/collection-coupon
+Content-Type: application/json
 
+{
+    "user_id": 2,
+    "coupon_id": 1
+}
+###
+GET http://127.0.0.1:8000/api/collection-coupon/user/2
+Content-Type: application/json
+
+###
+DELETE  http://127.0.0.1:8000/api/collection-coupon/1
+Content-Type: application/json
 
 ###
 GET http://127.0.0.1:8000/api/admin/logout
