@@ -25,4 +25,11 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class,'cate_id', 'id');
     }
+    public function order()
+    {
+        return $this->hasMany(Order_detail::class,'product_id', 'id');
+    }
+    public function rating(){
+        return $this->hasMany(CmtRating::class,'product_id', 'id')->where('parent_id',null);
+    }
 }
