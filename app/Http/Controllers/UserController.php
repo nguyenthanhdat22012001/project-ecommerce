@@ -311,35 +311,34 @@ class UserController extends Controller
 
     public function loginWithGoogle(Request $request)
     {
-        $existingUser = User::where('email', $request->email)->first();
+        $data = $request->all();
+        $user = User::where('email', $data['email'])->first();
 
-        if ($existingUser) {
-            $store = Store::where('user_id',$existingUser->id)->first();
+        if ($user) {
+            $store = Store::where('user_id',$user->id)->first();
             if($store == null){
-                $existingUser['store_id'] = null;
+                $user['store_id'] = null;
             }else{
-                $existingUser['store_id'] = $store['id'];
+                $user['store_id'] = $store['id'];
             }
-            return response()->json([
-                'success' => true,
-                'message' => 'Đăng nhập thành công',
-                'data' => $existingUser,
-            ], 200);
         } else {
-            $newUser                    = new User;
-            $newUser->googleId          = $request->googleId;
-            $newUser->name              = $request->name;
-            $newUser->email             = $request->email;
-            $newUser->avatar            = $request->avatar;
-            $newUser->save();
-
-            $newUser['store_id'] = null;
-            return response()->json([
-                'success' => true,
-                'message' => 'Đăng nhập thành công',
-                'data' => $newUser
-            ], 200);
+            $data['password'] = bcrypt($data['googleId']);
+            $user = User::create($data);
+            $user['store_id'] = null;
         }
+        $credentials=[
+            "email" => $data['email'],
+            "password" => $data['googleId'],
+        ];
+        JWTAuth::factory()->setTTL(5);
+        $token = JWTAuth::attempt($credentials);
+        return response()->json([
+            'success' => true,
+            'message' => 'Đăng Nhập Thành Công',
+            'access_token' => $token,
+            'data' => $user,
+            'expires_in' => auth()->factory()->getTTL() * 60,
+        ], 200);
     }
 
     /**

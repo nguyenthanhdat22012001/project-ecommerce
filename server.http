@@ -95,6 +95,19 @@ Content-Type: application/json
 GET http://127.0.0.1:8000/api/posts_comment/2
 Content-Type: application/json
 
+###
+GET http://127.0.0.1:8000/api/product/detail/1kg-lap-xuong-tom-dac-san-soc-trang-lap-xuong-tom-loai-ngon-dac-biet-tpfood-bach-hoa-online
+Content-Type: application/json
+###
+GET http://127.0.0.1:8000/api/product/category/thoi-trang
+Content-Type: application/json
+###
+GET http://127.0.0.1:8000/api/product/store/nguyen-dat
+Content-Type: application/json
+###
+GET http://127.0.0.1:8000/api/product/comments/9
+Content-Type: application/json
+
 
 ###
 GET http://127.0.0.1:8000/api/admin/logout

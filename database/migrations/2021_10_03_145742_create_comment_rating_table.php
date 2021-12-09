@@ -19,7 +19,7 @@ class CreateCommentRatingTable extends Migration
             $table->integer('product_id')->unsigned();
             $table->tinyinteger('point')->nullable();
             $table->text('comment');
-            $table->integer('parent_id');
+            $table->integer('parent_id')->unsigned()->nullable();
             $table->boolean('hide')->nullable();
             $table->timestamps();
         });
