@@ -5,17 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Coupon extends Model
+class CollectionCoupon extends Model
 {
     use HasFactory;
-    protected $table = 'coupon';
+    protected $table = 'collection_coupons';
     protected $primaryKey = 'id';
     protected $fillable =[
-        'store_id','sku','name','price','date_begin','date_end','hide',
+        'coupon_id','user_id'
     ];
-
-    public function store()
+    public function coupon()
     {
-        return $this->belongsTo(Store::class,'store_id', 'id');
+        return $this->belongsTo(Coupon::class,'coupon_id','id');
     }
 }

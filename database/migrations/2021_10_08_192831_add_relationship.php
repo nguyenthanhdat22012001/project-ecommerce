@@ -45,10 +45,6 @@ class AddRelationship extends Migration
            $table->foreign('product_id')->references('id')->on('product');
            $table->foreign('parent_id')->references('id')->on('comment_rating');
        });
-       Schema::table('thumbs_up_posts', function (Blueprint $table) {
-           $table->foreign('user_id')->references('id')->on('user');
-           $table->foreign('post_id')->references('id')->on('posts');
-       });
        Schema::table('comment_post', function (Blueprint $table) {
            $table->foreign('parent_id')->references('id')->on('comment_post');
            $table->foreign('user_id')->references('id')->on('user');
@@ -65,6 +61,14 @@ class AddRelationship extends Migration
        Schema::table('attribute_product', function (Blueprint $table) {
            $table->foreign('product_id')->references('id')->on('product');
        });
+       Schema::table('thumbs_up_posts', function (Blueprint $table) {
+        $table->foreign('user_id')->references('id')->on('user');
+        $table->foreign('post_id')->references('id')->on('posts');
+    });
+       Schema::table('collection_coupons', function (Blueprint $table) {
+        $table->foreign('coupon_id')->references('id')->on('coupon');
+        $table->foreign('user_id')->references('id')->on('user');
+    });
     }
 
     /**

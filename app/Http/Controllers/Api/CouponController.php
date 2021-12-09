@@ -18,7 +18,7 @@ class CouponController extends Controller
     public function index()
     {
         try {
-            $data = Coupon::all();
+            $data = Coupon::with('store')->get();
             return response()->json([
                 'success' => true,
                 'message'=>  'lấy dữ liệu thành công',

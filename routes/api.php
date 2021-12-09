@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\PostCmtController;
 use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\StoreController;
 use App\Http\Controllers\Api\ThumbsUpPostController;
+use App\Http\Controllers\Api\CollectionCouponController;
 use App\Http\Controllers\Admin\CategoryAdmin;
 
 
@@ -40,16 +41,15 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     //client
     Route::get('profile', [UserController::class, 'get_user']);
     Route::post('profile/change-password', [UserController::class, 'change_password']);
-
-    //seller
-    Route::apiResource('coupons', CouponController::class);
     //log out
     Route::get('logout', [UserController::class, 'logout']);
-    Route::apiResource('coupons', CouponController::class);
     Route::apiResource('brands', BrandController::class);
     Route::apiResource('stores', StoreController::class);
 
 });
+    //seller
+    Route::apiResource('coupons', CouponController::class);
+    
 Route::apiResource('products', ProductController::class);
 
 Route::get('search', [SearchController::class, 'search']);
@@ -82,8 +82,10 @@ Route::get('check-user-like-post', [ThumbsUpPostController::class,'getUserThumsU
 Route::get('posts_comment', [PostCmtController::class,'index']);
 Route::get('posts_comment/{id}', [PostCmtController::class,'getCommentByPostId']);
 Route::post('posts_comment', [PostCmtController::class,'store']);
-
-
+//collection coupon
+Route::post('collection-coupon', [CollectionCouponController::class,'store']);
+Route::get('collection-coupon/user/{user_id}', [CollectionCouponController::class,'getCouponOfUser']);
+Route::delete('collection-coupon/{id}', [CollectionCouponController::class,'destroy']);
 
 
 //route admin
