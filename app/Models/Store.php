@@ -13,5 +13,8 @@ class Store extends Model
     protected $fillable =[
         'user_id','cate_id','name','slug','address','img','phone','description','hide'
     ];
-
+    public function follow()
+    {
+        return $this->hasMany(Store_collection::class,'store_id', 'id');
+    }
 }

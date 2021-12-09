@@ -49,7 +49,7 @@ Route::group(['middleware' => 'jwt.verify'], function () {
 });
     //seller
     Route::apiResource('coupons', CouponController::class);
-    
+
 Route::apiResource('products', ProductController::class);
 
 Route::get('search', [SearchController::class, 'search']);
@@ -60,6 +60,7 @@ Route::get('product/topsale', [MainProductController::class, 'getTopSalesProduct
 Route::get('coupon/{store_id}', [MainProductController::class, 'getCoupon']);
 Route::get('product/topbuy', [MainProductController::class, 'getTopBuyProduct']);
 Route::get('product/toprating', [MainProductController::class, 'getTopProductRating']);
+Route::get('store/topfollow', [MainProductController::class, 'getTopStoreFollow']);
 Route::get('oderby/product/{key}/{id}', [MainProductController::class, 'get_product_by']);
 Route::get('product/detail/{slug}', [MainProductController::class, 'getProductBySlug']);
 Route::get('product/category/{slug}', [MainProductController::class, 'getProductByCategorySlug']);

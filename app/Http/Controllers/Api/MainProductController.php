@@ -62,7 +62,7 @@ class MainProductController extends Controller
             $category = Category::where('slug',$slug)->first();
             if (!empty($category)) {
                 $products = Product::where('cate_id','=',$category->id)->get();
-          
+
                     return response()->json([
                         'success' => true,
                         'message'=>'Lay du lieu thanh cong',
@@ -71,7 +71,7 @@ class MainProductController extends Controller
                             'products' =>  $products,
                         ]
                     ]);
-          
+
             }else{
                 return response()->json([
                     'success' => false,
@@ -99,7 +99,7 @@ class MainProductController extends Controller
             $store = Store::where('slug',$slug)->first();
             if (!empty($store)) {
                 $products = Product::where('store_id','=',$store->id)->get();
-          
+
                     return response()->json([
                         'success' => true,
                         'message'=>'Lay du lieu thanh cong',
@@ -108,7 +108,7 @@ class MainProductController extends Controller
                             'products' =>  $products,
                         ]
                     ]);
-          
+
             }else{
                 return response()->json([
                     'success' => false,
@@ -294,6 +294,22 @@ class MainProductController extends Controller
             $data[$key]['point']=$point;
             }
             $data = $data->sortByDesc('point');
+            return response()->json([
+                'success' => true,
+                'message'=>  'Tìm thành công',
+                'data'=>$data
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>$e->getMessage()
+            ]);
+        }
+    }
+    public function getTopStoreFollow()
+    {
+        try {
+            $data = Store::withCount('follow')->orderBy('follow_count', 'desc')->limit(5)->get();
             return response()->json([
                 'success' => true,
                 'message'=>  'Tìm thành công',

@@ -32,4 +32,5 @@ class Product extends Model
     public function rating(){
         return $this->hasMany(CmtRating::class,'product_id', 'id')->where('parent_id',null);
     }
+
 }
