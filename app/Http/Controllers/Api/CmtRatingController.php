@@ -44,42 +44,14 @@ class CmtRatingController extends Controller
     public function store(CommentStore $request)
     {
         try {
-            $data = $request->all();
-            if($data['parent_id']== null){
-                if($data['point']!= null){
-                    CmtRating::create($data);
-                    return response()->json([
-                        'success' => true,
-                        'message'=>  'Comment thành công',
-                        'data'=>$data
-                    ]);
-                }
-                else{
-                    return response()->json([
-                        'success' => false,
-                        'message'=>'Chưa chấm điểm',
-                        'data'=>$data
-                    ]);
-                }
-            }
-            else{
-                if($data['point'] == null){
-                    CmtRating::create($data);
-                    return response()->json([
-                        'success' => true,
-                        'message'=>  'Reply thành công',
-                        'data'=>$data
-                    ]);
-                }
-                else{
-                    return response()->json([
-                        'success' => false,
-                        'message'=>  'Bình luận con không chấm điểm',
-                        'data'=>$data
-                    ]);
-                }
+           $data = $request->all();
+           $newComment = CmtRating::create($data);
 
-            }
+           return response()->json([
+            'success' => true,
+            'message'=>  'Comment thành công',
+            'data'=>$newComment
+        ]);
 
         }catch (\Exception $e){
             return response()->json([

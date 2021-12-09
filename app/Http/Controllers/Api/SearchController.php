@@ -15,9 +15,10 @@ class SearchController extends Controller
      */
     public function search(Request $request)
     {
+        $data = $request->all();
     try {
        $query = Product::query();
-       $s = $request->input('search');
+       $s = $data['search'];
            $query->whereRaw("name LIKE '%". $s ."%'" )->orWhereRaw("description LIKE '%". $s ."%'" );
        return response()->json([
         'success' => true,
@@ -27,7 +28,7 @@ class SearchController extends Controller
     }catch (\Exception $e) {
         return response()->json([
             'success' => false,
-            'message'=>'Tìm kiếm thất bại'
+            'message'=> $e->getMessage()
         ]);
     }
     }

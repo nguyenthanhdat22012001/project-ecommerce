@@ -23,7 +23,7 @@ class Product extends Model
     }
     public function cate()
     {
-        return $this->belongsTo(Category::class,'brand_id', 'id');
+        return $this->belongsTo(Category::class,'cate_id', 'id');
     }
     public function order()
     {

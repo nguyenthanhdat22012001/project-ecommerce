@@ -40,7 +40,7 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     //client
     Route::get('profile', [UserController::class, 'get_user']);
     Route::post('profile/change-password', [UserController::class, 'change_password']);
-    Route::apiResource('comments', CmtRatingController::class);
+
     //seller
     Route::apiResource('coupons', CouponController::class);
     //log out
@@ -53,14 +53,21 @@ Route::group(['middleware' => 'jwt.verify'], function () {
 Route::apiResource('products', ProductController::class);
 
 Route::get('search', [SearchController::class, 'search']);
-Route::post('products/update/{product_id}', [ProductController::class,'update_product']);
+// Route::post('products/update/{product_id}', [ProductController::class,'update_product']);
+
 Route::get('product/comments/{product_id}', [MainProductController::class, 'get_comment_by_product']);
 Route::get('product/topsale', [MainProductController::class, 'getTopSalesProduct']);
 Route::get('coupon/{store_id}', [MainProductController::class, 'getCoupon']);
 Route::get('product/topbuy', [MainProductController::class, 'getTopBuyProduct']);
 Route::get('product/toprating', [MainProductController::class, 'getTopProductRating']);
 Route::get('oderby/product/{key}/{id}', [MainProductController::class, 'get_product_by']);
-Route::apiresource('topics',TopicsController::class);
+Route::get('product/detail/{slug}', [MainProductController::class, 'getProductBySlug']);
+Route::get('product/category/{slug}', [MainProductController::class, 'getProductByCategorySlug']);
+Route::get('product/store/{slug}', [MainProductController::class, 'getProductByStoreSlug']);
+    //comment
+Route::apiResource('comments', CmtRatingController::class);
+
+// Route::apiresource('topics',TopicsController::class);
 /**************route post**************/
  Route::apiresource('posts',PostsController::class);
 Route::get('posts', [PostsController::class,'index']);

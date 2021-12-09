@@ -260,66 +260,7 @@ class ProductController extends Controller
         }
 
     }
-//    public function update_product(ProductUpdate $request, $product)
-//    {
-//        try {
-//            $data = Product::find($product);
-//            if($data != null){
-//                $update =  $request->all();
-//                if($update->hasFile('img')) {
-//                    if(file_exists(public_path().$data['img'])){
-//                        unlink(public_path().$data['img']);
-//                    }
-//                    $image = $request['img'];
-////                        $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-////                        \Image::make($image)->save(public_path('images/').$name);
-//                    $name = $image->getClientOriginalName();
-//                    $update['img'] = '/images/'.$name;
-//                }
-//                $update['slug'] = Str::slug($update['name'],'-');
-//                $data['listimg'] = explode(",", $data['listimg']);
-////                        if(count($update['listimg'])>count($data['listimg'])){
-////                            for($i=count($data['listimg']);$i<count($update['listimg']); $i++){
-////                                $image = $update['listimg'][$i];
-////                                $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-////                                \Image::make($image)->save(public_path('images/').$name);
-////                                $data['listimg'][$i] = '/images/'.$name;
-////                            }
-//                foreach ($update['listimg'] as $key => $list){
-//                    if($key > count($data['listimg'])){
-//                        $image = $list;
-////                                $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-////                                \Image::make($image)->save(public_path('images/').$name);
-//                        $name = $image->getClientOriginalName();
-//                        $data['listimg'][$key] = '/images/'.$name;
-//                    }
-//                    else{
-//
-//                    }
-//                }
-//                $data->update($update);
-//                return response()->json([
-//                    'success' => true,
-//                    'message'=>  'update thành công',
-//                    'data'=>$data
-//                ]);
-//            }
-//            else{
-//                return response()->json([
-//                    'success' => false,
-//                    'message'=>'Dữ liệu không tồn tại'
-//                ]);
-//            }
-//
-//        }catch (\Exception $e){
-//            return response()->json([
-//                'success' => false,
-//                'message'=>'update du lieu that bai',
-//                'errors'=>$e->getMessage()
-//            ]);
-//        }
-//
-//    }
+
 
     /**
      * Remove the specified resource from storage.
