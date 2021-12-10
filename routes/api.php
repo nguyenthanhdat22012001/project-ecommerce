@@ -15,6 +15,8 @@ use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\StoreController;
 use App\Http\Controllers\Api\ThumbsUpPostController;
 use App\Http\Controllers\Api\CollectionCouponController;
+use App\Http\Controllers\Api\CollectionProductController;
+use App\Http\Controllers\Api\CollectionStoreController;
 use App\Http\Controllers\Admin\CategoryAdmin;
 
 
@@ -83,10 +85,21 @@ Route::get('check-user-like-post', [ThumbsUpPostController::class,'getUserThumsU
 Route::get('posts_comment', [PostCmtController::class,'index']);
 Route::get('posts_comment/{id}', [PostCmtController::class,'getCommentByPostId']);
 Route::post('posts_comment', [PostCmtController::class,'store']);
+
 //collection coupon
 Route::post('collection-coupon', [CollectionCouponController::class,'store']);
 Route::get('collection-coupon/user/{user_id}', [CollectionCouponController::class,'getCouponOfUser']);
 Route::delete('collection-coupon/{id}', [CollectionCouponController::class,'destroy']);
+//collection product
+Route::post('collection-product', [CollectionProductController::class,'store']);
+Route::get('collection-product/user/{user_id}', [CollectionProductController::class,'getProductUserFavorite']);
+Route::delete('collection-product', [CollectionProductController::class,'destroy']);
+Route::get('collection-product/user-favorite-product', [CollectionProductController::class,'checkUserFavoriteProduct']);
+//collection store
+Route::post('collection-store', [CollectionStoreController::class,'store']);
+Route::get('collection-store/user/{user_id}', [CollectionStoreController::class,'getStoreUserFollow']);
+Route::delete('collection-store', [CollectionStoreController::class,'destroy']);
+Route::get('collection-store/user-follow-store', [CollectionStoreController::class,'checkUserFollowStore']);
 
 
 //route admin

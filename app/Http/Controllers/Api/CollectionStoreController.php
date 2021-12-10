@@ -3,12 +3,48 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\CollectionCoupon;
-use App\Models\Coupon;
+use App\Models\CollectionStore;
 use Illuminate\Http\Request;
 
-class CollectionCouponController extends Controller
+class CollectionStoreController extends Controller
 {
+        /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function checkUserFollowStore(Request $request)
+    {         
+        $data = $request->all();
+        try {
+ 
+            $result = CollectionStore::where('user_id','=',$data['user_id'])
+            ->where('store_id','=',$data['store_id'])
+            ->first();
+
+            if($result != null){
+                return response()->json([
+                    'success' => true,
+                    'message'=>  'User đã theo dõi cửa hàng',
+                    'data'=>$result
+                    ]);
+            }
+            else{
+                return response()->json([
+                    'success' => false,
+                    'message'=>'User chưa theo dõi cửa hàng'
+                ]);
+            }
+            
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>$e->getMessage(),
+            ],500);
+        }
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -20,21 +56,21 @@ class CollectionCouponController extends Controller
     {
         try {
             $data = $request->all();
-            $userHaveCoupon = CollectionCoupon::where('coupon_id',$data['coupon_id'])
+            $userHaveCoupon = CollectionStore::where('store_id',$data['store_id'])
             ->where('user_id',$data['user_id'])
             ->first();
 
             if(empty($userHaveCoupon)){
-                $result = CollectionCoupon::create($data);
+                $result = CollectionStore::create($data);
                 return response()->json([
                     'success' => true,
-                    'message'=>  'Đã thêm mã giảm giá',
+                    'message'=>  'Đã thêm vào danh sách cửa hàng theo dõi',
                     'data'=> $result 
                 ]);
             }
             return response()->json([
                 'success' => true,
-                'message'=>  'Đã thêm mã giảm giá',
+                'message'=>  'Đã thêm vào danh sách cửa hàng theo dõi',
             ]);
 
         }catch (\Exception $e){
@@ -49,13 +85,13 @@ class CollectionCouponController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\CollectionCoupon  $coupon
+     * @param  \App\Models\CollectionStore  $coupon
      * @return \Illuminate\Http\Response
      */
-    public function getCouponOfUser($user_id)
+    public function getStoreUserFollow($user_id)
     {
         try {
-            $data = CollectionCoupon::with('coupon')->where('user_id',$user_id)->get();
+            $data = CollectionStore::with('store')->where('user_id',$user_id)->get();
 
             if($data != null) {
                 return response()->json([
@@ -67,7 +103,7 @@ class CollectionCouponController extends Controller
             else{
                 return response()->json([
                     'success' => false,
-                    'message'=>'Dữ liệu không tồn tại'
+                    'message'=>'Cửa hàng không tồn tại'
                 ]);
             }
 
@@ -79,28 +115,32 @@ class CollectionCouponController extends Controller
         }
     }
 
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\CollectionCoupon  $coupon
+     * @param  \App\Models\CollectionStore  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($coupon)
+    public function destroy(Request $request)
     {
         try {
-            $data = CollectionCoupon::find($coupon);
+            $data = CollectionStore::where('store_id',$request['store_id'])
+            ->where('user_id',$request['user_id'])
+            ->first();
+
             if($data != null){
                 $data->delete();
                 return response()->json([
                     'success' => true,
-                    'message'=>  'Đã xóa khỏi danh sách voucher của bạn',
+                    'message'=>  'Đã xóa khỏi danh sách cửa hàng theo dõi',
                     'data'=>$data
                 ]);
             }
             else{
                 return response()->json([
                     'success' => false,
-                    'message'=>'Dữ liệu không tồn tại'
+                    'message'=>'Cửa hàng không tồn tại'
                 ]);
             }
 

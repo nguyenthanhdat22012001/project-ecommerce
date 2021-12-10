@@ -27,6 +27,7 @@ class MainProductController extends Controller
             $data->attributes;
             $data->brand;
             $data->cate;
+            $data->store;
             if($data != null){
                 return response()->json([
                     'success' => true,
