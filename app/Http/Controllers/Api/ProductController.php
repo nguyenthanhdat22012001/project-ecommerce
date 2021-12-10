@@ -169,7 +169,7 @@ class ProductController extends Controller
                                 unlink(public_path().str_replace( 'http://'.$_SERVER['HTTP_HOST'], '', $data['img'] ));
                             }
                             $image = $request['img'];
-                            $name = rand(10,100).time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+                            $name = rand(10,1000).time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
                             \Image::make($image)->save(public_path('images/').$name);
     //                        $name = $image->getClientOriginalName();
                             $update['img'] ='http://'. $_SERVER['HTTP_HOST']. '/images/'.$name;

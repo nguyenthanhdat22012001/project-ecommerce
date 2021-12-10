@@ -48,11 +48,11 @@ class StoreController extends Controller
             $data['slug'] = Str::slug($data['name'],'-');
             if($data['img']) {
                 $image = $data['img'];
-                $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+                $name = rand(10,1000).time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
                 \Image::make($image)->save(public_path('images/').$name);
 //                $name = $image->getClientOriginalName();
 
-                $data['img'] = $_SERVER['HTTP_HOST']. '/images/'.$name;
+                $data['img'] = 'http://'.$_SERVER['HTTP_HOST']. '/images/'.$name;
             }
             else{
                 return response()->json([

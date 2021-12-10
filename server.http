@@ -127,6 +127,41 @@ Content-Type: application/json
 DELETE  http://127.0.0.1:8000/api/collection-coupon/1
 Content-Type: application/json
 
+#collection product
+###
+POST http://127.0.0.1:8000/api/collection-product
+Content-Type: application/json
+
+{
+    "user_id": 2,
+    "product_id": 8
+}
+###
+GET http://127.0.0.1:8000/api/collection-product/user/2
+Content-Type: application/json
+
+###
+DELETE  http://127.0.0.1:8000/api/collection-product/1
+Content-Type: application/json
+
+
+#collection store
+###
+POST http://127.0.0.1:8000/api/collection-store
+Content-Type: application/json
+
+{
+    "user_id": 2,
+    "store_id": 2
+}
+###
+GET http://127.0.0.1:8000/api/collection-store/user/2
+Content-Type: application/json
+
+###
+DELETE  http://127.0.0.1:8000/api/collection-store/1
+Content-Type: application/json
+
 ###
 GET http://127.0.0.1:8000/api/admin/logout
 Content-Type: application/json
