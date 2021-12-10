@@ -70,9 +70,8 @@ Route::get('product/store/{slug}', [MainProductController::class, 'getProductByS
     //comment
 Route::apiResource('comments', CmtRatingController::class);
 
-// Route::apiresource('topics',TopicsController::class);
 /**************route post**************/
- Route::apiresource('posts',PostsController::class);
+
 Route::get('posts', [PostsController::class,'index']);
 Route::get('topposts', [PostsController::class,'getTop10PostComment']);
 Route::get('posts/{slug}', [PostsController::class,'getPostBySlug']);
@@ -80,6 +79,7 @@ Route::post('posts', [PostsController::class,'store']);
 Route::post('like-post', [ThumbsUpPostController::class,'thumbsUpPost']);
 Route::post('remove-like-post', [ThumbsUpPostController::class,'removeThumbsUpPost']);
 Route::get('check-user-like-post', [ThumbsUpPostController::class,'getUserThumsUp']);
+Route::get('posts/thumb-up/{post_id}', [ThumbsUpPostController::class,'getThumsUpByPost']);
 /**************route post**************/
 // Route::apiresource('posts_comment',PostCmtController::class);
 Route::get('posts_comment', [PostCmtController::class,'index']);
