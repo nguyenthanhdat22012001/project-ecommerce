@@ -116,10 +116,6 @@ class PostsController extends Controller
         try {
             $post = Posts::where('slug','=',$slug)->first();
             if($post != null){
-                $totalComment = PostCmt::where('post_id',$post->id)->get();
-                $post['totalComment'] =  count($totalComment);
-                $totalThumb = ThumbsUpPost::where('post_id',$post->id)->get();
-                $post['totalThumb'] =  count($totalThumb);
                 return response()->json([
                     'success' => true,
                     'message'=>'Lay du lieu thanh cong',
