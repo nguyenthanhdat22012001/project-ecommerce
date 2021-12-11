@@ -14,12 +14,12 @@ class AddRelationship extends Migration
     public function up()
     {
        Schema::table('store', function (Blueprint $table) {
-           $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade')->onUpdate('cascade');;
+           $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade')->onUpdate('cascade');
        });
        Schema::table('product', function (Blueprint $table) {
-           $table->foreign('store_id')->references('id')->on('store');
-           $table->foreign('cate_id')->references('id')->on('category');
-           $table->foreign('brand_id')->references('id')->on('brand');
+           $table->foreign('store_id')->references('id')->on('store')->onDelete('cascade')->onUpdate('cascade');
+           $table->foreign('cate_id')->references('id')->on('category')->onDelete('cascade')->onUpdate('cascade');
+           $table->foreign('brand_id')->references('id')->on('brand')->onDelete('cascade')->onUpdate('cascade');
        });
        Schema::table('collection_store', function (Blueprint $table) {
            $table->foreign('store_id')->references('id')->on('store');
