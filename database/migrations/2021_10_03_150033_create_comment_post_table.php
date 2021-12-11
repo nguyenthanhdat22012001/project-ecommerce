@@ -18,7 +18,7 @@ class CreateCommentPostTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('post_id')->unsigned();
             $table->text('comment');
-            $table->integer('parent_id')->nullable()->unsigned();
+            $table->integer('parent_id')->nullable();
             $table->boolean('hide')->nullable();
             $table->timestamps();
         });
