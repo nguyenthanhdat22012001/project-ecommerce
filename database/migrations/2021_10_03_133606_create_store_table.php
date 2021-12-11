@@ -17,7 +17,7 @@ class CreateStoreTable extends Migration
             $table->increments('id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->string('name');
-            $table->string('slug',100)->nullable();
+            $table->string('slug',255)->nullable();
             $table->string('address');
             $table->string('img');
             $table->string('phone',10);

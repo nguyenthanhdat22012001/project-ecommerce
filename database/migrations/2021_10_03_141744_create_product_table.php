@@ -19,7 +19,7 @@ class CreateProductTable extends Migration
             $table->integer('cate_id')->unsigned();
             $table->integer('brand_id')->unsigned();
             $table->string('name', 200);
-            $table->string('slug', 100)->nullable();
+            $table->string('slug', 255)->nullable();
             $table->string('img');
             $table->text('listimg')->nullable();
             $table->longtext('description')->nullable();

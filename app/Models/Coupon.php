@@ -13,4 +13,9 @@ class Coupon extends Model
     protected $fillable =[
         'store_id','sku','name','price','date_begin','date_end','hide',
     ];
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class,'store_id', 'id');
+    }
 }

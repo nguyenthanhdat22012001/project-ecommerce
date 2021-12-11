@@ -13,7 +13,7 @@ class Product extends Model
     protected $fillable =[
         'store_id','cate_id','brand_id','name','slug','img','listimg','description','shortdescription','hide','sort','price','discount'
     ];
-    public function attribute()
+    public function attributes()
     {
         return $this->hasMany(Attribute::class,'product_id', 'id');
     }
@@ -21,12 +21,19 @@ class Product extends Model
     {
         return $this->belongsTo(Brand::class,'brand_id', 'id');
     }
-    public function cate()
-    {
-        return $this->belongsTo(Category::class,'brand_id', 'id');
-    }
     public function store()
     {
-        return $this->hasOne(Store::class,'id','store_id');
+        return $this->belongsTo(Store::class,'store_id', 'id');
+    }
+    public function cate()
+    {
+        return $this->belongsTo(Category::class,'cate_id', 'id');
+    }
+    public function order()
+    {
+        return $this->hasMany(Order_detail::class,'product_id', 'id');
+    }
+    public function rating(){
+        return $this->hasMany(CmtRating::class,'product_id', 'id')->where('parent_id',null);
     }
 }

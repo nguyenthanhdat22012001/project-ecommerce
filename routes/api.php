@@ -14,6 +14,9 @@ use App\Http\Controllers\Api\PostCmtController;
 use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\StoreController;
 use App\Http\Controllers\Api\ThumbsUpPostController;
+use App\Http\Controllers\Api\CollectionCouponController;
+use App\Http\Controllers\Api\CollectionProductController;
+use App\Http\Controllers\Api\CollectionStoreController;
 use App\Http\Controllers\Admin\CategoryAdmin;
 use App\Http\Controllers\CartController;
 
@@ -41,20 +44,35 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     //client
     Route::get('profile', [UserController::class, 'get_user']);
     Route::post('profile/change-password', [UserController::class, 'change_password']);
-    Route::apiResource('comments', CmtRatingController::class);
-    //seller
-    Route::apiResource('coupons', CouponController::class);
     //log out
     Route::get('logout', [UserController::class, 'logout']);
+    Route::apiResource('brands', BrandController::class);
+    Route::apiResource('stores', StoreController::class);
 
 });
+    //seller
+    Route::apiResource('coupons', CouponController::class);
+
 Route::apiResource('products', ProductController::class);
 
 Route::get('search', [SearchController::class, 'search']);
-Route::post('products/update/{product_id}', [ProductController::class,'update_product']);
+// Route::post('products/update/{product_id}', [ProductController::class,'update_product']);
+
 Route::get('product/comments/{product_id}', [MainProductController::class, 'get_comment_by_product']);
+Route::get('product/topsale', [MainProductController::class, 'getTopSalesProduct']);
+Route::get('product/getall', [MainProductController::class, 'getAllProduct']);
+Route::get('coupon/{store_id}', [MainProductController::class, 'getCoupon']);
+Route::get('product/topbuy', [MainProductController::class, 'getTopBuyProduct']);
+Route::get('product/toprating', [MainProductController::class, 'getTopProductRating']);
+Route::get('store/topfollow', [MainProductController::class, 'getTopStoreFollow']);
 Route::get('oderby/product/{key}/{id}', [MainProductController::class, 'get_product_by']);
-Route::apiresource('topics',TopicsController::class);
+Route::get('product/detail/{slug}', [MainProductController::class, 'getProductBySlug']);
+Route::get('product/category/{slug}', [MainProductController::class, 'getProductByCategorySlug']);
+Route::get('product/store/{slug}', [MainProductController::class, 'getProductByStoreSlug']);
+    //comment
+Route::apiResource('comments', CmtRatingController::class);
+
+// Route::apiresource('topics',TopicsController::class);
 /**************route post**************/
  Route::apiresource('posts',PostsController::class);
 Route::get('posts', [PostsController::class,'index']);
@@ -70,9 +88,20 @@ Route::get('posts_comment', [PostCmtController::class,'index']);
 Route::get('posts_comment/{id}', [PostCmtController::class,'getCommentByPostId']);
 Route::post('posts_comment', [PostCmtController::class,'store']);
 
-Route::apiResource('coupons', CouponController::class);
-Route::apiResource('brands', BrandController::class);
-Route::apiResource('stores', StoreController::class);
+//collection coupon
+Route::post('collection-coupon', [CollectionCouponController::class,'store']);
+Route::get('collection-coupon/user/{user_id}', [CollectionCouponController::class,'getCouponOfUser']);
+Route::delete('collection-coupon/{id}', [CollectionCouponController::class,'destroy']);
+//collection product
+Route::post('collection-product', [CollectionProductController::class,'store']);
+Route::get('collection-product/user/{user_id}', [CollectionProductController::class,'getProductUserFavorite']);
+Route::delete('collection-product', [CollectionProductController::class,'destroy']);
+Route::get('collection-product/user-favorite-product', [CollectionProductController::class,'checkUserFavoriteProduct']);
+//collection store
+Route::post('collection-store', [CollectionStoreController::class,'store']);
+Route::get('collection-store/user/{user_id}', [CollectionStoreController::class,'getStoreUserFollow']);
+Route::delete('collection-store', [CollectionStoreController::class,'destroy']);
+Route::get('collection-store/user-follow-store', [CollectionStoreController::class,'checkUserFollowStore']);
 
 
 //route admin

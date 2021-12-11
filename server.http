@@ -95,6 +95,72 @@ Content-Type: application/json
 GET http://127.0.0.1:8000/api/posts_comment/2
 Content-Type: application/json
 
+###
+GET http://127.0.0.1:8000/api/product/detail/1kg-lap-xuong-tom-dac-san-soc-trang-lap-xuong-tom-loai-ngon-dac-biet-tpfood-bach-hoa-online
+Content-Type: application/json
+###
+GET http://127.0.0.1:8000/api/product/category/thoi-trang
+Content-Type: application/json
+###
+GET http://127.0.0.1:8000/api/product/store/nguyen-dat
+Content-Type: application/json
+###
+GET http://127.0.0.1:8000/api/product/comments/9
+Content-Type: application/json
+###
+GET http://127.0.0.1:8000/api/coupons
+Content-Type: application/json
+#collection coupon
+###
+POST http://127.0.0.1:8000/api/collection-coupon
+Content-Type: application/json
+
+{
+    "user_id": 2,
+    "coupon_id": 1
+}
+###
+GET http://127.0.0.1:8000/api/collection-coupon/user/2
+Content-Type: application/json
+
+###
+DELETE  http://127.0.0.1:8000/api/collection-coupon/1
+Content-Type: application/json
+
+#collection product
+###
+POST http://127.0.0.1:8000/api/collection-product
+Content-Type: application/json
+
+{
+    "user_id": 2,
+    "product_id": 8
+}
+###
+GET http://127.0.0.1:8000/api/collection-product/user/2
+Content-Type: application/json
+
+###
+DELETE  http://127.0.0.1:8000/api/collection-product/1
+Content-Type: application/json
+
+
+#collection store
+###
+POST http://127.0.0.1:8000/api/collection-store
+Content-Type: application/json
+
+{
+    "user_id": 2,
+    "store_id": 2
+}
+###
+GET http://127.0.0.1:8000/api/collection-store/user/2
+Content-Type: application/json
+
+###
+DELETE  http://127.0.0.1:8000/api/collection-store/1
+Content-Type: application/json
 
 ###
 GET http://127.0.0.1:8000/api/admin/logout
