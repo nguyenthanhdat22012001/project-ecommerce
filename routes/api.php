@@ -8,13 +8,14 @@ use App\Http\Controllers\Api\CouponController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\CmtRatingController;
 use App\Http\Controllers\Api\MainProductController;
-use App\Http\Controllers\Api\TopicsController;
+//use App\Http\Controllers\Api\TopicsController;
 use App\Http\Controllers\Api\PostsController;
 use App\Http\Controllers\Api\PostCmtController;
 use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\StoreController;
 use App\Http\Controllers\Api\ThumbsUpPostController;
 use App\Http\Controllers\Admin\CategoryAdmin;
+use App\Http\Controllers\CartController;
 
 
 /*
@@ -84,3 +85,4 @@ Route::group(['middleware' => ['jwt.verify','admin']], function () {
 
 });
 Route::apiResource('/admin/category',CategoryAdmin::class);
+Route::post('/add-to-cart',[CartController::class, 'addToCart']);

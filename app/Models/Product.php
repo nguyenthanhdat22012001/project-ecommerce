@@ -25,4 +25,8 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class,'brand_id', 'id');
     }
+    public function store()
+    {
+        return $this->hasOne(Store::class,'id','store_id');
+    }
 }
