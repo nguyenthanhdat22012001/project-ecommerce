@@ -59,6 +59,7 @@ Route::get('search', [SearchController::class, 'search']);
 
 Route::get('product/comments/{product_id}', [MainProductController::class, 'get_comment_by_product']);
 Route::get('product/topsale', [MainProductController::class, 'getTopSalesProduct']);
+Route::get('product/getall', [MainProductController::class, 'getAllProduct']);
 Route::get('coupon/{store_id}', [MainProductController::class, 'getCoupon']);
 Route::get('product/topbuy', [MainProductController::class, 'getTopBuyProduct']);
 Route::get('product/toprating', [MainProductController::class, 'getTopProductRating']);
