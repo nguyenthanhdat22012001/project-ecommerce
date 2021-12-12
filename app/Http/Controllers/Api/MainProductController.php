@@ -146,10 +146,17 @@ class MainProductController extends Controller
         if($key == 'store'){
             $data = $query->whereRaw("store_id = ". $id );
         }
+        $result = $data->get();
+        foreach ( $result  as $item) {
+            $sumStars = CmtRating::where('product_id',$item->id)->avg('point');
+             $item->totalRating = floor($sumStars);
+             $totalComment = count(CmtRating::where('product_id',$item->id)->get());
+             $item->totalComment = $totalComment;
+        }
             return response()->json([
                 'success' => true,
                 'message'=>  'lấy dữ liệu thành công',
-                'data'=>$data->get()
+                'data'=>$result
         ]);
         }catch (\Exception $e){
             return response()->json([
@@ -206,36 +213,21 @@ class MainProductController extends Controller
         try {
             if($store_id == 0){
                 $data = Coupon::where('store_id',null)->get();
-                if(count($data)>0){
+    
                     return response()->json([
                         'success' => true,
                         'message'=>  'Tìm thành công',
                         'data'=>$data
                     ]);
-                }
-                else{
-                    return response()->json([
-                        'success' => false,
-                        'message'=>  'Trống',
-                    ]);
-                }
             }
             else{
                 $data = Coupon::where('store_id',$store_id)->get();
-                if(count($data)>0){
+
                     return response()->json([
                         'success' => true,
                         'message'=>  'Tìm thành công',
                         'data'=>$data
                     ]);
-                }
-                else{
-                    return response()->json([
-                        'success' => false,
-                        'message'=>  'Trống',
-                    ]);
-                }
-
             }
         }catch (\Exception $e){
             return response()->json([
@@ -281,20 +273,11 @@ class MainProductController extends Controller
     {
         try {
             $data = Product::with('rating')->get();
-            foreach($data as $key => $value){
-                $point = 0;
-              foreach ($value['rating'] as $item){
-                  $point += $item['point'];
-              }
-              if($point > 0){
-                  $point = $point/count($value['rating']);
-              }
-              else{
-                  $point = 0;
-              }
-            $data[$key]['point']=$point;
+            foreach ( $data  as $item) {
+                $sumStars = CmtRating::where('product_id',$item->id)->avg('point');
+                $item->totalRating = floor($sumStars);
             }
-            $data = $data->sortByDesc('point');
+            $data = $data->sortByDesc('totalRating');
             return response()->json([
                 'success' => true,
                 'message'=>  'Tìm thành công',
