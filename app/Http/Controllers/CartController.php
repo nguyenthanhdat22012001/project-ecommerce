@@ -12,6 +12,8 @@ class CartController extends Controller
    protected $product;
    protected $totalPrice;
    protected $quantity;
+   public $cart;
+
    public function addToCart(Request $request){
         $product_id=$request->product_id;
 //       $product_qty=$request->product_qty;
@@ -34,3 +36,5 @@ class CartController extends Controller
         }
    }
 }
+
+
