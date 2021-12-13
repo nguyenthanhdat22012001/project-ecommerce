@@ -142,23 +142,17 @@ class MainProductController extends Controller
         if($key == 'store'){
             $data = Product::whereRaw("store_id = ". $id )->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->get();
         }
-            foreach($data as $key => $value){
-                $point = 0;
-                foreach ($value['rating'] as $item){
-                    $point += $item['point'];
-                }
-                if($point > 0){
-                    $point = $point/count($value['rating']);
-                }
-                else{
-                    $point = 0;
-                }
-                $data[$key]['point']=$point;
-            }
+        // $result = $data->get();
+        foreach (  $data  as $item) {
+            $sumStars = CmtRating::where('product_id',$item->id)->avg('point');
+             $item->totalRating = floor($sumStars);
+             $totalComment = count(CmtRating::where('product_id',$item->id)->get());
+             $item->totalComment = $totalComment;
+        }
             return response()->json([
                 'success' => true,
                 'message'=>  'lấy dữ liệu thành công',
-                'data'=>$data
+                'data'=> $data
         ]);
         }catch (\Exception $e){
             return response()->json([
@@ -192,8 +186,7 @@ class MainProductController extends Controller
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
-                'message'=>'tim du lieu that bai',
-                'errors'=>$e->getMessage()
+                'message'=>$e->getMessage(),
             ]);
         }
     }
@@ -215,36 +208,21 @@ class MainProductController extends Controller
         try {
             if($store_id == 0){
                 $data = Coupon::where('store_id',null)->get();
-                if(count($data)>0){
+    
                     return response()->json([
                         'success' => true,
                         'message'=>  'Tìm thành công',
                         'data'=>$data
                     ]);
-                }
-                else{
-                    return response()->json([
-                        'success' => false,
-                        'message'=>  'Trống',
-                    ]);
-                }
             }
             else{
                 $data = Coupon::where('store_id',$store_id)->get();
-                if(count($data)>0){
+
                     return response()->json([
                         'success' => true,
                         'message'=>  'Tìm thành công',
                         'data'=>$data
                     ]);
-                }
-                else{
-                    return response()->json([
-                        'success' => false,
-                        'message'=>  'Trống',
-                    ]);
-                }
-
             }
         }catch (\Exception $e){
             return response()->json([
@@ -302,21 +280,12 @@ class MainProductController extends Controller
     public function getTopProductRating()
     {
         try {
-            $data = Product::with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->get();
-            foreach($data as $key => $value){
-                $point = 0;
-              foreach ($value['rating'] as $item){
-                  $point += $item['point'];
-              }
-              if($point > 0){
-                  $point = $point/count($value['rating']);
-              }
-              else{
-                  $point = 0;
-              }
-            $data[$key]['point']=$point;
+            $data = Product::with('rating')->get();
+            foreach ( $data  as $item) {
+                $sumStars = CmtRating::where('product_id',$item->id)->avg('point');
+                $item->totalRating = floor($sumStars);
             }
-            $data = $data->sortByDesc('point');
+            $data = $data->sortByDesc('totalRating');
             return response()->json([
                 'success' => true,
                 'message'=>  'Tìm thành công',

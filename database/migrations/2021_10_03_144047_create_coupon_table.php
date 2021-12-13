@@ -19,6 +19,7 @@ class CreateCouponTable extends Migration
             $table->string('sku');
             $table->string('name');
             $table->float('price',15,3);
+            $table->float('condition',15,3);
             $table->date('date_begin');
             $table->date('date_end');
             $table->boolean('hide')->nullable();

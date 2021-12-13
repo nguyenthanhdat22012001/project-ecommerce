@@ -11,7 +11,7 @@ class Coupon extends Model
     protected $table = 'coupon';
     protected $primaryKey = 'id';
     protected $fillable =[
-        'store_id','sku','name','price','date_begin','date_end','hide',
+        'store_id','sku','name','price','date_begin','date_end','hide','condition',
     ];
 
     public function store()
