@@ -8,7 +8,7 @@ use App\Http\Controllers\Api\CouponController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\CmtRatingController;
 use App\Http\Controllers\Api\MainProductController;
-use App\Http\Controllers\Api\TopicsController;
+//use App\Http\Controllers\Api\TopicsController;
 use App\Http\Controllers\Api\PostsController;
 use App\Http\Controllers\Api\PostCmtController;
 use App\Http\Controllers\Api\BrandController;
@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\CollectionCouponController;
 use App\Http\Controllers\Api\CollectionProductController;
 use App\Http\Controllers\Api\CollectionStoreController;
 use App\Http\Controllers\Admin\CategoryAdmin;
+use App\Http\Controllers\CartController;
 
 
 /*
@@ -51,7 +52,7 @@ Route::group(['middleware' => 'jwt.verify'], function () {
 });
     //seller
     Route::apiResource('coupons', CouponController::class);
-    
+
 Route::apiResource('products', ProductController::class);
 
 Route::get('search', [SearchController::class, 'search']);
@@ -59,9 +60,11 @@ Route::get('search', [SearchController::class, 'search']);
 
 Route::get('product/comments/{product_id}', [MainProductController::class, 'get_comment_by_product']);
 Route::get('product/topsale', [MainProductController::class, 'getTopSalesProduct']);
+Route::get('product/getall', [MainProductController::class, 'getAllProduct']);
 Route::get('coupon/{store_id}', [MainProductController::class, 'getCoupon']);
 Route::get('product/topbuy', [MainProductController::class, 'getTopBuyProduct']);
 Route::get('product/toprating', [MainProductController::class, 'getTopProductRating']);
+Route::get('store/topfollow', [MainProductController::class, 'getTopStoreFollow']);
 Route::get('oderby/product/{key}/{id}', [MainProductController::class, 'get_product_by']);
 Route::get('product/detail/{slug}', [MainProductController::class, 'getProductBySlug']);
 Route::get('product/category/{slug}', [MainProductController::class, 'getProductByCategorySlug']);
@@ -69,8 +72,9 @@ Route::get('product/store/{slug}', [MainProductController::class, 'getProductByS
     //comment
 Route::apiResource('comments', CmtRatingController::class);
 
+// Route::apiresource('topics',TopicsController::class);
 /**************route post**************/
-
+ Route::apiresource('posts',PostsController::class);
 Route::get('posts', [PostsController::class,'index']);
 Route::get('topposts', [PostsController::class,'getTop10PostComment']);
 Route::get('posts/{slug}', [PostsController::class,'getPostBySlug']);
@@ -78,7 +82,6 @@ Route::post('posts', [PostsController::class,'store']);
 Route::post('like-post', [ThumbsUpPostController::class,'thumbsUpPost']);
 Route::post('remove-like-post', [ThumbsUpPostController::class,'removeThumbsUpPost']);
 Route::get('check-user-like-post', [ThumbsUpPostController::class,'getUserThumsUp']);
-Route::get('posts/thumb-up/{post_id}', [ThumbsUpPostController::class,'getThumsUpByPost']);
 /**************route post**************/
 // Route::apiresource('posts_comment',PostCmtController::class);
 Route::get('posts_comment', [PostCmtController::class,'index']);
@@ -111,3 +114,4 @@ Route::group(['middleware' => ['jwt.verify','admin']], function () {
 
 });
 Route::apiResource('/admin/category',CategoryAdmin::class);
+Route::post('/add-to-cart',[CartController::class, 'addToCart']);

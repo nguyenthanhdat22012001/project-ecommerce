@@ -22,12 +22,8 @@ class MainProductController extends Controller
     public function getProductBySlug($slug)
     {
         try {
-            $data = Product::where('slug',$slug)->first();
+            $data = Product::where('slug',$slug)->with('attributes','rating','brand','cate','store')->first();
             $data['listimg'] = explode(",", $data['listimg']);
-            $data->attributes;
-            $data->brand;
-            $data->cate;
-            $data->store;
             if($data != null){
                 return response()->json([
                     'success' => true,
@@ -62,8 +58,8 @@ class MainProductController extends Controller
         try {
             $category = Category::where('slug',$slug)->first();
             if (!empty($category)) {
-                $products = Product::where('cate_id','=',$category->id)->get();
-          
+                $products = Product::where('cate_id','=',$category->id)->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->get();
+
                     return response()->json([
                         'success' => true,
                         'message'=>'Lay du lieu thanh cong',
@@ -72,7 +68,7 @@ class MainProductController extends Controller
                             'products' =>  $products,
                         ]
                     ]);
-          
+
             }else{
                 return response()->json([
                     'success' => false,
@@ -99,8 +95,8 @@ class MainProductController extends Controller
         try {
             $store = Store::where('slug',$slug)->first();
             if (!empty($store)) {
-                $products = Product::where('store_id','=',$store->id)->get();
-          
+                $products = Product::where('store_id','=',$store->id)->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->get();
+
                     return response()->json([
                         'success' => true,
                         'message'=>'Lay du lieu thanh cong',
@@ -109,7 +105,7 @@ class MainProductController extends Controller
                             'products' =>  $products,
                         ]
                     ]);
-          
+
             }else{
                 return response()->json([
                     'success' => false,
@@ -134,20 +130,20 @@ class MainProductController extends Controller
     public function get_product_by( $key,$id)
     {
         try {
-            $query = Product::query();
+//            $query = query();
         //     $s = $request->input('search');
         //    $query->whereRaw("name LIKE '%". $s ."%'" )->orWhereRaw("description LIKE '%". $s ."%'" );
         if($key == 'cate'){
-            $data = $query->whereRaw("cate_id = ". $id )->with('cate:id,name','brand:id,name');
+            $data = Product::whereRaw("cate_id = ". $id )->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->get();
         }
         if($key == 'brand'){
-            $data = $query->whereRaw("brand_id = ". $id );
+            $data = Product::whereRaw("brand_id = ". $id )->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->get();
         }
         if($key == 'store'){
-            $data = $query->whereRaw("store_id = ". $id );
+            $data = Product::whereRaw("store_id = ". $id )->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->get();
         }
-        $result = $data->get();
-        foreach ( $result  as $item) {
+        // $result = $data->get();
+        foreach (  $data  as $item) {
             $sumStars = CmtRating::where('product_id',$item->id)->avg('point');
              $item->totalRating = floor($sumStars);
              $totalComment = count(CmtRating::where('product_id',$item->id)->get());
@@ -156,7 +152,7 @@ class MainProductController extends Controller
             return response()->json([
                 'success' => true,
                 'message'=>  'lấy dữ liệu thành công',
-                'data'=>$result
+                'data'=> $data
         ]);
         }catch (\Exception $e){
             return response()->json([
@@ -190,8 +186,7 @@ class MainProductController extends Controller
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
-                'message'=>'tim du lieu that bai',
-                'errors'=>$e->getMessage()
+                'message'=>$e->getMessage(),
             ]);
         }
     }
@@ -240,7 +235,7 @@ class MainProductController extends Controller
     public function getTopSalesProduct()
     {
         try {
-            $data = Product::with('brand:name,id,slug','cate:name,id,slug')->orderBy('discount','desc')->limit(9)->get();
+            $data = Product::with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->orderBy('discount','desc')->limit(9)->get();
             return response()->json([
                 'success' => true,
                 'message'=>  'Tìm thành công',
@@ -256,7 +251,20 @@ class MainProductController extends Controller
     public function getTopBuyProduct()
     {
         try {
-            $data = Product::withCount('order')->orderBy('order_count', 'desc')->limit(9)->get();
+            $data = Product::withCount('order')->orderBy('order_count', 'desc')->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->limit(9)->get();
+            foreach($data as $key => $value){
+                $point = 0;
+                foreach ($value['rating'] as $item){
+                    $point += $item['point'];
+                }
+                if($point > 0){
+                    $point = $point/count($value['rating']);
+                }
+                else{
+                    $point = 0;
+                }
+                $data[$key]['point']=$point;
+            }
             return response()->json([
                 'success' => true,
                 'message'=>  'Tìm thành công',
@@ -278,6 +286,51 @@ class MainProductController extends Controller
                 $item->totalRating = floor($sumStars);
             }
             $data = $data->sortByDesc('totalRating');
+            return response()->json([
+                'success' => true,
+                'message'=>  'Tìm thành công',
+                'data'=>$data
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>$e->getMessage()
+            ]);
+        }
+    }
+    public function getTopStoreFollow()
+    {
+        try {
+            $data = Store::withCount('follow')->orderBy('follow_count', 'desc')->limit(5)->get();
+            return response()->json([
+                'success' => true,
+                'message'=>  'Tìm thành công',
+                'data'=>$data
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>$e->getMessage()
+            ]);
+        }
+    }
+    public function getAllProduct()
+    {
+        try {
+          $data=Product::with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->orderBy('created_at','DESC')->get();
+            foreach($data as $key => $value){
+                $point = 0;
+                foreach ($value['rating'] as $item){
+                    $point += $item['point'];
+                }
+                if($point > 0){
+                    $point = $point/count($value['rating']);
+                }
+                else{
+                    $point = 0;
+                }
+                $data[$key]['point']=$point;
+            }
             return response()->json([
                 'success' => true,
                 'message'=>  'Tìm thành công',

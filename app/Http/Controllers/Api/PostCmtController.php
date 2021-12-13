@@ -43,19 +43,14 @@ class PostCmtController extends Controller
             $data = PostCmt::with('user:id,name')
             ->where('post_id',$post_id)
             ->where('parent_id','=',null)
-            ->orderBy('created_at', 'desc')
             ->get();
             foreach ($data as $key => $cmt){
                $data[$key]['sub_comments'] = $this->getSubCommentByCommentId($cmt['id']);
             }
-            $totalComment = count(PostCmt::where('post_id',$post_id) ->get());
-
             return response()->json([
                 'success' => true,
-                'data'=>[
-                    'listComment' => $data ,
-                    'totalComment' =>  $totalComment
-                ]
+                'message'=>  'lấy dữ liệu thành công',
+                'data'=>$data
             ]);
         }catch (\Exception $e){
             return response()->json([
