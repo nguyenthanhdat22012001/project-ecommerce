@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Brand;
+use App\Models\Payment;
 use Illuminate\Http\Request;
-use App\Http\Requests\BrandStore;
-use App\Http\Requests\BrandUpdate;
 use Illuminate\Support\Str;
 
-class BrandController extends Controller
+class PaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +17,7 @@ class BrandController extends Controller
     public function index()
     {
         try {
-            $data = Brand::all();
+            $data = Payment::all();
             return response()->json([
                 'success' => true,
                 'message'=>  'lấy dữ liệu thành công',
@@ -40,12 +38,11 @@ class BrandController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BrandStore $request)
+    public function store(Request $request)
     {
         try {
             $data = $request->all();
-            $data['slug'] = Str::slug($data['name'],'-');
-            Brand::create($data);
+            Payment::create($data);
             return response()->json([
                 'success' => true,
                 'message'=>  'Thêm thành công',
@@ -63,13 +60,13 @@ class BrandController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Brand  $brand
+     * @param  \App\Models\Payment  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($brand)
+    public function show($id)
     {
         try {
-            $data = Brand::find($brand);
+            $data = Payment::find($id);
             if($data != null) {
                 return response()->json([
                     'success' => true,
@@ -96,16 +93,15 @@ class BrandController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Brand  $brand
+     * @param  \App\Models\Payment  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(BrandUpdate $request, $brand)
+    public function update(Request $request, $id)
     {
         try {
-            $data = Brand::find($brand);
+            $data = Payment::find($id);
             if($data != null){
             $update =  $request->all();
-            $update['slug'] = Str::slug($update['name'],'-');
             $data->update( $update);
             return response()->json([
                 'success' => true,
@@ -131,13 +127,13 @@ class BrandController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Brand  $brand
+     * @param  \App\Models\Payment  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($brand)
+    public function destroy($id)
     {
         try {
-            $data = Brand::find($brand);
+            $data = Payment::find($id);
             if($data != null){
                 $data->delete();
                 return response()->json([

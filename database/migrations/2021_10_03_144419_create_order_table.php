@@ -13,18 +13,22 @@ class CreateOrderTable extends Migration
      */
     public function up()
     {
-        Schema::create('order', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->integer('coupon_id')->unsigned();
-            $table->integer('payment_id')->unsigned();
-            $table->integer('user_id')->unsigned();
-            $table->string('name',200);
-            $table->string('address');
-            $table->string('phone',10);
-            $table->text('note');
-            $table->tinyinteger('status');
-            $table->float('shippingprice',15,3)->nullable();
+            $table->string('coupon_sku',255)->nullable();
+            $table->float('coupon_price',15,3)->nullable();
+            $table->integer('payment_id')->unsigned()->nullable();
+            $table->integer('parent_id')->unsigned()->nullable();
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->integer('store_id')->unsigned()->nullable();
+            $table->string('name',200)->nullable();
+            $table->string('address')->nullable();
+            $table->string('phone',10)->nullable();
+            $table->text('note')->nullable();
+            $table->tinyinteger('status')->default(1);
+            $table->float('shippingprice',15,3);
             $table->float('totalprice',15,3);
+            $table->integer('totalQuantity');
             $table->timestamps();
         });
     }
