@@ -47,11 +47,6 @@ class CategoryAdmin extends Controller
     {
         try {
         $data=$request->all();
-        if($request->hasFile('img'))
-        {
-            $image=$request->file('img');
-            $data['img']=ImageProcess($image); //ham helper xu ly file anh
-        }
         $getSlug=$request->slug;
         if($getSlug!=''){
             $slug=Str::slug($getSlug);
@@ -118,12 +113,6 @@ class CategoryAdmin extends Controller
 //        $category=ModelCategory::findOrFail($id);
         try {
             $data = $request->all();
-            //Xu ly file img ->public/storage/images
-            if ($request->hasFile('img'))
-            {
-                $image = $request->file('img');
-                $data['img'] = ImageProcess($image); //ham helper xu ly file anh
-            }
                     //Xu ly slug
             $getSlug = $request->slug;
             if ($getSlug != '') {
