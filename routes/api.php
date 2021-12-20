@@ -50,7 +50,7 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     //log out
     Route::get('logout', [UserController::class, 'logout']);
     Route::apiResource('brands', BrandController::class);
-  
+
     Route::apiResource('stores', StoreController::class);
 
 });
@@ -114,12 +114,12 @@ Route::get('collection-store/user-follow-store', [CollectionStoreController::cla
 Route::post('/admin/login', [UserController::class,'loginAdmin']);
 
 Route::group(['middleware' => ['jwt.verify','admin']], function () {
-//    Route::apiResource('/admin/category',CategoryAdmin::class);
+    Route::apiResource('/admin/category',CategoryAdmin::class);
     //logout
     Route::get('/admin/logout', [UserController::class, 'logout']);
 
 });
-Route::apiResource('/admin/category',CategoryAdmin::class);
+//Route::apiResource('/admin/category',CategoryAdmin::class);
 Route::post('/add-to-cart',[CartController::class, 'addToCart']);
 Route::post('/check-out',[OrderController::class, 'postOrder']);
 Route::get('/order/get-order-user-and-id',[OrderController::class, 'getOrderByUserAndId']);
