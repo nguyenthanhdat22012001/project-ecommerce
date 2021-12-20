@@ -50,8 +50,8 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     //log out
     Route::get('logout', [UserController::class, 'logout']);
     Route::apiResource('brands', BrandController::class);
-  
-    Route::apiResource('stores', StoreController::class);
+      Route::apiResource('stores', StoreController::class);
+
 
 });
 Route::apiResource('payment', PaymentController::class);
