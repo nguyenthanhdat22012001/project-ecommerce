@@ -11,10 +11,10 @@ class Order_detail extends Model
     protected $table = 'order_detail';
     protected $primaryKey = 'id';
     protected $fillable =[
-        'order_id','product_id','amount','price','product_name'
+        'order_id','product_id','amount','order_id','product_price','product_name','product_img','product_slug','attribute_name'
     ];
     public function product()
     {
-        return $this->belongsTo(Product::class,'product_id', 'id');
+        return $this->hasMany(Product::class,'product_id', 'id');
     }
 }

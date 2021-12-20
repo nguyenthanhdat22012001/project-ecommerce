@@ -172,6 +172,35 @@ Content-Type: application/json
     "qty": 1
 }
 
+#payment
+###
+POST http://127.0.0.1:8000/api/payment
+Content-Type: application/json
+
+{
+    "name": "oke la",
+    "fee_shipping": 150000
+}
+
+###
+PUT http://127.0.0.1:8000/api/payment/2
+Content-Type: application/json
+
+{
+    "name": "oke la",
+    "fee_shipping": 120000
+}
+
+###
+GET http://127.0.0.1:8000/api/dash-board/general/store/3
+Content-Type: application/json
+###
+GET http://127.0.0.1:8000/api/dash-board/revenue-month/store/3
+Content-Type: application/json
+###
+GET http://127.0.0.1:8000/api/dash-board/product-trend/store/3
+Content-Type: application/json
+
 ###
 GET http://127.0.0.1:8000/api/admin/logout
 Content-Type: application/json

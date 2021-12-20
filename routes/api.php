@@ -12,11 +12,14 @@ use App\Http\Controllers\Api\MainProductController;
 use App\Http\Controllers\Api\PostsController;
 use App\Http\Controllers\Api\PostCmtController;
 use App\Http\Controllers\Api\BrandController;
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\StoreController;
 use App\Http\Controllers\Api\ThumbsUpPostController;
 use App\Http\Controllers\Api\CollectionCouponController;
 use App\Http\Controllers\Api\CollectionProductController;
 use App\Http\Controllers\Api\CollectionStoreController;
+use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\DoashboardController;
 use App\Http\Controllers\Admin\CategoryAdmin;
 use App\Http\Controllers\CartController;
 
@@ -47,9 +50,11 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     //log out
     Route::get('logout', [UserController::class, 'logout']);
     Route::apiResource('brands', BrandController::class);
+  
     Route::apiResource('stores', StoreController::class);
 
 });
+Route::apiResource('payment', PaymentController::class);
     //seller
     Route::apiResource('coupons', CouponController::class);
 
@@ -72,9 +77,9 @@ Route::get('product/store/{slug}', [MainProductController::class, 'getProductByS
     //comment
 Route::apiResource('comments', CmtRatingController::class);
 
-// Route::apiresource('topics',TopicsController::class);
+
 /**************route post**************/
- Route::apiresource('posts',PostsController::class);
+
 Route::get('posts', [PostsController::class,'index']);
 Route::get('topposts', [PostsController::class,'getTop10PostComment']);
 Route::get('posts/{slug}', [PostsController::class,'getPostBySlug']);
@@ -82,6 +87,7 @@ Route::post('posts', [PostsController::class,'store']);
 Route::post('like-post', [ThumbsUpPostController::class,'thumbsUpPost']);
 Route::post('remove-like-post', [ThumbsUpPostController::class,'removeThumbsUpPost']);
 Route::get('check-user-like-post', [ThumbsUpPostController::class,'getUserThumsUp']);
+Route::get('posts/thumb-up/{post_id}', [ThumbsUpPostController::class,'getThumsUpByPostId']);
 /**************route post**************/
 // Route::apiresource('posts_comment',PostCmtController::class);
 Route::get('posts_comment', [PostCmtController::class,'index']);
@@ -115,3 +121,15 @@ Route::group(['middleware' => ['jwt.verify','admin']], function () {
 });
 Route::apiResource('/admin/category',CategoryAdmin::class);
 Route::post('/add-to-cart',[CartController::class, 'addToCart']);
+Route::post('/check-out',[OrderController::class, 'postOrder']);
+Route::get('/order/get-order-user-and-id',[OrderController::class, 'getOrderByUserAndId']);
+Route::get('/order/user/{id}',[OrderController::class, 'getOrdersUserId']);
+Route::put('/order/{id}',[OrderController::class, 'updateStatusOrder']);
+Route::get('/order/store/{id}',[OrderController::class, 'getOrdersByStoreId']);
+Route::get('/order/admin',[OrderController::class, 'getOrdersAdmin']);
+Route::get('/order/{id}',[OrderController::class, 'getOrderById']);
+
+
+Route::get('dash-board/general/store/{store_id}',[DoashboardController::class, 'statisticsGeneralOfStore']);
+Route::get('dash-board/revenue-month/store/{store_id}',[DoashboardController::class, 'statisticsRevenueMonthOfStore']);
+Route::get('dash-board/product-trend/store/{store_id}',[DoashboardController::class, 'statisticsProductHotTrendByMonth']);

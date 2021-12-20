@@ -117,4 +117,30 @@ class ThumbsUpPostController extends Controller
             ],500);
         }
     }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getThumsUpByPostId($post_id)
+    {         
+        try {
+            $totalThumb = count(ThumbsUpPost::where('post_id','=',$post_id)->get());
+
+                return response()->json([
+                    'success' => true,
+                    'message'=>  'Lấy lượt thích thành công',
+                    'data'=>[
+                        "totalThumb" => $totalThumb,
+                        ],
+                    ]);
+    
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>$e->getMessage(),
+            ],500);
+        }
+    }
 }
