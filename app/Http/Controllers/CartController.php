@@ -17,12 +17,10 @@ class CartController extends Controller
    public $cart;
 
    public function addToCart(Request $request){
-
         try {
             $product=Product::with('store:id,name,slug,img')
             ->select('id','name','store_id','slug','img','price','discount')
             ->where('id',$request->product_id)->first();
-
             if($product){
 
                 $attribute=Attribute::select('id','product_id','name','quantity as maxQuantity')
@@ -60,6 +58,7 @@ class CartController extends Controller
             ]);
         }
    }
+
 }
 
 
