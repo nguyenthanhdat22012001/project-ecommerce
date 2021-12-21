@@ -22,9 +22,10 @@ class CartController extends Controller
             ->select('id','name','store_id','slug','img','price','discount')
             ->where('id',$request->product_id)->first();
             if($product){
-                $attribute=Attribute::select('id','product_id','name','quantity')
+
+                $attribute=Attribute::select('id','product_id','name','quantity as maxQuantity')
                 ->where('id',$request->attribute_id)->first();
-                if($attribute->quantity < $request->quantity){
+                if($attribute->maxQuantity < $request->quantity){
                     return response()->json([
                         'success' => false,
                         'message'=> "Số lượng sản phẩm không đủ"

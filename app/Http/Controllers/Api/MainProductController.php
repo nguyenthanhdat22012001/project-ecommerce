@@ -22,8 +22,16 @@ class MainProductController extends Controller
     public function getProductBySlug($slug)
     {
         try {
-            $data = Product::where('slug',$slug)->with('attributes','rating','brand','cate','store')->first();
+            $data = Product::withCount('order')
+            ->with('attributes','rating','brand','cate','store')
+            ->where('slug',$slug)
+            ->first();
+            $sumStars = CmtRating::where('product_id',$data->id)->avg('point');
+            $data->totalRating = floor($sumStars);
+            $totalComment = count(CmtRating::where('product_id',$data->id)->get());
+            $data->totalComment = $totalComment;
             $data['listimg'] = explode(",", $data['listimg']);
+
             if($data != null){
                 return response()->json([
                     'success' => true,
@@ -235,7 +243,13 @@ class MainProductController extends Controller
     public function getTopSalesProduct()
     {
         try {
-            $data = Product::with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->orderBy('discount','desc')->limit(9)->get();
+            $data = Product::withCount('order')->orderBy('order_count', 'desc')->with('store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->orderBy('discount','desc')->limit(9)->get();
+            foreach (  $data  as $item) {
+                $sumStars = CmtRating::where('product_id',$item->id)->avg('point');
+                 $item->totalRating = floor($sumStars);
+                 $totalComment = count(CmtRating::where('product_id',$item->id)->get());
+                 $item->totalComment = $totalComment;
+            }
             return response()->json([
                 'success' => true,
                 'message'=>  'Tìm thành công',
@@ -251,19 +265,12 @@ class MainProductController extends Controller
     public function getTopBuyProduct()
     {
         try {
-            $data = Product::withCount('order')->orderBy('order_count', 'desc')->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->limit(9)->get();
-            foreach($data as $key => $value){
-                $point = 0;
-                foreach ($value['rating'] as $item){
-                    $point += $item['point'];
-                }
-                if($point > 0){
-                    $point = $point/count($value['rating']);
-                }
-                else{
-                    $point = 0;
-                }
-                $data[$key]['point']=$point;
+            $data = Product::withCount('order')->orderBy('order_count', 'desc')->with('store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->limit(9)->get();
+            foreach (  $data  as $item) {
+                $sumStars = CmtRating::where('product_id',$item->id)->avg('point');
+                 $item->totalRating = floor($sumStars);
+                 $totalComment = count(CmtRating::where('product_id',$item->id)->get());
+                 $item->totalComment = $totalComment;
             }
             return response()->json([
                 'success' => true,

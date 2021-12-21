@@ -21,7 +21,13 @@ class ProductController extends Controller
     public function index()
     {
         try {
-            $data = Product::all();
+            $data = Product::withCount('order')->orderBy('order_count', 'desc')->get();
+            foreach (  $data  as $item) {
+                $sumStars = CmtRating::where('product_id',$item->id)->avg('point');
+                 $item->totalRating = floor($sumStars);
+                 $totalComment = count(CmtRating::where('product_id',$item->id)->get());
+                 $item->totalComment = $totalComment;
+            }
             return response()->json([
                 'success' => true,
                 'message'=>  'lấy dữ liệu thành công',
@@ -30,8 +36,7 @@ class ProductController extends Controller
             }catch (\Exception $e){
                 return response()->json([
                     'success' => false,
-                    'message'=>'Lay du lieu that bai',
-                    'errors'=>$e->getMessage()
+                    'message'=>$e->getMessage()
                 ]);
             }
     }

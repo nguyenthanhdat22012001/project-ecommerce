@@ -18,8 +18,11 @@ class CreateOderDetailTable extends Migration
             $table->integer('order_id')->unsigned();
             $table->integer('product_id')->unsigned();
             $table->integer('amount');
-            $table->float('price',15,3);
+            $table->float('product_price',15,3);
             $table->string('product_name',200);
+            $table->string('product_img',255);
+            $table->string('product_slug',255);
+            $table->string('attribute_name',100);
             $table->timestamps();
         });
     }

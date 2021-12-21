@@ -28,13 +28,14 @@ class AddRelationship extends Migration
         Schema::table('coupon', function (Blueprint $table) {
             $table->foreign('store_id')->references('id')->on('store')->onDelete('cascade')->onUpdate('cascade');
         });
-        Schema::table('order', function (Blueprint $table) {
-            $table->foreign('coupon_id')->references('id')->on('coupon');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->foreign('parent_id')->references('id')->on('orders');
             $table->foreign('payment_id')->references('id')->on('payment');
             $table->foreign('user_id')->references('id')->on('user');
+            $table->foreign('store_id')->references('id')->on('store');
         });
         Schema::table('order_detail', function (Blueprint $table) {
-            $table->foreign('order_id')->references('id')->on('order');
+            $table->foreign('order_id')->references('id')->on('orders');
             $table->foreign('product_id')->references('id')->on('product');
         });
         Schema::table('posts', function (Blueprint $table) {
