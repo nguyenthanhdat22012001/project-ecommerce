@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Order_detail;
 use App\Models\Product;
 use App\Models\Store;
+use App\Models\User;
 use App\Models\CollectionStore;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -30,7 +31,7 @@ class DoashboardController extends Controller
             ->get());
 
             $RevenueToday = Order::where('store_id','=',$store_id)
-            ->whereDate('created_at','=',Carbon::now()->toDateString())
+            ->whereDate('updated_at','=',Carbon::now()->toDateString())
             ->where('status','=',4)
             ->sum('totalprice');
 
@@ -100,7 +101,7 @@ class DoashboardController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message'=>  'Lấy đơn hàng thành công',
+                'message'=>  'Lấy thành công',
                 'data'=> $revenueMonthOfStore
             ]);
       
@@ -158,7 +159,106 @@ class DoashboardController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message'=>  'Lấy đơn hàng thành công',
+                'message'=>  'Lấy thành công',
+                'data'=> $newData 
+            ]);
+      
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>$e->getMessage(),
+            ],500);
+        }
+    }
+
+        
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function statisticsGeneralOfAdmin()
+    {         
+        try {
+            $usersToday = count(User::whereDate('created_at','=',Carbon::now()->toDateString())
+            ->get());
+
+            $numberOrdersConfirmed = count(Order::where('store_id','=',null)
+            ->where('status','!=',2)
+            ->get());
+
+            $revenueToday = Order::where('store_id','=',null)
+            ->whereDate('updated_at','=',Carbon::now()->toDateString())
+            ->where('status','=',4)
+            ->sum('totalprice');
+
+            $revenueMonth = Order::where('store_id','=',null)
+            ->whereDate('updated_at','like','%'.Carbon::now()->format('Y-m').'%')
+            ->where('status','=',4)
+            ->sum('totalprice');
+
+            return response()->json([
+                'success' => true,
+                'message'=>  'Lấy thành công',
+                'data'=> [
+                    "userRegisterToday" => $usersToday,
+                    "numberOrdersConfirmed" => $numberOrdersConfirmed,
+                    "revenueToday" => $revenueToday,
+                    "revenueMonth" => $revenueMonth,
+                ]
+            ]);
+      
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>$e->getMessage(),
+            ],500);
+        }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function statisticsRevenueStoresByMonth()
+    {         
+        try {
+            $stores = Store::select('id','name')->get();
+            $newData =  array();
+
+            $revenueProductTrendMonthOfStore =  array();
+            for ($i=1; $i <= 12; $i++) { 
+                $obj = [
+                    "month_name" => "Tháng ".$i,
+                    "date" => Carbon::create(Carbon::now()->year,$i)->format('Y-m'),
+                ];
+                array_push($revenueProductTrendMonthOfStore, $obj);
+            }
+
+            foreach ($stores as $stor) {
+                $revenue_store = array();
+                foreach ($revenueProductTrendMonthOfStore as $index => $item) {
+                    $revenue = Order::where('store_id','=',$stor['id'])
+                    ->whereDate('updated_at','like','%'.$item['date'].'%')
+                    ->where('status','=',4)
+                    ->sum('totalprice');
+
+                    array_push($revenue_store,  (int)$revenue );
+                };
+
+                array_push($newData,[
+                    "label" => $stor['name'],
+                    "data" => $revenue_store,
+                ]);
+            };
+
+
+            return response()->json([
+                'success' => true,
+                'message'=>  'Lấy thành công',
                 'data'=> $newData 
             ]);
       

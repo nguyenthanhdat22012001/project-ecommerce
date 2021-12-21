@@ -200,6 +200,12 @@ Content-Type: application/json
 ###
 GET http://127.0.0.1:8000/api/dash-board/product-trend/store/3
 Content-Type: application/json
+###
+GET http://127.0.0.1:8000/api/dash-board/general/admin
+Content-Type: application/json
+###
+GET http://127.0.0.1:8000/api/dash-board/revenue-store-month
+Content-Type: application/json
 
 ###
 GET http://127.0.0.1:8000/api/admin/logout

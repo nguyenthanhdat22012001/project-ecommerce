@@ -49,7 +49,6 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     Route::post('profile/change-password', [UserController::class, 'change_password']);
     //log out
     Route::get('logout', [UserController::class, 'logout']);
-    Route::apiResource('brands', BrandController::class);
       Route::apiResource('stores', StoreController::class);
 
 
@@ -114,12 +113,12 @@ Route::get('collection-store/user-follow-store', [CollectionStoreController::cla
 Route::post('/admin/login', [UserController::class,'loginAdmin']);
 
 Route::group(['middleware' => ['jwt.verify','admin']], function () {
-    Route::apiResource('/admin/category',CategoryAdmin::class);
     //logout
     Route::get('/admin/logout', [UserController::class, 'logout']);
 
 });
-//Route::apiResource('/admin/category',CategoryAdmin::class);
+Route::apiResource('brands', BrandController::class);
+Route::apiResource('/admin/category',CategoryAdmin::class);
 Route::post('/add-to-cart',[CartController::class, 'addToCart']);
 Route::post('/check-out',[OrderController::class, 'postOrder']);
 Route::get('/order/get-order-user-and-id',[OrderController::class, 'getOrderByUserAndId']);
@@ -133,3 +132,5 @@ Route::get('/order/{id}',[OrderController::class, 'getOrderById']);
 Route::get('dash-board/general/store/{store_id}',[DoashboardController::class, 'statisticsGeneralOfStore']);
 Route::get('dash-board/revenue-month/store/{store_id}',[DoashboardController::class, 'statisticsRevenueMonthOfStore']);
 Route::get('dash-board/product-trend/store/{store_id}',[DoashboardController::class, 'statisticsProductHotTrendByMonth']);
+Route::get('dash-board/general/admin',[DoashboardController::class, 'statisticsGeneralOfAdmin']);
+Route::get('dash-board/revenue-store-month',[DoashboardController::class, 'statisticsRevenueStoresByMonth']);
