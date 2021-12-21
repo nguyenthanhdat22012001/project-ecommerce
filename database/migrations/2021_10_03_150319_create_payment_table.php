@@ -17,7 +17,7 @@ class CreatePaymentTable extends Migration
             $table->increments('id')->unsigned();
             $table->string('name',100);
             $table->float('fee_shipping',15,3);
-            $table->string('sku');
+            $table->string('sku')->nullable();
             $table->boolean('hide')->nullable();
             $table->timestamps();
         });
