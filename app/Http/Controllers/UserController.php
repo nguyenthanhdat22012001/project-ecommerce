@@ -256,7 +256,7 @@ class UserController extends Controller
                 User::where('email',$request->email)->update(['otp' => $otp]);
                 $mail_details = [
                     'subject' => 'Lấy Lại Mật Khẩu',
-                    'body' => 'Mã OTP Của Bạn: : '. $otp
+                    'body' => 'Mã OTP Của Bạn: '. $otp
                 ];
 
                 Mail::to($request->email)->send(new MailNe($mail_details));
