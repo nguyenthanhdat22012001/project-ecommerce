@@ -148,7 +148,7 @@ class MainProductController extends Controller
             $data = Product::where('hide','0')->whereRaw("brand_id = ". $id )->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->get();
         }
         if($key == 'store'){
-            $data = Product::where('hide','0')->whereRaw("store_id = ". $id )->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->get();
+            $data = Product::whereRaw("store_id = ". $id )->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->get();
         }
         // $result = $data->get();
         foreach (  $data  as $item) {
@@ -324,7 +324,7 @@ class MainProductController extends Controller
     public function getAllProduct()
     {
         try {
-          $data=Product::with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->orderBy('created_at','DESC')->get();
+          $data=Product::where('hide','0')->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->orderBy('created_at','DESC')->get();
             foreach($data as $key => $value){
                 $point = 0;
                 foreach ($value['rating'] as $item){
