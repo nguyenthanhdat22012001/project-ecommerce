@@ -22,7 +22,7 @@ class PostsController extends Controller
     public function index()
     {
         try {
-            $data = Posts::all();
+            $data = Posts::all()->orderBy('id','DESC');
             foreach ($data as $key => $post){
                 $data[$key]['totalThumb'] = $this->getThumbByPostId($post['id']);
                 $data[$key]['totalComment'] = $this->getCommentByPostId($post['id']);
