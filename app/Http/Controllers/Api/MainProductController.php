@@ -142,13 +142,13 @@ class MainProductController extends Controller
         //     $s = $request->input('search');
         //    $query->whereRaw("name LIKE '%". $s ."%'" )->orWhereRaw("description LIKE '%". $s ."%'" );
         if($key == 'cate'){
-            $data = Product::whereRaw("cate_id = ". $id )->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->get();
+            $data = Product::whereRaw("cate_id = ". $id )->whereRaw("hide = 1" )->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->get();
         }
         if($key == 'brand'){
-            $data = Product::whereRaw("brand_id = ". $id )->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->get();
+            $data = Product::whereRaw("brand_id = ". $id )->whereRaw("hide = 1" )->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->get();
         }
         if($key == 'store'){
-            $data = Product::whereRaw("store_id = ". $id )->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->get();
+            $data = Product::whereRaw("store_id = ". $id )->whereRaw("hide = 1" )->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->get();
         }
         // $result = $data->get();
         foreach (  $data  as $item) {
@@ -216,7 +216,7 @@ class MainProductController extends Controller
         try {
             if($store_id == 0){
                 $data = Coupon::where('store_id',null)->get();
-    
+
                     return response()->json([
                         'success' => true,
                         'message'=>  'Tìm thành công',
@@ -243,7 +243,7 @@ class MainProductController extends Controller
     public function getTopSalesProduct()
     {
         try {
-            $data = Product::withCount('order')->orderBy('order_count', 'desc')->with('store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->orderBy('discount','desc')->limit(9)->get();
+            $data = Product::whereRaw("hide = 1" )->withCount('order')->orderBy('order_count', 'desc')->with('store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->orderBy('discount','desc')->limit(9)->get();
             foreach (  $data  as $item) {
                 $sumStars = CmtRating::where('product_id',$item->id)->avg('point');
                  $item->totalRating = floor($sumStars);
@@ -265,7 +265,7 @@ class MainProductController extends Controller
     public function getTopBuyProduct()
     {
         try {
-            $data = Product::withCount('order')->orderBy('order_count', 'desc')->with('store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->limit(9)->get();
+            $data = Product::whereRaw("hide = 1" )->withCount('order')->orderBy('order_count', 'desc')->with('store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->limit(9)->get();
             foreach (  $data  as $item) {
                 $sumStars = CmtRating::where('product_id',$item->id)->avg('point');
                  $item->totalRating = floor($sumStars);
@@ -287,7 +287,7 @@ class MainProductController extends Controller
     public function getTopProductRating()
     {
         try {
-            $data = Product::with('rating')->get();
+            $data = Product::with('rating')->whereRaw("hide = 1" )->get();
             foreach ( $data  as $item) {
                 $sumStars = CmtRating::where('product_id',$item->id)->avg('point');
                 $item->totalRating = floor($sumStars);
@@ -308,7 +308,7 @@ class MainProductController extends Controller
     public function getTopStoreFollow()
     {
         try {
-            $data = Store::withCount('follow')->orderBy('follow_count', 'desc')->limit(5)->get();
+            $data = Store::whereRaw("hide = 1" )->withCount('follow')->orderBy('follow_count', 'desc')->limit(5)->get();
             return response()->json([
                 'success' => true,
                 'message'=>  'Tìm thành công',
@@ -324,7 +324,7 @@ class MainProductController extends Controller
     public function getAllProduct()
     {
         try {
-          $data=Product::with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->orderBy('created_at','DESC')->get();
+          $data=Product::with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->whereRaw("hide = 1" )->orderBy('created_at','DESC')->get();
             foreach($data as $key => $value){
                 $point = 0;
                 foreach ($value['rating'] as $item){
