@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\CollectionStoreController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\DoashboardController;
 use App\Http\Controllers\Admin\CategoryAdmin;
+use App\Http\Controllers\Admin\UserAdmin;
 use App\Http\Controllers\CartController;
 
 
@@ -119,10 +120,13 @@ Route::post('/admin/login', [UserController::class,'loginAdmin']);
 Route::group(['middleware' => ['jwt.verify','admin']], function () {
     //logout
     Route::get('/admin/logout', [UserController::class, 'logout']);
+    Route::apiResource('/admin/category',CategoryAdmin::class);
+    Route::apiResource('/admin/user',UserAdmin::class);
 
 });
 Route::apiResource('brands', BrandController::class);
-Route::apiResource('/admin/category',CategoryAdmin::class);
+//Route::apiResource('/admin/category',CategoryAdmin::class);
+Route::apiResource('/admin/user',UserAdmin::class);
 Route::post('/add-to-cart',[CartController::class, 'addToCart']);
 Route::post('/check-out',[OrderController::class, 'postOrder']);
 Route::get('/order/get-order-user-and-id',[OrderController::class, 'getOrderByUserAndId']);

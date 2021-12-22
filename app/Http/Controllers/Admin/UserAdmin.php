@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -18,7 +19,22 @@ class UserAdmin extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $user = User::all();
+            return response()->json([
+                'success' => true,
+                'title' => 'User',
+                'message' => 'Lay du lieu thanh con',
+                'data' => $user
+            ], Response::HTTP_OK);
+        }
+        catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>'Lay du lieu that bai',
+                'errors'=>$e->getMessage()
+            ]);
+        }
     }
     /**
      * Store a newly created resource in storage.

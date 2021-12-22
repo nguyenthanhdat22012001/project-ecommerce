@@ -26,7 +26,7 @@ class CreateOrderTable extends Migration
             $table->string('phone',10)->nullable();
             $table->text('note')->nullable();
             $table->tinyinteger('status')->default(1);
-            $table->float('shippingprice',15,3);
+            $table->float('shippingprice',15,3)->nullable();
             $table->float('totalprice',15,3);
             $table->integer('totalQuantity');
             $table->timestamps();
