@@ -324,7 +324,7 @@ class MainProductController extends Controller
     public function getAllProduct()
     {
         try {
-          $data=Product::where('hide','0')->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->orderBy('created_at','DESC')->get();
+          $data=Product::with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->orderBy('created_at','DESC')->get();
             foreach($data as $key => $value){
                 $point = 0;
                 foreach ($value['rating'] as $item){
