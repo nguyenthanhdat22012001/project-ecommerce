@@ -124,7 +124,9 @@ Route::group(['middleware' => ['jwt.verify','admin']], function () {
 
 });
 Route::apiResource('brands', BrandController::class);
-//Route::apiResource('/category',CategoryAdmin::class);
+Route::apiResource('/category',CategoryAdmin::class)->only([
+    'index','show'
+]);
 //Route::apiResource('/user',UserAdmin::class);
 Route::post('/add-to-cart',[CartController::class, 'addToCart']);
 Route::post('/check-out',[OrderController::class, 'postOrder']);
