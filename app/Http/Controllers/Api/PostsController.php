@@ -39,6 +39,31 @@ class PostsController extends Controller
             ]);
         }
     }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getPostByIdUser($id)
+    {
+        try {
+            $data = Posts::where('user_id',$id)->get();
+            foreach ($data as $key => $post){
+                $data[$key]['totalThumb'] = $this->getThumbByPostId($post['id']);
+                $data[$key]['totalComment'] = $this->getCommentByPostId($post['id']);
+            }
+            return response()->json([
+                'success' => true,
+                'message'=>  'lấy dữ liệu thành công',
+                'data'=>$data
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message'=>$e->getMessage()
+            ]);
+        }
+    }
     public function getThumbByPostId($post_id)
     {
       return count(ThumbsUpPost::where('post_id',$post_id)->get());
@@ -172,22 +197,22 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PostsUpdate $request, $post)
+    public function update(PostsUpdate $request, $id)
     {
         try {
-            $post = Posts::find($post);
+            $post = Posts::find($id);
             if($post != null){
                 $post->update($request->all());
                 return response()->json([
                     'success' => true,
-                    'message'=>  'update thành công',
+                    'message'=>  'Cập nhật bài viết thành công',
                     'data'=>$post
                  ]);
             }
             else{
                 return response()->json([
                     'success' => false,
-                    'message'=>'Dữ liệu không tồn tại'
+                    'message'=>'Bài viết không tồn tại'
                 ]);
             }
 
@@ -210,19 +235,19 @@ class PostsController extends Controller
         try {
             $post = Posts::find($post);
             if($post != null){
-                PostCmt::where('post_id',$post['id'])->delete();
-                ThumbsUpPost::where('post_id',$post['id'])->delete();
+                // PostCmt::where('post_id',$post['id'])->delete();
+                // ThumbsUpPost::where('post_id',$post['id'])->delete();
                 $post->delete();
                 return response()->json([
                     'success' => true,
-                    'message'=>  'xóa thành công',
+                    'message'=>  'Đã xóa bài viết thành công',
                     'data'=>$post
                     ]);
             }
             else{
                 return response()->json([
                     'success' => false,
-                    'message'=>'Dữ liệu không tồn tại'
+                    'message'=>'Bài viết không tồn tại'
                 ]);
             }
 

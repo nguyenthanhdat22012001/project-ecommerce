@@ -392,4 +392,25 @@ class UserController extends Controller
                 ], 500);
         }
     }
+
+    public function updateUser(Request $request,$id)
+    {
+        try {
+            $user = User::find($id);
+            $user->update($request->all());
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'Cập nhật Thành Công',
+                'data' => $user,
+            ], 200);
+            
+        }catch (Throwable $e) {
+            return response()->json([
+                	'success' => false,
+                	'message' => $e->getMessage(),
+                ], 500);
+        };
+      
+    }
 }

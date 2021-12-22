@@ -8,7 +8,6 @@ use App\Http\Controllers\Api\CouponController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\CmtRatingController;
 use App\Http\Controllers\Api\MainProductController;
-//use App\Http\Controllers\Api\TopicsController;
 use App\Http\Controllers\Api\PostsController;
 use App\Http\Controllers\Api\PostCmtController;
 use App\Http\Controllers\Api\BrandController;
@@ -48,9 +47,10 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     //client
     Route::get('profile', [UserController::class, 'get_user']);
     Route::post('profile/change-password', [UserController::class, 'change_password']);
+    Route::put('profile/update/{id}', [UserController::class, 'updateUser']);
     //log out
     Route::get('logout', [UserController::class, 'logout']);
-      Route::apiResource('stores', StoreController::class);
+    Route::apiResource('stores', StoreController::class);
 
 
 });
@@ -81,6 +81,9 @@ Route::apiResource('comments', CmtRatingController::class);
 /**************route post**************/
 
 Route::get('posts', [PostsController::class,'index']);
+Route::delete('posts/{id}', [PostsController::class,'destroy']);
+Route::put('posts/{id}', [PostsController::class,'update']);
+Route::get('posts/user/{id}', [PostsController::class,'getPostByIdUser']);
 Route::get('topposts', [PostsController::class,'getTop10PostComment']);
 Route::get('posts/{slug}', [PostsController::class,'getPostBySlug']);
 Route::post('posts', [PostsController::class,'store']);
