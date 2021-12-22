@@ -18,7 +18,7 @@ class CreateBrandTable extends Migration
             $table->string('name',100);
             $table->string('slug',255)->nullable();
             $table->longtext('description')->nullable();
-            $table->boolean('hide')->nullable();
+            $table->boolean('hide')->nullable()->default(0);
             $table->timestamps();
         });
     }

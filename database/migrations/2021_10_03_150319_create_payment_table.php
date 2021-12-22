@@ -18,7 +18,7 @@ class CreatePaymentTable extends Migration
             $table->string('name',100);
             $table->float('fee_shipping',15,3);
             $table->string('sku')->nullable();
-            $table->boolean('hide')->nullable();
+            $table->boolean('hide')->nullable()->default(0);
             $table->timestamps();
         });
     }

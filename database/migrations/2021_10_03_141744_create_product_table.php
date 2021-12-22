@@ -26,7 +26,7 @@ class CreateProductTable extends Migration
             $table->longtext('shortdescription')->nullable();
             $table->float('price',15,3);
             $table->float('discount',15,3);
-            $table->boolean('hide')->nullable();
+            $table->boolean('hide')->nullable()->default(0);
             $table->integer('sort')->nullable();
             $table->timestamps();
         });
