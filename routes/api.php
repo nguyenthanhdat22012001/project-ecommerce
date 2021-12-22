@@ -8,7 +8,6 @@ use App\Http\Controllers\Api\CouponController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\CmtRatingController;
 use App\Http\Controllers\Api\MainProductController;
-//use App\Http\Controllers\Api\TopicsController;
 use App\Http\Controllers\Api\PostsController;
 use App\Http\Controllers\Api\PostCmtController;
 use App\Http\Controllers\Api\BrandController;
