@@ -55,8 +55,8 @@ Route::group(['middleware' => 'jwt.verify'], function () {
 
 });
 Route::apiResource('payment', PaymentController::class);
-    //seller
-    Route::apiResource('coupons', CouponController::class);
+//seller
+Route::apiResource('coupons', CouponController::class);
 
 Route::apiResource('products', ProductController::class);
 
@@ -74,7 +74,7 @@ Route::get('oderby/product/{key}/{id}', [MainProductController::class, 'get_prod
 Route::get('product/detail/{slug}', [MainProductController::class, 'getProductBySlug']);
 Route::get('product/category/{slug}', [MainProductController::class, 'getProductByCategorySlug']);
 Route::get('product/store/{slug}', [MainProductController::class, 'getProductByStoreSlug']);
-    //comment
+//comment
 Route::apiResource('comments', CmtRatingController::class);
 
 
@@ -119,28 +119,15 @@ Route::post('/admin/login', [UserController::class,'loginAdmin']);
 Route::group(['middleware' => ['jwt.verify','admin']], function () {
     //logout
     Route::get('/admin/logout', [UserController::class, 'logout']);
-<<<<<<< HEAD
-   
-=======
     Route::apiResource('category',CategoryAdmin::class);
->>>>>>> ea5b192d032042eeed70e9958c5052bafbead19f
     Route::apiResource('user',UserAdmin::class);
 
 });
 Route::apiResource('brands', BrandController::class);
-<<<<<<< HEAD
-
-Route::apiResource('/category',CategoryAdmin::class)->only([
-    'index','show'
-]);
-// // Route::apiResource('/admin/category',CategoryAdmin::class);
-// Route::apiResource('user',UserAdmin::class);
-=======
 Route::apiResource('/category',CategoryAdmin::class)->only([
     'index','show'
 ]);
 //Route::apiResource('/user',UserAdmin::class);
->>>>>>> ea5b192d032042eeed70e9958c5052bafbead19f
 Route::post('/add-to-cart',[CartController::class, 'addToCart']);
 Route::post('/check-out',[OrderController::class, 'postOrder']);
 Route::get('/order/get-order-user-and-id',[OrderController::class, 'getOrderByUserAndId']);
