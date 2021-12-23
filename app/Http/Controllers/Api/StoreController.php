@@ -120,27 +120,27 @@ class StoreController extends Controller
             $data = Store::find($store);
             if($data != null){
                 $update =  $request->all();
-                if($update['img']) {
+                if(isset($update['img']) && $update['img'] !=  $data['img']) {
                     if(file_exists(public_path().str_replace( 'http://'.$_SERVER['HTTP_HOST'], '', $data['img'] ))){
                         unlink(public_path().str_replace( 'http://'.$_SERVER['HTTP_HOST'], '', $data['img'] ));
                     }
                     $image = $request['img'];
-                    $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+                    $name = rand(10,1000).time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
                     \Image::make($image)->save(public_path('images/').$name);
-                    $update['img'] = $_SERVER['HTTP_HOST']. '/images/'.$name;
+                    $update['img'] = 'http://'.$_SERVER['HTTP_HOST']. '/images/'.$name;
                 }
                 $update['slug'] = Str::slug($update['name'],'-');
                 $data->update($update);
                 return response()->json([
                     'success' => true,
-                    'message'=>  'Sửa thành công',
+                    'message'=>  'Cập nhật thông tin cửa hàng thành công',
                     'data'=>$data
                 ]);
             }
             else{
                 return response()->json([
                     'success' => false,
-                    'message'=>'Dữ liệu không tồn tại'
+                    'message'=>'Cửa hàng không tồn tại'
                 ]);
             }
 

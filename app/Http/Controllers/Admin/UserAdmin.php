@@ -24,15 +24,14 @@ class UserAdmin extends Controller
             return response()->json([
                 'success' => true,
                 'title' => 'User',
-                'message' => 'Lay du lieu thanh con',
+                'message' => 'Lấy user thành công',
                 'data' => $user
             ], Response::HTTP_OK);
         }
         catch (\Exception $e){
             return response()->json([
                 'success' => false,
-                'message'=>'Lay du lieu that bai',
-                'errors'=>$e->getMessage()
+                'message'=>$e->getMessage(),
             ]);
         }
     }
