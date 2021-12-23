@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Store;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreStore;
 use App\Http\Requests\StoreUpdate;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class StoreController extends Controller
 {
@@ -20,11 +22,21 @@ class StoreController extends Controller
     {
         try {
             $data = Store::all();
+            foreach ($data as $item) {
+                $revenueMonth = Order::where('store_id','=',$item['id'])
+                ->whereDate('updated_at','like','%'.Carbon::now()->format('Y-m').'%')
+                ->where('status','=',4)
+                ->sum('totalprice');
+
+                $item['revenueMonth'] = $revenueMonth;
+            }
+
             return response()->json([
                 'success' => true,
                 'message'=>  'lấy dữ liệu thành công',
                 'data'=>$data
             ]);
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
