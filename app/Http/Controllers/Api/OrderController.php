@@ -18,7 +18,7 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getOrdersUserId($user_id)
-    {         
+    {
         try {
             $orders = Order::with('payment')
             ->where('user_id','=',$user_id)
@@ -37,7 +37,7 @@ class OrderController extends Controller
                     'message'=>'Đơn hàng này không tồn tại'
                 ]);
             }
-      
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -52,10 +52,10 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getOrdersByStoreId($store_id)
-    {         
+    {
         try {
             $orders = Order::with('order')
-            ->where('store_id','=',$store_id)
+            ->where('store_id','=',$store_id)->orderBy('id','DESC')
             ->get();
 
             if($orders != null){
@@ -71,7 +71,7 @@ class OrderController extends Controller
                     'message'=>'Đơn hàng này không tồn tại'
                 ]);
             }
-      
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -86,9 +86,9 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getOrdersAdmin()
-    {         
+    {
         try {
-            $orders = Order::where('store_id','=',null)->get();
+            $orders = Order::where('store_id','=',null)->orderBy('id','DESC')->get();
 
             if($orders != null){
                 return response()->json([
@@ -103,7 +103,7 @@ class OrderController extends Controller
                     'message'=>'Đơn hàng này không tồn tại'
                 ]);
             }
-      
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -118,7 +118,7 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getOrderById($id)
-    {         
+    {
         try {
             $order = Order::with('sub_order','payment','order')
             ->where('id','=',$id)
@@ -144,7 +144,7 @@ class OrderController extends Controller
                     'message'=>'Đơn hàng này không tồn tại'
                 ]);
             }
-      
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -193,7 +193,7 @@ class OrderController extends Controller
                     "updated_at" =>Carbon::now(),
                ]);
             }
-     
+
 
            foreach ( $request['cart']['stores'] as $stor) {
             if(!empty($stor['coupon'])){
@@ -217,8 +217,8 @@ class OrderController extends Controller
                     "updated_at" =>Carbon::now(),
             ]);
             }
-        
-            
+
+
             foreach ($stor['products'] as $prd) {
                 foreach ($prd['attributes'] as $attribute) {
                     Order_detail::create([
@@ -250,7 +250,7 @@ class OrderController extends Controller
                 'message'=>"không thể thanh toán được",
             ]);
            }
-         
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -266,7 +266,7 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function updateStatusOrder(Request $request,$id)
-    {         
+    {
         try {
             $request['updated_at'] =  Carbon::now();
             $data = Order::with('order')->find($id);
@@ -293,13 +293,13 @@ class OrderController extends Controller
                     Order::whereIn('id', $ids)->update($request->all());
                 }
             }
-         
+
                 return response()->json([
                     'success' => true,
                     'message'=>  'cập nhật đơn hàng thành công',
                     'data'=>$data
                 ]);
-      
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
@@ -316,7 +316,7 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getOrderByUserAndId(Request $request)
-    {         
+    {
         try {
             $order = Order::with('sub_order','payment')
             ->where('user_id','=',$request['user_id'])
@@ -339,7 +339,7 @@ class OrderController extends Controller
                     'message'=>'Đơn hàng này không tồn tại'
                 ]);
             }
-      
+
         }catch (\Exception $e){
             return response()->json([
                 'success' => false,
