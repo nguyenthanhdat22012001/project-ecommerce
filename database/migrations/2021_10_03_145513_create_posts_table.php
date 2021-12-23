@@ -19,7 +19,7 @@ class CreatePostsTable extends Migration
             $table->string('name',200)->unique();
             $table->integer('user_id')->unsigned();
             $table->longtext('description')->nullable();
-            $table->boolean('hide')->nullable();
+            $table->boolean('hide')->nullable()->default(0);
             $table->timestamps();
         });
     }

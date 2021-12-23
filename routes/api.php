@@ -55,8 +55,8 @@ Route::group(['middleware' => 'jwt.verify'], function () {
 
 });
 Route::apiResource('payment', PaymentController::class);
-    //seller
-    Route::apiResource('coupons', CouponController::class);
+//seller
+Route::apiResource('coupons', CouponController::class);
 
 Route::apiResource('products', ProductController::class);
 
@@ -74,7 +74,7 @@ Route::get('oderby/product/{key}/{id}', [MainProductController::class, 'get_prod
 Route::get('product/detail/{slug}', [MainProductController::class, 'getProductBySlug']);
 Route::get('product/category/{slug}', [MainProductController::class, 'getProductByCategorySlug']);
 Route::get('product/store/{slug}', [MainProductController::class, 'getProductByStoreSlug']);
-    //comment
+//comment
 Route::apiResource('comments', CmtRatingController::class);
 
 
