@@ -246,7 +246,7 @@ class MainProductController extends Controller
     public function getTopSalesProduct()
     {
         try {
-            $data = Product::where('hide','0')->withCount('order')->with('store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->where('discount > 0')->limit(8)->get();
+            $data = Product::where('hide','0')->where('discount > 0')->withCount('order')->with('store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->inRandomOrder()->limit(8)->get();
             foreach (  $data  as $item) {
                 $sumStars = CmtRating::where('product_id',$item->id)->avg('point');
                  $item->totalRating = floor($sumStars);
