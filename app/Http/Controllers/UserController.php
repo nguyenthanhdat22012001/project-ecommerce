@@ -396,14 +396,24 @@ class UserController extends Controller
     public function updateUser(Request $request,$id)
     {
         try {
-            $user = User::find($id);
-            $user->update($request->all());
-    
-            return response()->json([
-                'success' => true,
-                'message' => 'Cập nhật Thành Công',
-                'data' => $user,
-            ], 200);
+            $data = User::find($id);    
+
+            if($data != null){
+                $update =  $request->all();
+                $data->update( $update);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Cập nhật Thành Công',
+                    'data' => $data,
+                ], 200);
+                }
+                else{
+                    return response()->json([
+                        'success' => false,
+                        'message'=>  'User không tồn tại',
+                    ]);
+                }
             
         }catch (Throwable $e) {
             return response()->json([

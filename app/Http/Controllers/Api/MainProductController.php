@@ -8,6 +8,7 @@ use App\Models\Order_detail;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Store;
+use App\Models\CollectionStore;
 use App\Models\CmtRating;
 use App\Models\Category;
 
@@ -102,6 +103,7 @@ class MainProductController extends Controller
     {
         try {
             $store = Store::where('slug',$slug)->first();
+            $store['totalFollow']  = count(CollectionStore::where('store_id',$store['id'])->get());
             if (!empty($store)) {
                 $products = Product::where('store_id','=',$store->id)->with('rating','store:id,name,slug','cate:id,name,slug','brand:id,name,slug')->get();
 
