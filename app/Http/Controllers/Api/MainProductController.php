@@ -218,7 +218,7 @@ class MainProductController extends Controller
         try {
             $now = date('Y-m-d');
             if($store_id == 0){
-                $data = Coupon::where('store_id',null)->where('date_end'.'>='.$now)->get();
+                $data = Coupon::where('store_id',null)->orderBy('id','DESC')->where('date_end'.'>='.$now)->get();
 
                     return response()->json([
                         'success' => true,
